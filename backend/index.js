@@ -23,9 +23,11 @@ app.use("/api/listing", listingRouter);
 
 app.use(express.static(path.join(__dirname, "/client/dist")));
 
+
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
 });
+
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
@@ -36,6 +38,7 @@ app.use((err, req, res, next) => {
     message,
   });
 });
+
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on ${process.env.PORT}`);

@@ -1,3 +1,4 @@
+import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 import Login from "./components/Login";
@@ -10,8 +11,7 @@ import UpdateListing from "./components/UpdateListing";
 import Listing from "./components/Listing";
 import Search from "./components/Search";
 
-
-export default function App() {
+const App = () => {
   return (
     <BrowserRouter>
       <Header />
@@ -28,4 +28,6 @@ export default function App() {
       </Routes>
     </BrowserRouter>
   );
-}
+};
+
+export default App;

@@ -2,6 +2,8 @@ import { FaSearch } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import React from "react";
+import { MdRealEstateAgent } from "react-icons/md";
 
 const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -22,31 +24,36 @@ const Header = () => {
       setSearchTerm(searchTermFromUrl);
     }
   }, [location.search]);
+
   return (
-    <header className="bg-slate-200 shadow-md">
-      <div className="flex justify-between items-center max-w-6xl mx-auto p-3">
+    <header className=" shadow-md">
+      <div className="flex justify-between items-center px-10 py-5">
         <Link to="/">
-          <h1 className="font-bold text-sm sm:text-xl flex flex-wrap">
-            <span className="text-slate-500">Sahand</span>
-            <span className="text-slate-700">Estate</span>
-          </h1>
+          <div className="font-bold items-center gap-2 text-sm sm:text-xl flex flex-wrap">
+            <MdRealEstateAgent className="text-3xl" />
+            <h1>
+              {" "}
+              <span className="text-slate-500">Property</span>
+              <span className="text-slate-700">Plaza</span>
+            </h1>
+          </div>
         </Link>
         <form
           onSubmit={handleSubmit}
-          className="bg-slate-100 p-3 rounded-lg flex items-center"
+          className=" p-3 rounded-lg flex items-center"
         >
-          <input
+          {/* <input
             type="text"
             placeholder="Search..."
-            className="bg-transparent focus:outline-none w-24 sm:w-64"
+            className="focus:outline-none w-24 sm:w-64"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           <button>
             <FaSearch className="text-slate-600" />
-          </button>
+          </button> */}
         </form>
-        <ul className="flex gap-4">
+        <ul className="flex gap-4 items-center">
           <Link to="/">
             <li className="hidden sm:inline text-slate-700 hover:underline">
               Home
@@ -65,7 +72,16 @@ const Header = () => {
                 alt="profile"
               />
             ) : (
-              <li className=" text-slate-700 hover:underline"> Sign in</li>
+              <div className="flex gap-3 items-center">
+                <li className="border border-violet-800 px-3 py-1 rounded-md text-violet-800 font-semibold custom-shadow">
+                  {" "}
+                  Register
+                </li>
+                <li className="bg-violet-800 px-3 py-1 custom-shadow rounded-md text-white font-semibold">
+                  {" "}
+                  Login
+                </li>
+              </div>
             )}
           </Link>
         </ul>
