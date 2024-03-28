@@ -1,5 +1,6 @@
 import React from "react";
 import homeImage from "../assets/property3.png";
+import { Link } from "react-router-dom";
 
 const HomePage = () => {
   return (
@@ -21,12 +22,16 @@ const HomePage = () => {
 
           <div className="flex items-center justify-center">
             <div className="flex gap-5">
-              <button className="border border-violet-800 px-5 py-1 rounded-md text-violet-800 font-semibold custom-shadow">
-                Register
-              </button>
-              <button className="bg-violet-800  px-5 py-1 custom-shadow rounded-md text-white font-semibold">
-                Login
-              </button>
+              <Link to="/register">
+                <button className="border border-violet-800 px-7 py-1 rounded-md text-violet-800 font-semibold custom-shadow tracking-widest">
+                  Register
+                </button>
+              </Link>
+              <Link to="/register">
+                <button className="bg-violet-800  px-7 tracking-widest py-1 custom-shadow rounded-md text-white font-semibold">
+                  Login
+                </button>
+              </Link>
             </div>
           </div>
         </div>

@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import React from "react";
 import { MdRealEstateAgent } from "react-icons/md";
+import logo from "../assets/logo.png";
 
 const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -27,11 +28,12 @@ const Header = () => {
 
   return (
     <header className="custom-shadow">
-      <div className="flex justify-between items-center px-10 py-3">
+      <div className="flex justify-between items-center  pr-10">
         <Link to="/">
-          <div className="font-bold uppercase items-center gap-2 text-sm sm:text-xl flex flex-wrap">
-            <MdRealEstateAgent className="text-5xl  text-violet-800" />
-            <h1>
+          <div className="font-bold uppercase items-center text-sm sm:text-xl flex flex-wrap">
+            <img className="h-20" src={logo} alt="logo" />
+            {/* <MdRealEstateAgent className="text-5xl  text-violet-800" /> */}
+            <h1 className="-ml-3">
               {" "}
               <span className="text-slate-600">Property </span>
               <span className="text-violet-800">Plaza</span>
@@ -69,14 +71,18 @@ const Header = () => {
               />
             ) : (
               <div className="flex gap-3 items-center">
-                <li className="border border-violet-800 px-3 py-1 rounded-md text-violet-800 font-semibold custom-shadow">
-                  {" "}
-                  Register
-                </li>
-                <li className="bg-violet-800  px-3 py-1 custom-shadow rounded-md text-white font-semibold">
-                  {" "}
-                  Login
-                </li>
+                <Link to="/register">
+                  <li className="border border-violet-800 px-3 py-1 rounded-md text-violet-800 font-semibold custom-shadow">
+                    {" "}
+                    Register
+                  </li>
+                </Link>
+                <Link to="/login">
+                  <li className="bg-violet-800  px-3 py-1 custom-shadow rounded-md text-white font-semibold">
+                    {" "}
+                    Login
+                  </li>
+                </Link>
               </div>
             )}
           </Link>

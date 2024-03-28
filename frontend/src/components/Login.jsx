@@ -1,14 +1,20 @@
+import React from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 import { setUser } from "../redux/user/userSlice";
-import OAuth from "./OAuth";
+import { MdMail } from "react-icons/md";
+import { FaLock } from "react-icons/fa";
+import { IoEye, IoEyeOff } from "react-icons/io5";
 
 const Login = () => {
   const [formData, setFormData] = useState({});
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [isShowPassword, setIsShowPassword] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -29,7 +35,6 @@ const Login = () => {
       const data = await res.json();
       console.log(data);
       if (data.success === false) {
-    
         return;
       }
       dispatch(setUser(data));
@@ -39,39 +44,62 @@ const Login = () => {
     }
   };
   return (
-    <div className="p-3 max-w-lg mx-auto">
-      <h1 className="text-3xl text-center font-semibold my-7">Sign In</h1>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <input
-          type="email"
-          placeholder="email"
-          className="border p-3 rounded-lg"
-          id="email"
-          onChange={handleChange}
-        />
-        <input
-          type="password"
-          placeholder="password"
-          className="border p-3 rounded-lg"
-          id="password"
-          onChange={handleChange}
-        />
-
-        <button
-          disabled={loading}
-          className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
+    <div className="flex items-center justify-center h-screen">
+      <div className="w-3/12 -mt-20 custom-shadow p-5">
+        <h1 className="font-bold uppercase  tracking-widest text-2xl mb-4 text-center text-slate-600 ">
+          Login <span className="text-violet-800">Form</span>
+        </h1>
+        <form
+          onSubmit={handleSubmit}
+          className="flex items-center justify-center flex-col gap-3"
         >
-          {loading ? "Loading..." : "Sign In"}
-        </button>
-        <OAuth />
-      </form>
-      <div className="flex gap-2 mt-5">
-        <p>Dont have an account?</p>
-        <Link to={"/sign-up"}>
-          <span className="text-blue-700">Sign up</span>
-        </Link>
+          <div className="flex w-full items-center  relative">
+            <MdMail className="absolute text-lg text-violet-800 left-16" />
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className="border-b border-violet-800 text-center w-full py-2 focus:outline-none tracking-widest "
+              id="email"
+              onChange={handleChange}
+            />
+          </div>
+          <div className="flex w-full items-center  relative">
+            <FaLock className="absolute text-lg text-violet-800 left-16" />
+            <input
+              type={isShowPassword ? "text" : "password"}
+              placeholder="Enter your password"
+              className="border-b tracking-widest border-violet-800 text-center w-full py-2 pl-5 focus:outline-none "
+              id="password"
+              onChange={handleChange}
+            />
+            {isShowPassword ? (
+              <IoEye
+                onClick={() => setIsShowPassword(false)}
+                className="absolute text-violet-800 text-xl right-3 cursor-pointer"
+              />
+            ) : (
+              <IoEyeOff
+                onClick={() => setIsShowPassword(true)}
+                className="absolute text-violet-800 text-xl right-3 cursor-pointer"
+              />
+            )}
+          </div>
+
+          <button
+            disabled={loading}
+            className=" w-full bg-violet-800 text-white font-bold py-1 rounded-md custom-shadow"
+          >
+            {loading ? "Loading..." : "Login"}
+          </button>
+        </form>
+        <p className="text-sm text-center mt-2">
+          Don't have an account?{" "}
+          <Link to="/register">
+            <span className="font-bold text-violet-800">Register</span>
+          </Link>
+        </p>
+        {error && <p className="text-red-500 mt-5">{error}</p>}
       </div>
-      {error && <p className="text-red-500 mt-5">{error}</p>}
     </div>
   );
 };

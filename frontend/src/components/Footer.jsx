@@ -5,14 +5,16 @@ import { FaSquareInstagram } from "react-icons/fa6";
 import { HiUserGroup } from "react-icons/hi2";
 import { IoHeartSharp } from "react-icons/io5";
 import { MdRealEstateAgent } from "react-icons/md";
+import logo from "../assets/logo.png";
 
 const Footer = () => {
   return (
     <div className="custom-shadow flex justify-center py-5">
       <div className="flex flex-col justify-center items-center gap-3 w-8/12">
-        <div className="flex gap-1 items-center justify-center ">
-          <MdRealEstateAgent className="text-violet-800 text-2xl" />
-          <p className="text-2xl ">
+        <div className="flex items-center justify-center ">
+          {" "}
+          <img className="h-20 -mt-2" src={logo} alt="logo" />
+          <p className="text-xl -ml-3 font-bold uppercase ">
             Property <span className="text-violet-800">Plaza</span>
           </p>
         </div>
