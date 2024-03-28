@@ -10,13 +10,15 @@ import CreateListing from "./components/CreateListing";
 import UpdateListing from "./components/UpdateListing";
 import Listing from "./components/Listing";
 import Search from "./components/Search";
+import HomePage from "./components/HomePage";
+import Footer from "./components/Footer";
 
 const App = () => {
   return (
     <BrowserRouter>
       <Header />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/about" element={<About />} />
@@ -26,6 +28,7 @@ const App = () => {
         <Route path="/create-listing" element={<CreateListing />} />
         <Route path="/update-listing/:listingId" element={<UpdateListing />} />
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 };

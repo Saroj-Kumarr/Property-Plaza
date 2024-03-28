@@ -26,15 +26,15 @@ const Header = () => {
   }, [location.search]);
 
   return (
-    <header className=" shadow-md">
-      <div className="flex justify-between items-center px-10 py-5">
+    <header className="custom-shadow">
+      <div className="flex justify-between items-center px-10 py-3">
         <Link to="/">
-          <div className="font-bold items-center gap-2 text-sm sm:text-xl flex flex-wrap">
-            <MdRealEstateAgent className="text-3xl" />
+          <div className="font-bold uppercase items-center gap-2 text-sm sm:text-xl flex flex-wrap">
+            <MdRealEstateAgent className="text-5xl  text-violet-800" />
             <h1>
               {" "}
-              <span className="text-slate-500">Property</span>
-              <span className="text-slate-700">Plaza</span>
+              <span className="text-slate-600">Property </span>
+              <span className="text-violet-800">Plaza</span>
             </h1>
           </div>
         </Link>
@@ -53,16 +53,12 @@ const Header = () => {
             <FaSearch className="text-slate-600" />
           </button> */}
         </form>
-        <ul className="flex gap-4 items-center">
+        <ul className="flex gap-4 items-center ">
           <Link to="/">
-            <li className="hidden sm:inline text-slate-700 hover:underline">
-              Home
-            </li>
+            <li className="">Home</li>
           </Link>
           <Link to="/about">
-            <li className="hidden sm:inline text-slate-700 hover:underline">
-              About
-            </li>
+            <li className="">About</li>
           </Link>
           <Link to="/profile">
             {currentUser ? (
@@ -77,7 +73,7 @@ const Header = () => {
                   {" "}
                   Register
                 </li>
-                <li className="bg-violet-800 px-3 py-1 custom-shadow rounded-md text-white font-semibold">
+                <li className="bg-violet-800  px-3 py-1 custom-shadow rounded-md text-white font-semibold">
                   {" "}
                   Login
                 </li>

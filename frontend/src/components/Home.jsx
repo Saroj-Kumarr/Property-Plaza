@@ -5,7 +5,7 @@ import { Navigation } from "swiper/modules";
 import SwiperCore from "swiper";
 import "swiper/css/bundle";
 import ListingItem from "../components/ListingItem";
-import React from 'react';
+import React from "react";
 
 const Home = () => {
   const [offerListings, setOfferListings] = useState([]);
@@ -13,6 +13,7 @@ const Home = () => {
   const [rentListings, setRentListings] = useState([]);
   SwiperCore.use([Navigation]);
   console.log(offerListings);
+  
   useEffect(() => {
     const fetchOfferListings = async () => {
       try {
@@ -56,10 +57,12 @@ const Home = () => {
           place with ease
         </h1>
         <div className="text-gray-400 text-xs sm:text-sm">
-          Sahand Estate is the best place to find your next perfect place to
-          live.
-          <br />
-          We have a wide range of properties for you to choose from.
+          Welcome to our real estate site, where your dream home is just a click
+          away. From cozy cottages to modern apartments, we've got options for
+          every taste. Explore our listings and let us help you find the perfect
+          fit. With our friendly service and easy-to-use platform, your home
+          search just got simpler. Start browsing now and find your ideal home
+          sweet home!
         </div>
         <Link
           to={"/search"}
