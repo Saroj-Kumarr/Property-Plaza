@@ -12,6 +12,9 @@ import Listing from "./components/Listing";
 import Search from "./components/Search";
 import HomePage from "./components/HomePage";
 import Footer from "./components/Footer";
+import ListingCard from "./components/ListingCard";
+import ListingPage from "./components/ListingPage";
+import ListingProfilePage from "./components/ListingProfilePage";
 
 const App = () => {
   return (
@@ -19,10 +22,10 @@ const App = () => {
       <Header />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<ListingCard />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/search" element={<Search />} />
+        <Route path="/about" element={<ListingPage />} />
+        <Route path="/list" element={<ListingProfilePage/>} />
         <Route path="/listing/:listingId" element={<Listing />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/create-listing" element={<CreateListing />} />

@@ -119,7 +119,7 @@ const Register = () => {
           </div>
           <button
             disabled={loading}
-            className=" w-full bg-violet-800 text-white font-bold py-1 rounded-md custom-shadow"
+            className="tracking-widest w-full bg-violet-800 text-white font-bold py-1 rounded-md custom-shadow"
           >
             {loading ? "Loading..." : "Register"}
           </button>

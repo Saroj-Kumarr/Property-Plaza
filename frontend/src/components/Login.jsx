@@ -40,7 +40,7 @@ const Login = () => {
       dispatch(setUser(data));
       navigate("/");
     } catch (error) {
-      dispatch(signInFailure(error.message));
+      console.log(error.message);
     }
   };
   return (
@@ -87,7 +87,7 @@ const Login = () => {
 
           <button
             disabled={loading}
-            className=" w-full bg-violet-800 text-white font-bold py-1 rounded-md custom-shadow"
+            className="tracking-widest w-full bg-violet-800 text-white font-bold py-1 rounded-md custom-shadow"
           >
             {loading ? "Loading..." : "Login"}
           </button>

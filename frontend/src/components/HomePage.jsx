@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const HomePage = () => {
   return (
-    <div className="h-screen flex items-center">
+    <div className="h-screen flex pt-20 items-center">
       <div className="w-5/12 -mt-20 text-center">
         <div className="flex flex-col gap-3 ml-5">
           <h3 className="text-4xl">
