@@ -14,9 +14,9 @@ const Header = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedOption, setSelectedOption] = useState(null);
 
-  const options = ["Low to High", "High to Low", "Newest", "Oldest", "Reset"];
+  // const options = ["Low to High", "High to Low", "Newest", "Oldest", "Reset"];
 
-  const onOptionChangeHandler = (event) => {};
+  // const onOptionChangeHandler = (event) => {};
 
   const navigate = useNavigate();
   const handleSubmit = (e) => {
@@ -41,11 +41,11 @@ const Header = () => {
         <Link to="/">
           <div className="font-bold uppercase items-center text-sm sm:text-xl flex flex-wrap">
             <img className="h-20" src={logo} alt="logo" />
-            {/* <MdRealEstateAgent className="text-5xl  text-violet-800" /> */}
+            {/* <MdRealEstateAgent className="text-5xl  text-[#1B2A80]" /> */}
             <h1 className="-ml-3">
               {" "}
               <span className="text-slate-600">Property </span>
-              <span className="text-violet-800">Plaza</span>
+              <span className="text-[#1B2A80]">Plaza</span>
             </h1>
           </div>
         </Link>
@@ -57,17 +57,17 @@ const Header = () => {
             <input
               type="text"
               placeholder="search your choice here..."
-              className="border-2 placeholder:tracking-widest border-violet-800 w-80 py-2 px-5 rounded-l-md focus:outline-none"
+              className="border-2 placeholder:tracking-widest border-[#1B2A80] w-80 py-2 px-5 rounded-l-md focus:outline-none"
             />
-            <button className="bg-violet-800 tracking-widest border border-violet-800  px-3 py-[7px] custom-shadow rounded-r-md text-white text-lg font-semibold">
+            <button className="bg-[#1B2A80] tracking-widest border border-[#1B2A80]  px-3 py-[7px] custom-shadow rounded-r-md text-white text-lg font-semibold">
               <FiSearch className="inline -mt-1 text-2xl" /> search
             </button>
           </div>
 
-          <div className="flex  items-center ">
-            <BsFilterSquareFill className="text-violet-800  text-2xl relative left-8" />
+          {/* <div className="flex  items-center ">
+            <BsFilterSquareFill className="text-[#1B2A80]  text-2xl relative left-8" />
             <select
-              className="border-2 border-violet-800 tracking-widest uppercase py-2 pl-9 pr-1 custom-shadow rounded-md "
+              className="border-2 border-[#1B2A80] tracking-widest uppercase py-2 pl-9 pr-1 custom-shadow rounded-md "
               onChange={onOptionChangeHandler}
             >
               <option disabled selected className="uppercase tracking-widest">
@@ -79,12 +79,12 @@ const Header = () => {
                     className="uppercase mt-5 p-2 tracking-widest"
                     key={index}
                   >
-                     {option}
+                    {option}
                   </option>
                 );
               })}
             </select>
-          </div>
+          </div> */}
 
           {/* <Select
             placeholder="filter listing..."
@@ -108,10 +108,10 @@ const Header = () => {
         </form>
         <ul className="flex gap-4 uppercase tracking-widest font-semibold items-center ">
           <Link to="/">
-            <li className="hover:text-violet-800 duration-200">Home</li>
+            <li className="hover:text-[#1B2A80] duration-200">Home</li>
           </Link>
           <Link to="/about">
-            <li className="hover:text-violet-800 duration-200">About</li>
+            <li className="hover:text-[#1B2A80] duration-200">About</li>
           </Link>
           <Link to="/profile">
             {currentUser ? (
@@ -123,13 +123,13 @@ const Header = () => {
             ) : (
               <div className="flex gap-4  items-center">
                 <Link to="/register">
-                  <li className="border border-violet-800 px-3 py-1 rounded-md text-violet-800  font-semibold custom-shadow">
+                  <li className="border border-[#1B2A80] px-3 py-1 rounded-md text-[#1B2A80]  font-semibold custom-shadow">
                     {" "}
                     Register
                   </li>
                 </Link>
                 <Link to="/login">
-                  <li className="bg-violet-800 px-3 py-1 custom-shadow rounded-md text-white font-semibold">
+                  <li className="bg-[#1B2A80] px-3 py-1 custom-shadow rounded-md text-white font-semibold">
                     {" "}
                     Login
                   </li>

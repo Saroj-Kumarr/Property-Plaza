@@ -11,7 +11,7 @@ body {
 }
 
 body::-webkit-scrollbar {
-  width: 8px;
+  width: 1px;
 }
 
 body::-webkit-scrollbar-track {
@@ -19,11 +19,11 @@ body::-webkit-scrollbar-track {
 }
 
 body::-webkit-scrollbar-thumb {
-  background: #5b21b6;
+  /* background: #1B2A80; */
 }
 
 .slick-arrow {
-  background-color: #5b21b6;
+  background-color: #1b2a80;
   color: white;
   border-radius: 50%;
   display: flex;
@@ -34,7 +34,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .slick-arrow:hover {
-  background-color: #5b21b6;
+  background-color: #1b2a80;
   color: white;
   border-radius: 50%;
   display: flex;
@@ -42,4 +42,24 @@ body::-webkit-scrollbar-thumb {
   justify-content: center;
   padding-top: 1px;
   padding-left: 0.2px;
+}
+
+.slider-class::-webkit-scrollbar {
+  width: 8px;
+  border-radius: 10px;
+}
+
+.slider-class::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.slider-class::-webkit-scrollbar-thumb {
+  background: #1b2a80;
+  border-radius: 10px;
+}
+
+input[type="checkbox"] {
+  background-color: red;
+  color: red;
 }

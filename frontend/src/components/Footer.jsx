@@ -9,13 +9,13 @@ import logo from "../assets/logo.png";
 
 const Footer = () => {
   return (
-    <div className="custom-shadow flex justify-center py-5">
+    <div className="custom-shadow flex justify-center py-5 mt-20">
       <div className="flex flex-col justify-center items-center gap-3 w-8/12">
         <div className="flex items-center justify-center ">
           {" "}
           <img className="h-20 -mt-2" src={logo} alt="logo" />
           <p className="text-xl -ml-3 font-bold uppercase ">
-            Property <span className="text-violet-800">Plaza</span>
+            Property <span className="text-[#1B2A80]">Plaza</span>
           </p>
         </div>
         <p className="text-xs text-center px-5">
@@ -28,7 +28,7 @@ const Footer = () => {
           as we assist you every step of the way. Your dream home is within
           reach – let's make it a reality together.
         </p>
-        <div className="flex gap-4 text-violet-800 text-2xl">
+        <div className="flex gap-4 text-[#1B2A80] text-2xl">
           <FaGithub />
           <FaLinkedin />
           <FaSquareInstagram />
@@ -45,7 +45,7 @@ const Footer = () => {
         <div className="text-xs font-bold">
           Designed and Developed by{" "}
           <IoHeartSharp className="inline mr-1 text-red-500" />
-          Saroj <span className="text-violet-800">Kumar</span>
+          Saroj <span className="text-[#1B2A80]">Kumar</span>
         </div>
 
         <p className="text-sm font-semibold">
