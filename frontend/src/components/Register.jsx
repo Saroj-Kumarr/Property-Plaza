@@ -5,13 +5,38 @@ import { FaUserCircle, FaLock, FaPhoneSquareAlt } from "react-icons/fa";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 import { MdLock, MdMail } from "react-icons/md";
 
-
 const Register = () => {
-  const [formData, setFormData] = useState({});
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+  const [image, setImage] = useState("");
+
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isShowPassword, setIsShowPassword] = useState(false);
   const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+
+    formData.append("name", name);
+    formData.append("email", email);
+    formData.append("phone", phone);
+    formData.append("password", password);
+    formData.append("image", image);
+
+    try {
+      const response = await fetch("http://localhost:8000/api/auth/register", {
+        method: "POST",
+        body: formData,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="flex items-center justify-center h-screen">
@@ -20,7 +45,7 @@ const Register = () => {
           Register <span className="text-[#1B2A80]">Form</span>
         </h1>
         <form
-          // onSubmit={handleSubmit}
+          onSubmit={handleSubmit}
           className="flex items-center justify-center flex-col gap-3"
         >
           <img
@@ -34,8 +59,8 @@ const Register = () => {
               type="text"
               placeholder="Enter your name"
               className="border-b border-[#1B2A80] text-center w-full py-2 focus:outline-none tracking-widest"
-              id="username"
-              // onChange={handleChange}
+              id="name"
+              onChange={(e) => setName(e.target.value)}
             />
           </div>
           <div className="flex w-full items-center  relative">
@@ -45,7 +70,7 @@ const Register = () => {
               placeholder="Enter your email"
               className="border-b border-[#1B2A80] text-center w-full py-2 focus:outline-none tracking-widest "
               id="email"
-              // onChange={handleChange}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="flex w-full items-center  relative">
@@ -54,8 +79,8 @@ const Register = () => {
               type="text"
               placeholder="Enter your phone"
               className="border-b tracking-widest border-[#1B2A80] text-center w-full py-2  focus:outline-none "
-              id="password"
-              // onChange={handleChange}
+              id="phone"
+              onChange={(e) => setPhone(e.target.value)}
             />
           </div>
           <div className="flex w-full items-center  relative">
@@ -65,8 +90,9 @@ const Register = () => {
               placeholder="Enter your password"
               className="border-b tracking-widest border-[#1B2A80] text-center w-full py-2 pl-5 focus:outline-none "
               id="password"
-              // onChange={handleChange}
+              onChange={(e) => setPassword(e.target.value)}
             />
+
             {isShowPassword ? (
               <IoEye
                 onClick={() => setIsShowPassword(false)}
@@ -79,6 +105,12 @@ const Register = () => {
               />
             )}
           </div>
+
+          <input
+            type="file"
+            id="file"
+            onChange={(e) => setImage(e.target.files[0])}
+          />
 
           <button
             disabled={loading}

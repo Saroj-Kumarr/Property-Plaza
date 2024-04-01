@@ -1,20 +1,20 @@
-import express from "express";
-import fileUpload from "express-fileupload";
-import dotenv from "dotenv";
-import userRouter from "./routes/user.route.js";
-import authRouter from "./routes/auth.route.js";
-import listingRouter from "./routes/listing.route.js";
-import cookieParser from "cookie-parser";
-import connection from "./config/database.js";
-import { v2 as cloudinary } from "cloudinary";
-import File from "./models/file.model.js";
-import bodyParser from "body-parser";
-import { fileURLToPath } from "url";
-import { dirname } from "path";
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-dotenv.config();
+const express = require("express");
+const fileUpload = require("express-fileupload");
+const mongoose = require("mongoose");
+const cors = require("cors");
+const dotenv = require("dotenv");
+const userRouter = require("./routes/user.route");
+const authRouter = require("./routes/auth.route");
+const listingRouter = require("./routes/listing.route");
+const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
+const connection = require("./config/database");
+const cloudinary = require("cloudinary").v2;
+const { cloudinaryConnect } = require("./utils/cloudinaryConnect");
+const User = require("./models/user.model");
+const bcryptjs = require("bcryptjs");
 const app = express();
+dotenv.config();
 app.use(express.json());
 app.use(cookieParser());
 app.use(
@@ -25,69 +25,60 @@ app.use(
 );
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cors());
 
-const cloudinaryConnect = async () => {
-  try {
-    cloudinary.config({
-      cloud_name: "dpkeexb0x",
-      api_key: "824867471374662",
-      api_secret: "zDIE0iGlXiXv53A2OhfOCsfdzmk",
-    });
-    console.log("Connected with cloudinary.");
-  } catch (error) {
-    console.log(error.message);
-  }
-};
-
-cloudinaryConnect();
-
-const uploadFileToCloudinary = async (file, folder) => {
-  const options = { folder };
-
-  try {
-    await cloudinary.uploader.upload(file.tempFilePath, options);
-  } catch (error) {
-    console.log(error.message);
-  }
-};
-
-app.post("/file", async (req, res) => {
-  const { name, imageURL } = req.body;
-  const { file } = req.files;
-
-  console.log(file);
-
-  let path = `${__dirname}/files/${Date.now()}.${file.name.split(".")[1]}`;
-
-  const response = await uploadFileToCloudinary(file, "saroj");
-
-  console.log(response);
-
-  file.mv(path, (error) => {
-    if (error) {
-      console.error(error);
-      res.status(500).send("Error occurred while uploading the file.");
-    } else {
-      res.send("File uploaded successfully.");
-    }
-  });
-});
-
-app.use("/api/user", userRouter);
-app.use("/api/auth", authRouter);
+// app.use("/api/user", userRouter);
+// app.use("/api/auth", authRouter);
 app.use("/api/listing", listingRouter);
 
-app.use((err, req, res, next) => {
+const uploadFileToCloudinary = (file, folder) => {
+  const options = { folder: folder };
+
+  try {
+    return cloudinary.uploader.upload(file.tempFilePath, options);
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+app.post("/api/auth/register", async (req, res, next) => {
+  const { name, email, phone, password } = req.body;
+
+  const { image } = req.files;
+
+  const imageURL = await uploadFileToCloudinary(image, "saroj");
+
+  if (!name || !email || !phone || !password) {
+    return res.status(400).json("All Fields are required.");
+  }
+
+  try {
+    const newUser = await User.create({
+      name,
+      email,
+      phone,
+      password,
+      image: imageURL.secure_url,
+    });
+
+    res.status(200).json(newUser);
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.use(function (err, req, res, next) {
   const statusCode = err.statusCode || 500;
   const message = err.message || "Internal Server Error";
   return res.status(statusCode).json({
     success: false,
-    statusCode,
-    message,
+    statusCode: statusCode,
+    message: message,
   });
 });
+cloudinaryConnect();
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT, function () {
   console.log(`Server is running on ${process.env.PORT}`);
   connection();
 });

@@ -1,29 +1,32 @@
-import mongoose from 'mongoose';
+const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(
   {
-    username: {
+    name: {
       type: String,
       required: true,
-      unique: true,
     },
     email: {
       type: String,
       required: true,
-      unique: true,
+    },
+    phone: {
+      type: String,
+      required: true,
     },
     password: {
       type: String,
       required: true,
     },
-    avatar:{
+    image: {
       type: String,
-      default: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+      default:
+        "https://media.istockphoto.com/id/1477583639/vector/user-profile-icon-vector-avatar-or-person-icon-profile-picture-portrait-symbol-vector.jpg?s=612x612&w=0&k=20&c=OWGIPPkZIWLPvnQS14ZSyHMoGtVTn1zS8cAgLy1Uh24=",
     },
   },
   { timestamps: true }
 );
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model("User", userSchema);
 
-export default User;
+module.exports = User;
