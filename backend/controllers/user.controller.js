@@ -3,9 +3,25 @@ const User = require("../models/user.model");
 const errorHandler = require("../utils/error");
 const Listing = require("../models/listing.model");
 
-const updateUser = (req, res, next) => {
+const uploadFileToCloudinary = (file, folder) => {
+  const options = { folder: folder };
+
+  try {
+    return cloudinary.uploader.upload(file.tempFilePath, options);
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+const updateUser = async (req, res, next) => {
   if (req.user.id !== req.params.id)
     return next(errorHandler(401, "You can only update your own account!"));
+
+  const { name, email, phone, password } = req.body;
+
+  const { image } = req.files;
+
+  const imageURL = await uploadFileToCloudinary(image, "saroj");
 
   try {
     if (req.body.password) {
@@ -16,10 +32,11 @@ const updateUser = (req, res, next) => {
       req.params.id,
       {
         $set: {
-          username: req.body.username,
-          email: req.body.email,
-          password: req.body.password,
-          avatar: req.body.avatar,
+          name,
+          email,
+          phone,
+          password,
+          image: imageURL.secure_url,
         },
       },
       { new: true },

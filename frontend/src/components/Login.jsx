@@ -8,41 +8,39 @@ import { FaLock } from "react-icons/fa";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 
 const Login = () => {
-  const [formData, setFormData] = useState({});
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isShowPassword, setIsShowPassword] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.id]: e.target.value,
-    });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      const res = await fetch("/api/auth/signin", {
+      const response = await fetch("http://localhost:8000/api/auth/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
       });
-      const data = await res.json();
-      console.log(data);
-      if (data.success === false) {
-        return;
+
+      const jsonResponse = await response.json();
+
+      if (response.status == 200) {
+        navigate("/listings");
       }
-      dispatch(setUser(data));
-      navigate("/");
+
+      dispatch(setUser(jsonResponse));
     } catch (error) {
-      console.log(error.message);
+      console.log(error);
     }
   };
+
   return (
     <div className="flex items-center justify-center h-screen">
       <div className="w-3/12 -mt-20 custom-shadow p-5">
@@ -60,7 +58,7 @@ const Login = () => {
               placeholder="Enter your email"
               className="border-b border-[#1B2A80] text-center w-full py-2 focus:outline-none tracking-widest "
               id="email"
-              onChange={handleChange}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="flex w-full items-center  relative">
@@ -70,7 +68,7 @@ const Login = () => {
               placeholder="Enter your password"
               className="border-b tracking-widest border-[#1B2A80] text-center w-full py-2 pl-5 focus:outline-none "
               id="password"
-              onChange={handleChange}
+              onChange={(e) => setPassword(e.target.value)}
             />
             {isShowPassword ? (
               <IoEye
@@ -87,7 +85,7 @@ const Login = () => {
 
           <button
             disabled={loading}
-            className="tracking-widest w-full bg-[#1B2A80] text-white font-bold py-1 rounded-md custom-shadow"
+            className="tracking-widest w-full bg-[#1B2A80] text-white font-bold py-2 rounded-md custom-shadow"
           >
             {loading ? "Loading..." : "Login"}
           </button>

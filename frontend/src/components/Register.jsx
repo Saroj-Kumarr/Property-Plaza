@@ -31,8 +31,12 @@ const Register = () => {
     try {
       const response = await fetch("http://localhost:8000/api/auth/register", {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: formData,
       });
+      if (response.status == 200) {
+        navigate("/login");
+      }
     } catch (error) {
       console.log(error);
     }
@@ -114,7 +118,7 @@ const Register = () => {
 
           <button
             disabled={loading}
-            className="tracking-widest w-full bg-[#1B2A80] text-white font-bold py-1 rounded-md custom-shadow"
+            className="tracking-widest w-full bg-[#1B2A80] text-white font-bold py-2 rounded-md custom-shadow"
           >
             {loading ? "Loading..." : "Register"}
           </button>

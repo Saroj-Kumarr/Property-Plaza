@@ -1,6 +1,6 @@
 import { FaSearch } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import React from "react";
 import { MdRealEstateAgent } from "react-icons/md";
@@ -8,32 +8,25 @@ import logo from "../assets/logo.png";
 import Select from "react-select";
 import { FiSearch } from "react-icons/fi";
 import { BsFilterSquareFill } from "react-icons/bs";
+import { deleteUser } from "../redux/user/userSlice";
 
 const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedOption, setSelectedOption] = useState(null);
-
-  // const options = ["Low to High", "High to Low", "Newest", "Oldest", "Reset"];
-
-  // const onOptionChangeHandler = (event) => {};
-
   const navigate = useNavigate();
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const urlParams = new URLSearchParams(window.location.search);
-    urlParams.set("searchTerm", searchTerm);
-    const searchQuery = urlParams.toString();
-    navigate(`/search?${searchQuery}`);
-  };
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    const urlParams = new URLSearchParams(location.search);
-    const searchTermFromUrl = urlParams.get("searchTerm");
-    if (searchTermFromUrl) {
-      setSearchTerm(searchTermFromUrl);
+  const handleLogout = async () => {
+    try {
+      const response = await fetch("http://localhost:8000/api/auth/logout");
+
+      if (response.status == 200) {
+        dispatch(deleteUser());
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error);
     }
-  }, [location.search]);
+  };
 
   return (
     <header className="custom-shadow fixed w-full z-10 bg-white">
@@ -50,7 +43,7 @@ const Header = () => {
           </div>
         </Link>
         <form
-          onSubmit={handleSubmit}
+          // onSubmit={handleSubmit}
           className=" p-3 rounded-lg flex gap-3 items-center"
         >
           <div className="custom-shadow">
@@ -106,7 +99,7 @@ const Header = () => {
             <FaSearch className="text-slate-600" />
           </button> */}
         </form>
-        <ul className="flex gap-4 uppercase tracking-widest font-semibold items-center ">
+        <ul className="flex gap-5 uppercase tracking-widest font-semibold items-center ">
           <Link to="/">
             <li className="hover:text-[#1B2A80] duration-200">Home</li>
           </Link>
@@ -115,11 +108,27 @@ const Header = () => {
           </Link>
           <Link to="/profile">
             {currentUser ? (
-              <img
-                className="rounded-full h-7 w-7 object-cover"
-                src={currentUser.avatar}
-                alt="profile"
-              />
+              <div className="flex gap-4 items-center">
+                <Link to="/create-listing">
+                  <li className="hover:text-[#1B2A80] duration-200">
+                    create listing
+                  </li>
+                </Link>
+                <Link to="/login">
+                  <li
+                    onClick={handleLogout}
+                    className="border border-[#1B2A80] px-3 py-1 rounded-md text-[#1B2A80]  font-semibold custom-shadow"
+                  >
+                    {" "}
+                    Logout
+                  </li>
+                </Link>
+                <img
+                  className="rounded-full h-10 w-10 object-cover"
+                  src={currentUser.image}
+                  alt="profile"
+                />
+              </div>
             ) : (
               <div className="flex gap-4  items-center">
                 <Link to="/register">
