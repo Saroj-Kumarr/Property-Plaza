@@ -7,7 +7,7 @@ const SearchListing = () => {
   const onOptionChangeHandler = (event) => {};
 
   return (
-    <div className="h-40  rounded-md mt-8 custom-shadow p-2">
+    <div className="h-40 bg-white  rounded-md mt-8 custom-shadow p-2">
       <form className="flex ml-2 mt-2 flex-col font-semibold text-[#1B2A80] gap-5">
         <div className="flex gap-5">
           <div className="flex gap-2">

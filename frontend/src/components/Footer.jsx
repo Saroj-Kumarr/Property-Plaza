@@ -9,7 +9,7 @@ import logo from "../assets/logo.png";
 
 const Footer = () => {
   return (
-    <div className="custom-shadow flex justify-center py-5 mt-20">
+    <div className="custom-shadow flex justify-center py-5">
       <div className="flex flex-col justify-center items-center gap-3 w-8/12">
         <div className="flex items-center justify-center ">
           {" "}

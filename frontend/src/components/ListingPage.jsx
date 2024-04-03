@@ -57,12 +57,12 @@ const ListingPage = () => {
   };
 
   return (
-    <div className="min-h-screen pt-20 flex ">
-      <div className="w-4/12 p-5 min-h-screen">
+    <div className="min-h-screen pt-20  flex ">
+      <div className="w-4/12  p-5 min-h-screen ">
         <h3 className="text-center tracking-widest uppercase text-sm font-bold text-[#1B2A80] my-3">
           Find Your Property in Your Preferred City
         </h3>
-        <div className="ml-5  mx-5">
+        <div className="ml-5   mx-5">
           <Slider {...settings}>
             {data.map(({ city, url }, index) => {
               return <CityCard city={city} url={url} key={index} />;

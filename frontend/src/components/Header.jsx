@@ -9,6 +9,9 @@ import Select from "react-select";
 import { FiSearch } from "react-icons/fi";
 import { BsFilterSquareFill } from "react-icons/bs";
 import { deleteUser } from "../redux/user/userSlice";
+import { IoLogInSharp, IoLogOutSharp } from "react-icons/io5";
+import { GiArchiveRegister } from "react-icons/gi";
+
 
 const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -120,7 +123,8 @@ const Header = () => {
                     className="border border-[#1B2A80] px-3 py-1 rounded-md text-[#1B2A80]  font-semibold custom-shadow"
                   >
                     {" "}
-                    Logout
+                    Logout{" "}
+                    <IoLogOutSharp className="inline text-lg -mt-[2px]" />
                   </li>
                 </Link>
                 <img
@@ -134,13 +138,17 @@ const Header = () => {
                 <Link to="/register">
                   <li className="border border-[#1B2A80] px-3 py-1 rounded-md text-[#1B2A80]  font-semibold custom-shadow">
                     {" "}
-                    Register
+                    Register{" "}
+                    <GiArchiveRegister
+                      className="inline text-lg
+                    -mt-[2px]"
+                    />
                   </li>
                 </Link>
                 <Link to="/login">
                   <li className="bg-[#1B2A80] px-3 py-1 custom-shadow rounded-md text-white font-semibold">
                     {" "}
-                    Login
+                    Login <IoLogInSharp className="inline text-lg -mt-[2px]" />
                   </li>
                 </Link>
               </div>

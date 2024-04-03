@@ -12,6 +12,7 @@ import ListingPage from "./components/ListingPage";
 import ViewListing from "./components/ViewListing";
 import CreateListing from "./components/CreateListing";
 import UpdateListing from "./components/UpdateListing";
+import Contact from "./components/Contact";
 
 const App = () => {
   return (
@@ -21,6 +22,8 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/about" element={<About />} />
         <Route path="/listings" element={<ListingPage />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/create-listing" element={<CreateListing />} />

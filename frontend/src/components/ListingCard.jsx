@@ -1,6 +1,8 @@
 import React from "react";
-import { FaBath, FaLocationDot } from "react-icons/fa6";
+import { FaRegMoneyBillAlt } from "react-icons/fa";
+import { FaBath, FaLocationDot, FaMoneyBill1 } from "react-icons/fa6";
 import { IoBedSharp } from "react-icons/io5";
+import { MdPermContactCalendar } from "react-icons/md";
 import { Link } from "react-router-dom";
 
 const ListingCard = () => {
@@ -39,7 +41,7 @@ const ListingCard = () => {
     //   </div>
     // </div>
     <Link to="/view-listing">
-      <div className="w-full relative flex  custom-shadow   border-[#1B2A80] rounded-md">
+      <div className="w-full  relative flex  custom-shadow   border-[#1B2A80] rounded-md">
         <img
           className="w-full h-[250px] object-cover rounded-l-md "
           src="https://img.freepik.com/premium-photo/photo-real-state-house-holding-hand_763111-15176.jpg?w=740"
@@ -60,7 +62,7 @@ const ListingCard = () => {
             affordable price, and the best thing about this penthout is it's
             free of cost.
           </p>
-          <div className="flex absolute gap-2 bottom-3 right-3">
+          <div className="flex text-sm absolute gap-2 bottom-3 right-3">
             <span className="font-bold">Owner : </span>
             <span>Neha kumari</span>
           </div>
@@ -79,10 +81,16 @@ const ListingCard = () => {
           </div>
           <div className="flex gap-5">
             <button className="bg-[#1B2A80] px-5 py-[1px] custom-shadow rounded-md text-white uppercase font-semibold ">
-              buy
+              buy <FaRegMoneyBillAlt className="inline -mt-[3px]" />
             </button>
             <button className="border border-[#1B2A80] px-5 py-[1px] rounded-md text-[#1B2A80] uppercase  font-semibold custom-shadow">
-              contact
+              <Link to="/contact">
+                contact{" "}
+                <MdPermContactCalendar
+                  className="inline text-lg
+                -mt-[2px]"
+                />
+              </Link>
             </button>
           </div>
         </div>

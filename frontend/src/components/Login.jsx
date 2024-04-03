@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { setUser } from "../redux/user/userSlice";
 import { MdMail } from "react-icons/md";
 import { FaLock } from "react-icons/fa";
-import { IoEye, IoEyeOff } from "react-icons/io5";
+import { IoEye, IoEyeOff, IoLogInSharp } from "react-icons/io5";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -42,8 +42,8 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen">
-      <div className="w-3/12 -mt-20 custom-shadow p-5">
+    <div className="flex  items-center justify-center h-screen">
+      <div className="w-3/12  -mt-20 custom-shadow p-5">
         <h1 className="font-bold uppercase  tracking-widest text-2xl mb-4 text-center text-slate-600 ">
           Login <span className="text-[#1B2A80]">Form</span>
         </h1>
@@ -85,9 +85,10 @@ const Login = () => {
 
           <button
             disabled={loading}
-            className="tracking-widest w-full bg-[#1B2A80] text-white font-bold py-2 rounded-md custom-shadow"
+            className="tracking-widest w-full bg-[#1B2A80] text-white font-bold py-2 rounded-md custom-shadow uppercase tracking-widest"
           >
-            {loading ? "Loading..." : "Login"}
+            {loading ? "Loading..." : "Login"}{" "}
+            <IoLogInSharp className="inline text-lg -mt-[2px]" />
           </button>
         </form>
         <p className="text-sm text-center mt-2">

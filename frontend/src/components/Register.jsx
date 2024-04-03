@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaUserCircle, FaLock, FaPhoneSquareAlt } from "react-icons/fa";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 import { MdLock, MdMail } from "react-icons/md";
+import { GiArchiveRegister } from "react-icons/gi";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -44,7 +45,7 @@ const Register = () => {
 
   return (
     <div className="flex items-center justify-center h-screen">
-      <div className="w-3/12 custom-shadow p-5">
+      <div className="w-3/12 custom-shadow p-5 mt-5  rounded-md">
         <h1 className="font-bold uppercase  tracking-widest text-2xl mb-4 text-center text-slate-600 ">
           Register <span className="text-[#1B2A80]">Form</span>
         </h1>
@@ -118,9 +119,13 @@ const Register = () => {
 
           <button
             disabled={loading}
-            className="tracking-widest w-full bg-[#1B2A80] text-white font-bold py-2 rounded-md custom-shadow"
+            className="tracking-widest w-full bg-[#1B2A80] text-white font-bold py-2 rounded-md custom-shadow tracking-widest uppercase"
           >
-            {loading ? "Loading..." : "Register"}
+            {loading ? "Loading..." : "Register"}{" "}
+            <GiArchiveRegister
+              className="inline text-lg
+                    -mt-[2px]"
+            />
           </button>
         </form>
 
