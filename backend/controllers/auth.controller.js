@@ -1,17 +1,7 @@
 const User = require("../models/user.model");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const cloudinary = require("cloudinary").v2;
 
-const uploadFileToCloudinary = (file, folder) => {
-  const options = { folder: folder };
-
-  try {
-    return cloudinary.uploader.upload(file.tempFilePath, options);
-  } catch (error) {
-    console.log(error.message);
-  }
-};
 
 const register = async (req, res, next) => {
   const { name, email, phone, password } = req.body;

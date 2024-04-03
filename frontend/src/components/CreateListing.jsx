@@ -8,36 +8,120 @@ const CreateListing = () => {
   const [location, setLocation] = useState("");
   const [bedrooms, setBedrooms] = useState(1);
   const [bathrooms, setBathrooms] = useState(1);
-  const [images, setImages] = useState([]);
   const [price, setPrice] = useState("");
-  const [selectedValue, setSelectedValue] = useState("");
+  const [images, setImages] = useState([]);
+  const [imageURLS, setImageURLS] = useState([]);
 
   const handleRadioChange = (event) => {
-    setSelectedValue(event.target.value);
+    setType(event.target.value);
+  };
+
+  const handleImageDelete = (indexValue) => {
+    const updatedImageURLS = [...imageURLS];
+    updatedImageURLS.splice(indexValue, 1);
+    setImageURLS(updatedImageURLS);
+  };
+
+  const handleFileChange = (e) => {
+    const files = e.target.files;
+    setImages([...images, ...files]);
+  };
+
+  const uploadImages = async () => {
+    const formData = new FormData();
+
+    for (let i = 0; i < images.length; i++) {
+      formData.append("images", images[i]);
+    }
+
+    try {
+      const response = await fetch(
+        "http://localhost:8000/api/upload/multiple-image",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      if (!response.ok) {
+        console.log("Failed to upload images");
+        return;
+      }
+
+      const jsonResponse = await response.json();
+
+      setImageURLS(jsonResponse);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const handleCreateListing = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:8000/api/upload/multiple-image",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            title,
+            description,
+            type,
+            amenities,
+            location,
+            bedrooms,
+            bathrooms,
+            price,
+            imageURLS,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        console.log("Failed to upload images");
+        return;
+      }
+
+      const jsonResponse = await response.json();
+
+      setImageURLS(jsonResponse);
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   return (
-    <div className="min-h-screen pt-24 flex  justify-center">
+    <div className="min-h-screen pt-24 flex justify-center">
       <div className="w-8/12 mt-10 custom-shadow rounded-md p-2">
         <h3 className="text-center font-bold  my-4 uppercase tracking-widest">
           Enter your property details
         </h3>
         <div className="flex gap-5">
           <div className="w-6/12 p-5">
-            <form className="flex flex-col gap-5">
+            <form
+              onSubmit={handleCreateListing}
+              className="flex flex-col gap-5"
+            >
               <input
                 className="border tracking-widest border-[#1B2A80] px-2 py-[6px] rounded-md focus:outline-none w-full"
                 placeholder="Enter title"
                 type="text"
                 value={title}
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+              <textarea
+                type="text"
+                className="border tracking-widest border-[#1B2A80] px-2 py-[6px] rounded-md focus:outline-none w-full"
+                placeholder="Enter description"
+                value={description}
+                rows="2"
+                onChange={(e) => setDescription(e.target.value)}
               />
               <input
                 type="text"
                 className="border tracking-widest border-[#1B2A80] px-2 py-[6px] rounded-md focus:outline-none w-full"
                 placeholder="Enter description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
               />
               <div className="flex gap-5  items-center">
                 <span className="font-bold text-sm tracking-widest uppercase">
@@ -48,7 +132,7 @@ const CreateListing = () => {
                     className=""
                     type="checkbox"
                     value="sale"
-                    checked={selectedValue === "sale"}
+                    checked={type === "sale"}
                     onChange={handleRadioChange}
                   />
                   <label className="tracking-widest uppercase">Sale</label>
@@ -59,7 +143,7 @@ const CreateListing = () => {
                     className=""
                     type="checkbox"
                     value="rent"
-                    checked={selectedValue === "rent"}
+                    checked={type === "rent"}
                     onChange={handleRadioChange}
                   />
                   <label className="tracking-widest uppercase">Rent</label>
@@ -107,12 +191,12 @@ const CreateListing = () => {
                 </div>
                 <div className="flex gap-2 items-center">
                   <span className="tracking-widest uppercase text-sm font-bold">
-                    Bedrooms :
+                    Bathrooms :
                   </span>
                   <input
                     className="border text-center py-1 rounded-md border-[#1B2A80] focus:outline-none "
-                    value={bedrooms}
-                    onChange={(e) => setBedrooms(e.target.value)}
+                    value={bathrooms}
+                    onChange={(e) => setBathrooms(e.target.value)}
                     type="number"
                     min="1"
                     max="10"
@@ -140,27 +224,34 @@ const CreateListing = () => {
             </h3>
             <div className="flex gap-2 justify-center">
               <input
-                type="file"
                 className="border p-2 py-1 rounded-md "
+                type="file"
                 multiple
-                onChange={(e) => setImages(e.target.files)}
+                onChange={handleFileChange}
               />
-              <button className="bg-[#1B2A80] px-5 py-1 custom-shadow rounded-md text-white font-semibold tracking-widest uppercase ">
+              <button
+                onClick={uploadImages}
+                className="bg-[#1B2A80] px-5 py-1 custom-shadow rounded-md text-white font-semibold tracking-widest uppercase "
+              >
                 upload
               </button>
             </div>
             <div className="h-72 my-2 overflow-x-hidden image-container">
-              {Array(6)
-                .fill(null)
-                .map((_, index) => {
+              {imageURLS &&
+                imageURLS.map((url, index) => {
                   return (
                     <div className="flex mt-3 mx-2 rounded-sm  items-center justify-between custom-shadow">
                       <img
-                        className="h-20 w-40 rounded-l-sm"
-                        src="https://images.pexels.com/photos/417173/pexels-photo-417173.jpeg?cs=srgb&dl=pexels-pixabay-417173.jpg&fm=jpg"
+                        className="h-full w-40 rounded-l-sm"
+                        src={url}
                         alt="image"
                       />
-                      <button className="bg-red-600 text-sm mr-2 px-5 py-1 custom-shadow rounded-md text-white font-semibold tracking-widest uppercase">
+                      <button
+                        onClick={() => {
+                          handleImageDelete(index);
+                        }}
+                        className="bg-red-600 text-sm mr-2 px-5 py-1 custom-shadow rounded-md text-white font-semibold tracking-widest uppercase"
+                      >
                         delete
                       </button>
                     </div>
@@ -173,37 +264,66 @@ const CreateListing = () => {
           create listing
         </button>
       </div>
-      {/* <h2>Select a Radio Button:</h2>
-      <label>
-        <input
-          type="radio"
-          value="option1"
-          checked={selectedValue === "option1"}
-          onChange={handleRadioChange}
-        />
-        Option 1
-      </label>
-      <label>
-        <input
-          type="radio"
-          value="option2"
-          checked={selectedValue === "option2"}
-          onChange={handleRadioChange}
-        />
-        Option 2
-      </label>
-      <label>
-        <input
-          type="radio"
-          value="option3"
-          checked={selectedValue === "option3"}
-          onChange={handleRadioChange}
-        />
-        Option 3
-      </label>
-      <div>Selected Value: {selectedValue}</div> */}
     </div>
   );
 };
 
 export default CreateListing;
+
+// import React, { useState } from "react";
+
+// const CreateListing = () => {
+//   const [title, setTitle] = useState("");
+//   const [description, setDescription] = useState("");
+//   const [type, setType] = useState("");
+//   const [amenities, setAmenities] = useState("");
+//   const [location, setLocation] = useState("");
+//   const [bedrooms, setBedrooms] = useState(1);
+//   const [bathrooms, setBathrooms] = useState(1);
+//   const [images, setImages] = useState([]);
+//   const [price, setPrice] = useState("");
+//   const [selectedValue, setSelectedValue] = useState("");
+
+//   const handleRadioChange = (event) => {
+//     setSelectedValue(event.target.value);
+//   };
+
+//   const uploadImages = async (req, res) => {
+//     const formData = new formData();
+//     formData.append("images", images);
+
+//     try {
+//       const response = await fetch("http://localhost:8000/upload-images", {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: FormData,
+//       });
+
+//       if (!response.status == 200) {
+//         console.log("failed to upload");
+//       }
+
+//       const jsonResponse = await response.json();
+
+//       console.log(jsonResponse);
+//     } catch (error) {
+//       console.log(error.message);
+//     }
+//   };
+
+//   return (
+//     <div className="min-h-screen pt-24 flex  justify-center">
+//       <div className="mt-60">
+//         <input
+//           type="file"
+//           multiple
+//           value={images}
+//           onChange={(e) => setImages(e.target.files)}
+//         />
+//         <button>upload images</button>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default CreateListing;

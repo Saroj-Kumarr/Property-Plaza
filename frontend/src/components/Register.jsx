@@ -11,29 +11,51 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  const [image, setImage] = useState("");
+  const [imageURL, setImageURL] = useState("");
 
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isShowPassword, setIsShowPassword] = useState(false);
   const navigate = useNavigate();
 
+  const uploadImage = async (imageFile) => {
+    const formData = new FormData();
+    formData.append("image", imageFile);
+
+    try {
+      const response = await fetch(
+        "http://localhost:8000/api/upload/single-image",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      if (!response.ok) {
+        console.log("Failed to upload images");
+        return;
+      }
+
+      const jsonResponse = await response.json();
+
+      setImageURL(jsonResponse);
+    } catch (error) {}
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const formData = new FormData();
-
-    formData.append("name", name);
-    formData.append("email", email);
-    formData.append("phone", phone);
-    formData.append("password", password);
-    formData.append("image", image);
 
     try {
       const response = await fetch("http://localhost:8000/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: formData,
+        body: JSON.stringify({
+          name,
+          email,
+          phone,
+          password,
+          image: imageURL,
+        }),
       });
       if (response.status == 200) {
         navigate("/login");
@@ -53,11 +75,19 @@ const Register = () => {
           onSubmit={handleSubmit}
           className="flex items-center justify-center flex-col gap-3"
         >
-          <img
-            className="h-20 w-20  rounded-full custom-shadow"
-            src="https://st3.depositphotos.com/6672868/13701/v/450/depositphotos_137014128-stock-illustration-user-profile-icon.jpg"
-            alt="user"
-          />
+          {imageURL ? (
+            <img
+              className="h-20 w-20 object-cover  rounded-full custom-shadow"
+              src={imageURL}
+              alt="user"
+            />
+          ) : (
+            <img
+              className="h-20 w-20 object-cover  rounded-full custom-shadow"
+              src="https://st3.depositphotos.com/6672868/13701/v/450/depositphotos_137014128-stock-illustration-user-profile-icon.jpg"
+              alt="user"
+            />
+          )}
           <div className="flex w-full items-center  relative">
             <FaUserCircle className="absolute text-xl text-[#1B2A80] left-16" />
             <input
@@ -114,7 +144,9 @@ const Register = () => {
           <input
             type="file"
             id="file"
-            onChange={(e) => setImage(e.target.files[0])}
+            onChange={(e) => {
+              uploadImage(e.target.files[0]);
+            }}
           />
 
           <button
