@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const listingSchema = new mongoose.Schema(
   {
-    name: {
+    title: {
       type: String,
       required: true,
     },
@@ -10,15 +10,11 @@ const listingSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    address: {
+    location: {
       type: String,
       required: true,
     },
-    regularPrice: {
-      type: Number,
-      required: true,
-    },
-    discountPrice: {
+    price: {
       type: Number,
       required: true,
     },
@@ -31,27 +27,22 @@ const listingSchema = new mongoose.Schema(
       required: true,
     },
     furnished: {
-      type: Boolean,
-      required: true,
+      type: String,
     },
     parking: {
-      type: Boolean,
-      required: true,
+      type: String,
     },
     type: {
       type: String,
       required: true,
     },
-    offer: {
-      type: Boolean,
-      required: true,
-    },
-    imageUrls: {
+    imageURLS: {
       type: Array,
       required: true,
     },
-    userRef: {
-      type: String,
+    owner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
       required: true,
     },
   },

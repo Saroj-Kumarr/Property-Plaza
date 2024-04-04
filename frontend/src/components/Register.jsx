@@ -77,13 +77,13 @@ const Register = () => {
         >
           {imageURL ? (
             <img
-              className="h-20 w-20 object-cover  rounded-full custom-shadow"
+              className="h-24 w-24 object-cover  rounded-full custom-shadow"
               src={imageURL}
               alt="user"
             />
           ) : (
             <img
-              className="h-20 w-20 object-cover  rounded-full custom-shadow"
+              className="h-24 w-24 object-cover  rounded-full custom-shadow"
               src="https://st3.depositphotos.com/6672868/13701/v/450/depositphotos_137014128-stock-illustration-user-profile-icon.jpg"
               alt="user"
             />

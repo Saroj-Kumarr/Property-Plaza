@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ListingCard from "./ListingCard";
 import { FiSearch } from "react-icons/fi";
 import CityCard from "./CityCard";
@@ -56,6 +56,28 @@ const ListingPage = () => {
     slidesToScroll: 1,
   };
 
+  const [allListing, setAllListing] = useState([]);
+
+  const fetchListings = async () => {
+    try {
+      const response = await fetch("http://localhost:8000/api/listing/get");
+
+      if (!response.status == 200) {
+        console.log("Not able to fetch the listings.");
+      }
+
+      const jsonResponse = await response.json();
+
+      setAllListing(jsonResponse);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchListings();
+  }, [allListing]);
+
   return (
     <div className="min-h-screen pt-20  flex ">
       <div className="w-4/12  p-5 min-h-screen ">
@@ -90,11 +112,10 @@ const ListingPage = () => {
       </div>
       <div className="w-8/12  min-h-screen pt-5 ">
         <div className="flex pr-2 py-2 slider-class h-screen overflow-x-hidden overflow-y-scroll flex-col gap-5">
-          {Array(12)
-            .fill(null)
-            .map((_, index) => {
-              return <ListingCard key={index} />;
-            })}
+          {allListing &&
+            allListing.map((listing, index) => (
+              <ListingCard key={index} listing={listing} />
+            ))}
         </div>
       </div>
 

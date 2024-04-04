@@ -1,23 +1,95 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import SwiperCore from "swiper";
 import "swiper/css/bundle";
 import { FaBath, FaLocationDot, FaToiletPortable } from "react-icons/fa6";
 import { IoBedSharp, IoCarSportSharp } from "react-icons/io5";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const ViewListing = () => {
+  const { id } = useParams();
+  const [listingInfo, setListingInfo] = useState({});
+  const navigate = useNavigate();
+
+  const fetchListingById = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:8000/api/listing/get/" + id
+      );
+
+      if (!response.status == 200) {
+        console.log("Not able to fetch the listings.");
+      }
+
+      const jsonResponse = await response.json();
+
+      setListingInfo(jsonResponse);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const deleteListing = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:8000/api/listing/delete/" + id,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization:
+              "Bearer " + JSON.parse(localStorage.getItem("token")),
+          },
+        }
+      );
+
+      if (!response.status == 200) {
+        console.log("Not able to fetch the listings.");
+      }
+
+      const jsonResponse = await response.json();
+
+      setListingInfo(jsonResponse);
+
+      navigate("/listings");
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchListingById();
+  }, [id]);
+
+  if (!listingInfo) return <div>Loading...</div>;
+
+  const {
+    title,
+    description,
+    location,
+    price,
+    bathrooms,
+    bedrooms,
+    furnished,
+    parking,
+    type,
+    imageURLS,
+    owner,
+    createdAt,
+    updatedAt,
+  } = listingInfo;
+
   SwiperCore.use([Navigation]);
   return (
     <div className="min-h-screen pt-[81px]">
       <Swiper navigation>
-        {Array(6)
-          .fill(null)
-          .map((_, index) => (
+        {imageURLS &&
+          imageURLS.map((url, index) => (
             <SwiperSlide>
               <div
                 style={{
-                  background: `url(https://img.freepik.com/free-photo/mumbai-skyline-skyscrapers-construction_469504-21.jpg?t=st=1711863860~exp=1711867460~hmac=1c01fdaf0785e2ce15b0f41622de901502273ddee4b65b7e9597afa26bd3b9aa&w=996) center no-repeat`,
+                  background: `url(${url}) center no-repeat`,
                   backgroundSize: "cover",
                 }}
                 className="h-[500px]"
@@ -29,19 +101,18 @@ const ViewListing = () => {
 
       <div className="flex justify-center mt-3 items-center">
         <div className="flex w-5/12  flex-col gap-2 items-center justify-center">
-          <div className="flex  text-xl gap-2 font-bold tracking-widest">
-            <p>Janlandhar penthouse - </p>
-            <p>&#8377; 20,000</p>
+          <div className="flex  text-xl gap-4 font-bold tracking-widest">
+            <p>{title} - </p>
+            <p>&#8377; {price}</p>
+            {/* <p>{owner.name && owner.name}</p> */}
           </div>
           <div className="flex gap-1">
             <FaLocationDot className="text-xl text-[#1B2A80]" />
-            <p className="text-sm ">
-              Lovely Professional University Phagware, (Punjab)
-            </p>
+            <p className="text-sm ">{location}</p>
           </div>
           <div className="flex gap-5">
             <button className="bg-[#1B2A80] px-5 py-[1px] custom-shadow rounded-md text-white uppercase font-semibold ">
-              For sale
+              For {type}
             </button>
             <button className="border border-[#1B2A80] px-5 py-[1px] rounded-md text-[#1B2A80] uppercase  font-semibold custom-shadow">
               contact
@@ -51,32 +122,36 @@ const ViewListing = () => {
             <span className="text-sm font-bold text-[#1B2A80]">
               Discription -{" "}
             </span>
-            <span className="text-xs font-semibold">
-              Escape the hustle and bustle of city life in this 4-bedroom,
-              2-bathroom lakeside home. Fish off your own private dock, take in
-              breathtaking sunsets from the screened porch, and unwind in the
-              spacious master suite. Perfect for nature enthusiasts.
-            </span>
+            <span className="text-xs font-semibold">{description}</span>
           </div>
           <div className="flex font-semibold gap-7 items-center">
             <div className="flex  gap-1 items-center">
-              <span>4</span>
+              <span>{bedrooms}</span>
               <span>Bedrooms</span>
               <IoBedSharp className="inline ml-1" />
             </div>
             <div className="flex gap-1 items-center">
-              <span>4</span>
+              <span>{bathrooms}</span>
               <span>Bedrooms</span>
               <FaBath className="inline ml-1" />
             </div>
             <div className="flex gap-1 items-center">
-              <span>Parking</span>
-              <IoCarSportSharp  className="inline ml-1 mt-1" />
+              <span>{parking && parking}</span>
+              <IoCarSportSharp className="inline ml-1 mt-1" />
             </div>
             <div className="flex gap-1 items-center">
-              <span>Furnished</span>
+              <span>{furnished && furnished}</span>
               <FaToiletPortable className="inline ml-1" />
             </div>
+            <button
+              onClick={deleteListing}
+              className="bg-red-600 px-5 py-[1px] rounded-md text-white uppercase  font-semibold custom-shadow"
+            >
+              delete
+            </button>
+            <button className="bg-[#1B2A80] px-5 py-[1px] rounded-md text-white uppercase  font-semibold custom-shadow">
+              <Link to={"/update-listing/" + id}>update</Link>
+            </button>
           </div>
         </div>
       </div>

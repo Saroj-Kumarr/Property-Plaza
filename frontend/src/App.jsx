@@ -27,8 +27,8 @@ const App = () => {
         <Route path="/listings" element={<ListingPage />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/create-listing" element={<CreateListing />} />
-        <Route path="/update-listing/:listingId" element={<UpdateListing />} />
-        <Route path="/view-listing" element={<ViewListing />} />
+        <Route path="/update-listing/:id" element={<UpdateListing />} />
+        <Route path="/view-listing/:id" element={<ViewListing />} />
       </Routes>
       <Footer />
     </BrowserRouter>

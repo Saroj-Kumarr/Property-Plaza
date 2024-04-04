@@ -5,7 +5,25 @@ import { IoBedSharp } from "react-icons/io5";
 import { MdPermContactCalendar } from "react-icons/md";
 import { Link } from "react-router-dom";
 
-const ListingCard = () => {
+const ListingCard = ({ listing }) => {
+  const {
+    _id,
+    title,
+    description,
+    location,
+    price,
+    bathrooms,
+    bedrooms,
+    furnished,
+    parking,
+    type,
+    imageURLS,
+    owner,
+    createdAt,
+    updatedAt,
+    __v,
+  } = listing;
+
   return (
     // <div className="w-[420px] custom-shadow overflow-hidden  border-[#1B2A80] rounded-md">
     //   <img
@@ -40,41 +58,33 @@ const ListingCard = () => {
     //     </div>
     //   </div>
     // </div>
-    <Link to="/view-listing">
+    <Link to={"/view-listing/" + _id}>
       <div className="w-full  relative flex  custom-shadow   border-[#1B2A80] rounded-md">
         <img
-          className="w-full h-[250px] object-cover rounded-l-md "
-          src="https://img.freepik.com/premium-photo/photo-real-state-house-holding-hand_763111-15176.jpg?w=740"
+          className="w-7/12 h-[250px] object-cover rounded-l-md "
+          src={imageURLS[0]}
           alt="image"
         />
         <div className="flex flex-col gap-3 mt-1 p-3">
-          <h3 className="text-xl font-bold tracking-widest">
-            Jalandhar penthouse
-          </h3>
+          <h3 className="text-xl font-bold tracking-widest">{title}</h3>
           <div className="flex gap-1">
             <FaLocationDot className="text-xl text-[#1B2A80]" />
-            <p className="text-sm">
-              Lovely Professional University Phagware, (Punjab)
-            </p>
+            <p className="text-sm">{location}</p>
           </div>
-          <p className="text-xs ">
-            This penthouse is the best penthouse in the market with the
-            affordable price, and the best thing about this penthout is it's
-            free of cost.
-          </p>
+          <p className="text-xs ">{description}</p>
           <div className="flex text-sm absolute gap-2 bottom-3 right-3">
             <span className="font-bold">Owner : </span>
-            <span>Neha kumari</span>
+            <span>{owner.name}</span>
           </div>
-          <p className="font-bold">&#8377; 1,50,000</p>
+          <p className="font-bold">&#8377; {price}</p>
           <div className="flex gap-7 items-center">
             <div className="flex gap-1 items-center">
-              <span>4</span>
+              <span>{bedrooms}</span>
               <span>Bedrooms</span>
               <IoBedSharp className="inline ml-1" />
             </div>
             <div className="flex gap-1 items-center">
-              <span>4</span>
+              <span>{bathrooms}</span>
               <span>Bedrooms</span>
               <FaBath className="inline ml-1" />
             </div>

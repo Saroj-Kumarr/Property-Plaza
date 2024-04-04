@@ -12,7 +12,6 @@ import { deleteUser } from "../redux/user/userSlice";
 import { IoLogInSharp, IoLogOutSharp } from "react-icons/io5";
 import { GiArchiveRegister } from "react-icons/gi";
 
-
 const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
@@ -127,11 +126,16 @@ const Header = () => {
                     <IoLogOutSharp className="inline text-lg -mt-[2px]" />
                   </li>
                 </Link>
-                <img
-                  className="rounded-full h-10 w-10 object-cover"
-                  src={currentUser.image}
-                  alt="profile"
-                />
+                <div className="relative flex justify-center items-center">
+                  <img
+                    className="rounded-full border-2 border-[#1B2A80]  h-12 w-12 object-cover custom-shadow"
+                    src={currentUser.image}
+                    alt="profile"
+                  />
+                  <span className="text-[10px] text-[#1B2A80] -bottom-4 absolute font-bold uppercase tracking-widest">
+                    {currentUser.name}
+                  </span>
+                </div>
               </div>
             ) : (
               <div className="flex gap-4  items-center">

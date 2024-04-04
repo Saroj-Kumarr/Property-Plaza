@@ -35,7 +35,9 @@ const Login = () => {
         navigate("/listings");
       }
 
-      dispatch(setUser(jsonResponse));
+      localStorage.setItem("token", JSON.stringify(jsonResponse.token));
+
+      dispatch(setUser(jsonResponse.rest));
     } catch (error) {
       console.log(error);
     }

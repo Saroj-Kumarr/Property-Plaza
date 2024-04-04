@@ -1,16 +1,21 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const CreateListing = () => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [title, setTitle] = useState("fsdf");
+  const [description, setDescription] = useState("fdsafs");
   const [type, setType] = useState("");
-  const [amenities, setAmenities] = useState("");
-  const [location, setLocation] = useState("");
+  const [parking, setParking] = useState("");
+  const [furnished, setFurnished] = useState("");
+  const [location, setLocation] = useState("fsafsd");
   const [bedrooms, setBedrooms] = useState(1);
   const [bathrooms, setBathrooms] = useState(1);
-  const [price, setPrice] = useState("");
+  const [price, setPrice] = useState("1000");
   const [images, setImages] = useState([]);
   const [imageURLS, setImageURLS] = useState([]);
+
+  const { _id } = useSelector((store) => store.user.currentUser);
 
   const handleRadioChange = (event) => {
     setType(event.target.value);
@@ -58,32 +63,35 @@ const CreateListing = () => {
 
   const handleCreateListing = async () => {
     try {
-      const response = await fetch(
-        "http://localhost:8000/api/upload/multiple-image",
-        {
-          method: "POST",
-          body: JSON.stringify({
-            title,
-            description,
-            type,
-            amenities,
-            location,
-            bedrooms,
-            bathrooms,
-            price,
-            imageURLS,
-          }),
-        }
-      );
+      const response = await fetch("http://localhost:8000/api/listing/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + JSON.parse(localStorage.getItem("token")),
+        },
+        body: JSON.stringify({
+          title,
+          description,
+          type,
+          parking,
+          furnished,
+          location,
+          bedrooms,
+          bathrooms,
+          price,
+          imageURLS,
+          owner: _id,
+        }),
+      });
 
       if (!response.ok) {
-        console.log("Failed to upload images");
+        console.log("Failed to create listing");
         return;
       }
 
       const jsonResponse = await response.json();
 
-      setImageURLS(jsonResponse);
+      console.log(jsonResponse);
     } catch (error) {
       console.log(error.message);
     }
@@ -98,7 +106,7 @@ const CreateListing = () => {
         <div className="flex gap-5">
           <div className="w-6/12 p-5">
             <form
-              onSubmit={handleCreateListing}
+              onSubmit={(e) => e.preventDefault()}
               className="flex flex-col gap-5"
             >
               <input
@@ -119,7 +127,7 @@ const CreateListing = () => {
               <input
                 type="text"
                 className="border tracking-widest border-[#1B2A80] px-2 py-[6px] rounded-md focus:outline-none w-full"
-                placeholder="Enter description"
+                placeholder="Enter location"
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
               />
@@ -158,7 +166,7 @@ const CreateListing = () => {
                     className=""
                     type="checkbox"
                     value="parking"
-                    onClick={(e) => setAmenities(e.target.value)}
+                    onClick={(e) => setParking(e.target.value)}
                   />
                   <label className="tracking-widest uppercase">
                     Parking spot
@@ -170,7 +178,7 @@ const CreateListing = () => {
                     className=""
                     type="checkbox"
                     value="furnished"
-                    onClick={(e) => setAmenities(e.target.value)}
+                    onClick={(e) => setFurnished(e.target.value)}
                   />
                   <label className="tracking-widest uppercase">furnished</label>
                 </div>
@@ -260,8 +268,11 @@ const CreateListing = () => {
             </div>
           </div>
         </div>
-        <button className="bg-[#1B2A80] px-5 py-2 custom-shadow rounded-md text-white font-semibold tracking-widest uppercase w-full ">
-          create listing
+        <button
+          onClick={handleCreateListing}
+          className="bg-[#1B2A80] px-5 py-2 custom-shadow rounded-md text-white font-semibold tracking-widest uppercase w-full "
+        >
+          <Link to="/listings">create listing</Link>
         </button>
       </div>
     </div>

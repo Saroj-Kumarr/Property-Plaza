@@ -2,15 +2,10 @@ const User = require("../models/user.model");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-
 const register = async (req, res, next) => {
-  const { name, email, phone, password } = req.body;
+  const { name, email, phone, password, image } = req.body;
 
-  const { image } = req.files;
-
-  const imageURL = await uploadFileToCloudinary(image, "saroj");
-
-  if (!name || !email || !phone || !password) {
+  if (!name || !email || !phone || !password || !image) {
     return res.status(400).json("All Fields are required.");
   }
 
@@ -20,19 +15,18 @@ const register = async (req, res, next) => {
       email,
       phone,
       password,
-      image: imageURL.secure_url,
+      image,
     });
 
     res.status(200).json(newUser);
   } catch (error) {
+    console.log(error.message);
     next(error);
   }
 };
 
 const login = async (req, res, next) => {
   const { email, password } = req.body;
-
-  console.log(email + " " + password);
 
   try {
     const user = await User.findOne({ email });
@@ -46,12 +40,15 @@ const login = async (req, res, next) => {
     }
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+
+    console.log("token", token);
+
     const rest = user._doc;
     delete rest.password;
-    res
-      .cookie("access_token", token, { httpOnly: true })
-      .status(200)
-      .json(rest);
+    res.cookie("access_token", token, { httpOnly: true }).status(200).json({
+      token,
+      rest,
+    });
   } catch (error) {
     next(error);
   }

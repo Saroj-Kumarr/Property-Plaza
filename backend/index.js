@@ -12,6 +12,7 @@ const connection = require("./config/database");
 const { cloudinaryConnect } = require("./utils/cloudinaryConnect");
 const app = express();
 dotenv.config();
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(
@@ -20,7 +21,6 @@ app.use(
     tempFileDir: "/tmp/",
   })
 );
-
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
@@ -40,8 +40,10 @@ app.use(function (err, req, res, next) {
   });
 });
 
+// Cloudinary connection
 cloudinaryConnect();
 
+// Start server
 app.listen(process.env.PORT, function () {
   console.log(`Server is running on ${process.env.PORT}`);
   connection();

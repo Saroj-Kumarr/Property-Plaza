@@ -1,125 +1,102 @@
 const Listing = require("../models/listing.model");
 const errorHandler = require("../utils/error");
 
-const createListing = (req, res, next) => {
-  Listing.create(req.body, (error, listing) => {
-    if (error) {
-      return next(error);
+const createListing = async (req, res, next) => {
+  try {
+    const newListing = await Listing.create(req.body);
+
+    if (!newListing) {
+      res.status(400).json("Listing is not created.");
     }
-    res.status(201).json(listing);
-  });
+
+    res.status(200).json(newListing);
+  } catch (error) {
+    console.log(error.massage);
+  }
 };
 
-const deleteListing = (req, res, next) => {
-  Listing.findById(req.params.id, (error, listing) => {
-    if (error) {
-      return next(error);
-    }
+const deleteListing = async (req, res, next) => {
+  try {
+    const listing = await Listing.findByIdAndDelete(req.params.id);
+
     if (!listing) {
-      return next(errorHandler(404, "Listing not found!"));
+      res.status(400).json("Not able to fetch the listings");
     }
-    if (req.user.id !== listing.userRef) {
-      return next(errorHandler(401, "You can only delete your own listings!"));
-    }
-    Listing.findByIdAndDelete(req.params.id, (error) => {
-      if (error) {
-        return next(error);
-      }
-      res.status(200).json("Listing has been deleted!");
-    });
-  });
+
+    res.status(200).json(listing);
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
-const updateListing = (req, res, next) => {
-  Listing.findById(req.params.id, (error, listing) => {
-    if (error) {
-      return next(error);
-    }
-    if (!listing) {
-      return next(errorHandler(404, "Listing not found!"));
-    }
-    if (req.user.id !== listing.userRef) {
-      return next(errorHandler(401, "You can only update your own listings!"));
-    }
-    Listing.findByIdAndUpdate(
+const updateListing = async (req, res, next) => {
+  try {
+    const updatedListing = await Listing.findByIdAndUpdate(
       req.params.id,
       req.body,
-      { new: true },
-      (error, updatedListing) => {
-        if (error) {
-          return next(error);
-        }
-        res.status(200).json(updatedListing);
-      }
+      { new: true }
     );
-  });
+
+    if (!updatedListing) {
+      res.status(400).json("Not able to update.");
+    }
+
+    res.status(200).json(updatedListing);
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
-const getListing = (req, res, next) => {
-  Listing.findById(req.params.id, (error, listing) => {
-    if (error) {
-      return next(error);
-    }
+const getListing = async (req, res, next) => {
+  try {
+    const listing = await Listing.findById(req.params.id).populate("owner");
+
     if (!listing) {
-      return next(errorHandler(404, "Listing not found!"));
+      res.status(400).json("Not able to fetch the listings");
     }
+
     res.status(200).json(listing);
-  });
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
-const getListings = (req, res, next) => {
-  const limit = parseInt(req.query.limit) || 9;
-  const startIndex = parseInt(req.query.startIndex) || 0;
-  let offer = req.query.offer;
+const getListings = async (req, res, next) => {
+  try {
+    const allListings = await Listing.find({})
+      .populate("owner")
+      .sort({ createdAt: -1 });
 
-  if (offer === undefined || offer === "false") {
-    offer = { $in: [false, true] };
+    if (!allListings) {
+      res.status(400).json("Not able to fetch the listings");
+    }
+
+    res.status(200).json(allListings);
+  } catch (error) {
+    console.log(error.message);
   }
+};
 
-  let furnished = req.query.furnished;
+const getListingByUserId = async (req, res, next) => {
+  try {
+    const userListings = await Listing.find({ owner: req.params.id });
 
-  if (furnished === undefined || furnished === "false") {
-    furnished = { $in: [false, true] };
+    if (!userListings) {
+      res.status(400).json("This user has no listings.");
+    }
+
+    res.status(200).json(userListings);
+    
+  } catch (error) {
+    console.log(error.message);
   }
-
-  let parking = req.query.parking;
-
-  if (parking === undefined || parking === "false") {
-    parking = { $in: [false, true] };
-  }
-
-  let type = req.query.type;
-
-  if (type === undefined || type === "all") {
-    type = { $in: ["sale", "rent"] };
-  }
-
-  const searchTerm = req.query.searchTerm || "";
-  const sort = req.query.sort || "createdAt";
-  const order = req.query.order || "desc";
-
-  Listing.find({
-    name: { $regex: searchTerm, $options: "i" },
-    offer: offer,
-    furnished: furnished,
-    parking: parking,
-    type: type,
-  })
-    .sort({ [sort]: order })
-    .limit(limit)
-    .skip(startIndex)
-    .exec((error, listings) => {
-      if (error) {
-        return next(error);
-      }
-      res.status(200).json(listings);
-    });
 };
 
 module.exports = {
   createListing,
   deleteListing,
   updateListing,
+  getListingByUserId,
   getListing,
   getListings,
 };
