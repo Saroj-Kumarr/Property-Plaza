@@ -40,10 +40,10 @@ app.use(function (err, req, res, next) {
   });
 });
 
-// Cloudinary connection
+
 cloudinaryConnect();
 
-// Start server
+
 app.listen(process.env.PORT, function () {
   console.log(`Server is running on ${process.env.PORT}`);
   connection();

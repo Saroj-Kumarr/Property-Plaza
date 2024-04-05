@@ -86,7 +86,6 @@ const getListingByUserId = async (req, res, next) => {
     }
 
     res.status(200).json(userListings);
-    
   } catch (error) {
     console.log(error.message);
   }

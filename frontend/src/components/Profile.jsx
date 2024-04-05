@@ -26,6 +26,24 @@ const Profile = () => {
     }
   };
 
+  const handleDeleteUser = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:8000/api/user/user/delete/" + currentUser._id,
+        {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      const jsonResponse = await response.json();
+
+      console.log(jsonResponse);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   useEffect(() => {
     fetchUserListings();
   }, []);
@@ -45,11 +63,14 @@ const Profile = () => {
           <p>{currentUser.email}</p>
           <p className="text-sm font-semibold">{currentUser.phone}</p>
           <div className="flex gap-2 mt-2">
-            <button className="bg-red-600 text-xs px-3 py-1 rounded-md text-white uppercase tracking-widest font-semibold custom-shadow">
+            <button
+              onClick={handleDeleteUser}
+              className="bg-red-600 text-xs px-3 py-1 rounded-md text-white uppercase tracking-widest font-semibold custom-shadow"
+            >
               delete
             </button>
             <button className="bg-[#1B2A80] tracking-widest text-xs px-3 py-[1px] rounded-md text-white uppercase  font-semibold custom-shadow">
-              update
+              <Link to="/update-user">update</Link>
             </button>
           </div>
         </div>

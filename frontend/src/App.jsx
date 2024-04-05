@@ -13,6 +13,9 @@ import ViewListing from "./components/ViewListing";
 import CreateListing from "./components/CreateListing";
 import UpdateListing from "./components/UpdateListing";
 import Contact from "./components/Contact";
+ import { ToastContainer } from "react-toastify";
+ import "react-toastify/dist/ReactToastify.css";
+import UpdateUserInfo from "./components/UpdateUserInfo";
 
 const App = () => {
   return (
@@ -22,6 +25,8 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/update-user" element={<UpdateUserInfo />} />
+
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
         <Route path="/listings" element={<ListingPage />} />
@@ -30,6 +35,7 @@ const App = () => {
         <Route path="/update-listing/:id" element={<UpdateListing />} />
         <Route path="/view-listing/:id" element={<ViewListing />} />
       </Routes>
+      <ToastContainer />
       <Footer />
     </BrowserRouter>
   );

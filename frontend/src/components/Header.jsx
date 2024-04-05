@@ -126,7 +126,7 @@ const Header = () => {
                     <IoLogOutSharp className="inline text-lg -mt-[2px]" />
                   </li>
                 </Link>
-                <div className="relative flex justify-center items-center">
+                <div className="relative w-24 flex justify-center items-center">
                   <img
                     className="rounded-full border-2 border-[#1B2A80]  h-12 w-12 object-cover custom-shadow"
                     src={currentUser.image}
