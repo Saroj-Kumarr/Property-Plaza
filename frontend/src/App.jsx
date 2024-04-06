@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./components/Login";
 import Register from "./components/Register";
@@ -13,9 +13,9 @@ import ViewListing from "./components/ViewListing";
 import CreateListing from "./components/CreateListing";
 import UpdateListing from "./components/UpdateListing";
 import Contact from "./components/Contact";
- import { ToastContainer } from "react-toastify";
- import "react-toastify/dist/ReactToastify.css";
+// import { Toaster } from "react-hot-toast";
 import UpdateUserInfo from "./components/UpdateUserInfo";
+import Owner from "./components/Owner";
 
 const App = () => {
   return (
@@ -26,16 +26,16 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/update-user" element={<UpdateUserInfo />} />
-
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
         <Route path="/listings" element={<ListingPage />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/owner/:id" element={<Owner />} />
         <Route path="/create-listing" element={<CreateListing />} />
         <Route path="/update-listing/:id" element={<UpdateListing />} />
         <Route path="/view-listing/:id" element={<ViewListing />} />
       </Routes>
-      <ToastContainer />
+      {/* <Toaster /> */}
       <Footer />
     </BrowserRouter>
   );

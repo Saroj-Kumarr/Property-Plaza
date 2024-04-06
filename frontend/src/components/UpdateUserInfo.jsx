@@ -6,8 +6,8 @@ import { FaUserCircle, FaLock, FaPhoneSquareAlt } from "react-icons/fa";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 import { MdEditSquare, MdLock, MdMail } from "react-icons/md";
 import { GiArchiveRegister } from "react-icons/gi";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import { ToastContainer, toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 import { updateUser } from "../redux/user/userSlice";
 
 const UpdateUserInfo = () => {
@@ -69,10 +69,8 @@ const UpdateUserInfo = () => {
 
       const jsonResponse = await response.json();
 
-      console.log(jsonResponse);
-
       dispatch(updateUser(jsonResponse));
-      
+      navigate("/listings");
     } catch (error) {
       console.log(error);
     }

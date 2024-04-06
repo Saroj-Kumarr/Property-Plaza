@@ -6,8 +6,8 @@ import { setUser } from "../redux/user/userSlice";
 import { MdMail } from "react-icons/md";
 import { FaLock } from "react-icons/fa";
 import { IoEye, IoEyeOff, IoLogInSharp } from "react-icons/io5";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import { ToastContainer, toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -34,15 +34,15 @@ const Login = () => {
       const jsonResponse = await response.json();
 
       if (response.status == 404) {
-        toast.error("Failed to login.", {
-          position: "top-right",
-        });
+        // toast.error("Failed to login.", {
+        //   position: "top-right",
+        // });
         return;
       }
 
-      toast.success("You're logged in.", {
-        position: "top-right",
-      });
+      // toast.success("You're logged in.", {
+      //   position: "top-right",
+      // });
 
       localStorage.setItem("token", JSON.stringify(jsonResponse.token));
       dispatch(setUser(jsonResponse.rest));

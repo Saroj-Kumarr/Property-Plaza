@@ -245,7 +245,7 @@ const CreateListing = () => {
               </button>
             </div>
             <div className="h-72 my-2 overflow-x-hidden image-container">
-              {imageURLS &&
+              {imageURLS != 0 ? (
                 imageURLS.map((url, index) => {
                   return (
                     <div className="flex mt-3 mx-2 rounded-sm  items-center justify-between custom-shadow">
@@ -264,7 +264,24 @@ const CreateListing = () => {
                       </button>
                     </div>
                   );
-                })}
+                })
+              ) : (
+                <div>
+                  {Array(4)
+                    .fill(null)
+                    .map((_, index) => {
+                      return (
+                        <div className="flex mx-2 mt-2 rounded-sm  items-center justify-between custom-shadow">
+                          <img
+                            className="h-full w-40 rounded-l-sm"
+                            src="https://t3.ftcdn.net/jpg/02/48/42/64/360_F_248426448_NVKLywWqArG2ADUxDq6QprtIzsF82dMF.jpg"
+                            alt="image"
+                          />
+                        </div>
+                      );
+                    })}
+                </div>
+              )}
             </div>
           </div>
         </div>

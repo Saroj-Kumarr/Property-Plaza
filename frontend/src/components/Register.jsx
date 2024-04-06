@@ -5,8 +5,8 @@ import { FaUserCircle, FaLock, FaPhoneSquareAlt } from "react-icons/fa";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 import { MdLock, MdMail } from "react-icons/md";
 import { GiArchiveRegister } from "react-icons/gi";
- import { ToastContainer, toast } from "react-toastify";
- import "react-toastify/dist/ReactToastify.css";
+import toast from 'react-hot-toast';
+
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -60,9 +60,7 @@ const Register = () => {
         }),
       });
       if (response.status == 200) {
-        toast.success("You're registered.", {
-          position: "top-right",
-        });
+        toast.success("You are registered!");
         navigate("/login");
       }
     } catch (error) {

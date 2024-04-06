@@ -102,7 +102,7 @@ const Header = () => {
           </button> */}
         </form>
         <ul className="flex gap-5 uppercase tracking-widest font-semibold items-center ">
-          <Link to="/">
+          <Link to="/listings">
             <li className="hover:text-[#1B2A80] duration-200">Home</li>
           </Link>
           <Link to="/about">

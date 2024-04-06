@@ -48,7 +48,7 @@ const deleteUser = async (req, res, next) => {
 
 const getUser = async (req, res, next) => {
   try {
-    const userInfo = await User.findById(req.params.id);
+    const userInfo = await User.findById(req.params.id).select("-password");
 
     if (!userInfo) {
       res.status(400).json("User has not been updated.");
@@ -60,8 +60,24 @@ const getUser = async (req, res, next) => {
   }
 };
 
+const getAllUsers = async (req, res, next) => {
+  try {
+    const users = await User.find({});
+
+    if (!users) {
+      res.status(400).json("Not able to fetch the listings");
+    }
+
+    res.status(200).json(users);
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).json("Error");
+  }
+};
+
 module.exports = {
   updateUser,
   deleteUser,
   getUser,
+  getAllUsers,
 };
