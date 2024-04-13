@@ -4,6 +4,7 @@ import { FaBath, FaLocationDot, FaMoneyBill1 } from "react-icons/fa6";
 import { IoBedSharp } from "react-icons/io5";
 import { MdPermContactCalendar } from "react-icons/md";
 import { Link } from "react-router-dom";
+import dateFormat, { masks } from "dateformat";
 
 const ListingCard = ({ listing }) => {
   const {
@@ -21,43 +22,10 @@ const ListingCard = ({ listing }) => {
     owner,
     createdAt,
     updatedAt,
-    __v,
   } = listing;
 
   return (
-    // <div className="w-[420px] custom-shadow overflow-hidden  border-[#1B2A80] rounded-md">
-    //   <img
-    //     className="w-full h-[300px] rounded-t-md hover:scale-105 duration-300"
-    //     src="https://img.freepik.com/premium-photo/photo-real-state-house-holding-hand_763111-15176.jpg?w=740"
-    //     alt="image"
-    //   />
-    //   <div className="flex flex-col gap-2 mt-1 p-3">
-    //     <h3 className="text-xl font-bold">Jalandhar penthouse</h3>
-    //     <div className="flex gap-1">
-    //       <FaLocationDot className="text-xl text-[#1B2A80]" />
-    //       <p className="text-sm">
-    //         Lovely Professional University Phagware, (Punjab)
-    //       </p>
-    //     </div>
-    //     <p className="text-xs ">
-    //       This penthouse is the best penthouse in the market with the affordable
-    //       price, and the best thing about this penthout is it's free of cost.
-    //     </p>
-    //     <p className="font-bold">&#8377; 1,50,000</p>
-    //     <div className="flex gap-7 items-center">
-    //       <div className="flex gap-1 items-center">
-    //         <span>4</span>
-    //         <span>Bedrooms</span>
-    //         <IoBedSharp className="inline ml-1" />
-    //       </div>
-    //       <div className="flex gap-1 items-center">
-    //         <span>4</span>
-    //         <span>Bedrooms</span>
-    //         <FaBath className="inline ml-1" />
-    //       </div>
-    //     </div>
-    //   </div>
-    // </div>
+    
     <Link to={"/view-listing/" + _id}>
       <div className="w-full  mt-4 ml-2  relative flex  custom-shadow   border-[#1B2A80] rounded-md">
         <img
@@ -72,10 +40,7 @@ const ListingCard = ({ listing }) => {
             <p className="text-sm">{location}</p>
           </div>
           <p className="text-xs ">{description}</p>
-          <div className="flex text-sm absolute gap-2 bottom-3 right-3">
-            <span className="font-bold">Owner : </span>
-            <span>{owner.name}</span>
-          </div>
+
           <p className="font-bold">&#8377; {price}</p>
           <div className="flex gap-7 items-center">
             <div className="flex gap-1 items-center">
@@ -102,6 +67,20 @@ const ListingCard = ({ listing }) => {
                 />
               </Link>
             </button>
+          </div>
+          <div className="flex text-xs gap-3">
+            <div className="flex">
+              <span className="font-bold">Owner : </span>
+              <span>{owner.name}</span>
+            </div>
+            <div className="flex gap-1">
+              <span className="font-bold">Created :</span>
+              <span>{dateFormat(createdAt, "dd-mm-yyyy")}</span>
+            </div>
+            <div className="flex">
+              <span className="font-bold">Updated : </span>
+              <span>{dateFormat(updatedAt, "dd-mm-yyyy")}</span>
+            </div>
           </div>
         </div>
       </div>

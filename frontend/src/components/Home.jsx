@@ -1,6 +1,8 @@
 import React from "react";
 import homeImage from "../assets/property.png";
 import { Link } from "react-router-dom";
+import { GiArchiveRegister } from "react-icons/gi";
+import { IoLogInSharp } from "react-icons/io5";
 
 const Home = () => {
   return (
@@ -20,20 +22,24 @@ const Home = () => {
             find your ideal home sweet home.
           </p>
 
-          <div className="flex items-center justify-center">
-            <div className="flex gap-5">
-              <Link to="/register">
-                <button className="border border-[#1B2A80] px-7 py-1 rounded-md text-[#1B2A80] font-semibold custom-shadow tracking-widest">
-                  Register
-                </button>
-              </Link>
-              <Link to="/register">
-                <button className="bg-[#1B2A80]  px-7 tracking-widest py-1 custom-shadow rounded-md text-white font-semibold">
-                  Login
-                </button>
-              </Link>
-            </div>
-          </div>
+          <ul className="flex gap-4 items-center justify-center items-center">
+            <Link to="/register">
+              <li className="border border-[#1B2A80] px-3 py-1 rounded-md text-[#1B2A80]  font-semibold  tracking-widest custom-shadow">
+                {" "}
+                Register{" "}
+                <GiArchiveRegister
+                  className="inline text-lg
+                    -mt-[2px]"
+                />
+              </li>
+            </Link>
+            <Link to="/login">
+              <li className="bg-[#1B2A80] px-3 py-1 custom-shadow rounded-md text-white font-semibold tracking-widest">
+                {" "}
+                Login <IoLogInSharp className="inline text-lg -mt-[2px]" />
+              </li>
+            </Link>
+          </ul>
         </div>
       </div>
       <img className="w-7/12" src={homeImage} alt="image" />

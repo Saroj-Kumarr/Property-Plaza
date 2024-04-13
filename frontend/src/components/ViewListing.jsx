@@ -6,6 +6,7 @@ import "swiper/css/bundle";
 import { FaBath, FaLocationDot, FaToiletPortable } from "react-icons/fa6";
 import { IoBedSharp, IoCarSportSharp } from "react-icons/io5";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import dateFormat, { masks } from "dateformat";
 
 const ViewListing = () => {
   const { id } = useParams();
@@ -81,6 +82,7 @@ const ViewListing = () => {
   } = listingInfo;
 
   SwiperCore.use([Navigation]);
+
   return (
     <div className="min-h-screen pt-[81px]">
       <Swiper navigation>
@@ -104,7 +106,6 @@ const ViewListing = () => {
           <div className="flex  text-xl gap-4 font-bold tracking-widest">
             <p>{title} - </p>
             <p>&#8377; {price}</p>
-            {/* <p>{owner.name && owner.name}</p> */}
           </div>
           <div className="flex gap-1">
             <FaLocationDot className="text-xl text-[#1B2A80]" />
@@ -152,6 +153,20 @@ const ViewListing = () => {
             <button className="bg-[#1B2A80] px-5 py-[1px] rounded-md text-white uppercase  font-semibold custom-shadow">
               <Link to={"/update-listing/" + id}>update</Link>
             </button>
+          </div>
+          <div className="flex text-xs gap-3">
+            <div className="flex">
+              <span className="font-bold">Owner : </span>
+              <span>{owner && owner.name}</span>
+            </div>
+            <div className="flex gap-1">
+              <span className="font-bold">Created :</span>
+              <span>{dateFormat(createdAt, "dd-mm-yyyy")}</span>
+            </div>
+            <div className="flex">
+              <span className="font-bold">Updated : </span>
+              <span>{dateFormat(updatedAt, "dd-mm-yyyy")}</span>
+            </div>
           </div>
         </div>
       </div>

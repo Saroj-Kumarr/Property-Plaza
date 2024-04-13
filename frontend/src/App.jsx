@@ -1,5 +1,5 @@
-import React,{useState} from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import About from "./components/About";
@@ -16,10 +16,20 @@ import Contact from "./components/Contact";
 // import { Toaster } from "react-hot-toast";
 import UpdateUserInfo from "./components/UpdateUserInfo";
 import Owner from "./components/Owner";
+import { useSelector } from "react-redux";
 
 const App = () => {
+  const { currentUser } = useSelector((state) => state.user);
+   const navigate = useNavigate();
+
+   useEffect(() => {
+     if (!currentUser) {
+       navigate("/");
+     }
+   }, [currentUser]);
+  
   return (
-    <BrowserRouter>
+    <>
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -37,7 +47,7 @@ const App = () => {
       </Routes>
       {/* <Toaster /> */}
       <Footer />
-    </BrowserRouter>
+    </>
   );
 };
 

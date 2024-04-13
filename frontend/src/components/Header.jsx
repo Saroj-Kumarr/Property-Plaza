@@ -46,71 +46,31 @@ const Header = () => {
         </Link>
         <form
           // onSubmit={handleSubmit}
-          className=" p-3 rounded-lg flex gap-3 items-center"
+          className="p-3  rounded-lg flex gap-3 items-center"
         >
-          <div className="custom-shadow">
+          <div className="custom-shadow ml-10">
             <input
               type="text"
               placeholder="search your choice here..."
-              className="border-2 placeholder:tracking-widest border-[#1B2A80] w-80 py-2 px-5 rounded-l-md focus:outline-none"
+              className="border-2 placeholder:tracking-widest border-[#1B2A80] w-72 py-2 px-5 rounded-l-md focus:outline-none"
             />
             <button className="bg-[#1B2A80] tracking-widest border border-[#1B2A80]  px-3 py-[7px] custom-shadow rounded-r-md text-white text-lg font-semibold">
               <FiSearch className="inline -mt-1 text-2xl" /> search
             </button>
           </div>
-
-          {/* <div className="flex  items-center ">
-            <BsFilterSquareFill className="text-[#1B2A80]  text-2xl relative left-8" />
-            <select
-              className="border-2 border-[#1B2A80] tracking-widest uppercase py-2 pl-9 pr-1 custom-shadow rounded-md "
-              onChange={onOptionChangeHandler}
-            >
-              <option disabled selected className="uppercase tracking-widest">
-                filter by
-              </option>
-              {options.map((option, index) => {
-                return (
-                  <option
-                    className="uppercase mt-5 p-2 tracking-widest"
-                    key={index}
-                  >
-                    {option}
-                  </option>
-                );
-              })}
-            </select>
-          </div> */}
-
-          {/* <Select
-            placeholder="filter listing..."
-            className="react-select-container"
-            classNamePrefix="react-select"
-            defaultValue={selectedOption}
-            onChange={setSelectedOption}
-            options={options}
-          /> */}
-
-          {/* <input
-            type="text"
-            placeholder="Search..."
-            className="focus:outline-none w-24 sm:w-64"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <button>
-            <FaSearch className="text-slate-600" />
-          </button> */}
+         
         </form>
         <ul className="flex gap-5 uppercase tracking-widest font-semibold items-center ">
-          <Link to="/listings">
-            <li className="hover:text-[#1B2A80] duration-200">Home</li>
-          </Link>
-          <Link to="/about">
-            <li className="hover:text-[#1B2A80] duration-200">About</li>
-          </Link>
+          {currentUser && <> </>}
           <Link to="/profile">
             {currentUser ? (
               <div className="flex gap-4 items-center">
+                <Link to="/listings">
+                  <li className="hover:text-[#1B2A80] duration-200">Home</li>
+                </Link>
+                <Link to="/about">
+                  <li className="hover:text-[#1B2A80] duration-200">About</li>
+                </Link>
                 <Link to="/create-listing">
                   <li className="hover:text-[#1B2A80] duration-200">
                     create listing

@@ -46,12 +46,10 @@ const About = () => {
             finding your perfect match as we assist you every step of the way.
             Your dream home is within reach – let's make it a reality together.
           </p>
-          {/* <div className="flex items-center justify-center"> */}
-            <button className="tracking-widest px-5 w-48 bg-[#1B2A80] text-white font-bold py-1 rounded-md custom-shadow uppercase tracking-widest">
-              Learn more
-              <CgMore className="inline text-lg -mt-[2px] ml-2" />
-            </button>
-          {/* </div> */}
+          <button className="tracking-widest px-5 w-48 bg-[#1B2A80] text-white font-bold py-1 rounded-md custom-shadow uppercase tracking-widest">
+            Learn more
+            <CgMore className="inline text-lg -mt-[2px] ml-2" />
+          </button>
         </div>
         <div className="w-7/12">
           <img
@@ -68,15 +66,17 @@ const About = () => {
           </div>
         </div>
 
-        <div className="flex justify-center items-center mt-10 flex-wrap gap-5">
+        <div className="flex  justify-center items-center mt-10 flex-wrap gap-5">
           {reviews.map(({ name, imageURL, review }) => {
             return (
-              <Customer
-                key={name}
-                name={name}
-                imageURL={imageURL}
-                review={review}
-              />
+            
+                <Customer
+                  key={name}
+                  name={name}
+                  imageURL={imageURL}
+                  review={review}
+                />
+            
             );
           })}
         </div>

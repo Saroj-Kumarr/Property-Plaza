@@ -40,9 +40,7 @@ app.use(function (err, req, res, next) {
   });
 });
 
-
 cloudinaryConnect();
-
 
 app.listen(process.env.PORT, function () {
   console.log(`Server is running on ${process.env.PORT}`);

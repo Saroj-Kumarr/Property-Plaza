@@ -44,7 +44,10 @@ const Contact = () => {
           onChange={(e) => setMessage(e.target.value)}
         />
         <button className="bg-[#1B2A80] px-5 py-2 custom-shadow rounded-md text-white font-semibold tracking-widest uppercase w-full ">
-          send message <RiSendPlaneFill className="inline text-lg -mt-[2px]" />
+          <Link to="/listingss">
+            send message{" "}
+            <RiSendPlaneFill className="inline text-lg -mt-[2px]" />
+          </Link>
         </button>
       </form>
     </div>
