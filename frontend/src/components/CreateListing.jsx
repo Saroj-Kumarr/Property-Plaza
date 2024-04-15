@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const CreateListing = () => {
   const [title, setTitle] = useState("fsdf");
@@ -15,7 +15,10 @@ const CreateListing = () => {
   const [images, setImages] = useState([]);
   const [imageURLS, setImageURLS] = useState([]);
 
-  const { _id } = useSelector((store) => store.user.currentUser);
+  const navigate = useNavigate();
+
+  const { currentUser } = useSelector((store) => store.user);
+  const _id = currentUser ? currentUser._id : null;
 
   const handleRadioChange = (event) => {
     setType(event.target.value);
@@ -41,7 +44,7 @@ const CreateListing = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:8000/api/upload/multiple-image",
+        "https://property-plaza.onrender.com/api/upload/multiple-image",
         {
           method: "POST",
           body: formData,
@@ -61,28 +64,38 @@ const CreateListing = () => {
     }
   };
 
+  useEffect(() => {
+    if (!_id) {
+      navigate("/");
+    }
+  }, []);
+
   const handleCreateListing = async () => {
     try {
-      const response = await fetch("http://localhost:8000/api/listing/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + JSON.parse(localStorage.getItem("token")),
-        },
-        body: JSON.stringify({
-          title,
-          description,
-          type,
-          parking,
-          furnished,
-          location,
-          bedrooms,
-          bathrooms,
-          price,
-          imageURLS,
-          owner: _id,
-        }),
-      });
+      const response = await fetch(
+        "https://property-plaza.onrender.com/api/listing/create",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization:
+              "Bearer " + JSON.parse(localStorage.getItem("token")),
+          },
+          body: JSON.stringify({
+            title,
+            description,
+            type,
+            parking,
+            furnished,
+            location,
+            bedrooms,
+            bathrooms,
+            price,
+            imageURLS,
+            owner: _id,
+          }),
+        }
+      );
 
       if (!response.ok) {
         console.log("Failed to create listing");
@@ -321,7 +334,7 @@ export default CreateListing;
 //     formData.append("images", images);
 
 //     try {
-//       const response = await fetch("http://localhost:8000/upload-images", {
+//       const response = await fetch("https://property-plaza.onrender.com/upload-images", {
 //         method: "POST",
 //         headers: { "Content-Type": "application/json" },
 //         body: FormData,

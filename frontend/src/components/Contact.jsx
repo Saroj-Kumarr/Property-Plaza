@@ -3,6 +3,7 @@ import { RiSendPlaneFill } from "react-icons/ri";
 import { IoMdSend } from "react-icons/io";
 import { FaUserCircle } from "react-icons/fa";
 import { MdMail } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 const Contact = () => {
   const [name, setName] = useState("");

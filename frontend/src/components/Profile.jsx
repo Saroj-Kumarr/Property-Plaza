@@ -3,13 +3,19 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const Profile = () => {
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser } = useSelector((store) => store.user);
+
+  if (!currentUser) {
+    return;
+  }
+
   const [userListings, setUserListings] = useState([]);
 
   const fetchUserListings = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8000/api/listing/get/user-listings/" + currentUser._id
+        "https://property-plaza.onrender.com/api/listing/get/user-listings/" +
+          currentUser._id
       );
 
       if (!response.status == 200) {
@@ -29,7 +35,8 @@ const Profile = () => {
   const handleDeleteUser = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8000/api/user/user/delete/" + currentUser._id,
+        "https://property-plaza.onrender.com/api/user/user/delete/" +
+          currentUser._id,
         {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },

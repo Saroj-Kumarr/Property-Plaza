@@ -16,7 +16,7 @@ const ViewListing = () => {
   const fetchListingById = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8000/api/listing/get/" + id
+        "https://property-plaza.onrender.com/api/listing/get/" + id
       );
 
       if (!response.status == 200) {
@@ -34,7 +34,7 @@ const ViewListing = () => {
   const deleteListing = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8000/api/listing/delete/" + id,
+        "https://property-plaza.onrender.com/api/listing/delete/" + id,
         {
           method: "DELETE",
           headers: {

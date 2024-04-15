@@ -16,7 +16,8 @@ const Owner = () => {
   const fetchUserListings = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8000/api/listing/get/user-listings/" + id
+        "https://property-plaza.onrender.com/api/listing/get/user-listings/" +
+          id
       );
 
       if (!response.status == 200) {
@@ -36,7 +37,7 @@ const Owner = () => {
   const fetchUserInfo = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8000/api/user/user/get/" + id
+        "https://property-plaza.onrender.com/api/user/user/get/" + id
       );
 
       const jsonResponse = await response.json();

@@ -7,10 +7,11 @@ import Slider from "react-slick";
 import { BsFilterSquareFill } from "react-icons/bs";
 import Agent from "./Agent";
 import { Link } from "react-router-dom";
-import { FaCaretLeft, FaCaretRight} from "react-icons/fa";
+import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
 import { RiSearchFill } from "react-icons/ri";
 
 import { ShimmerContentBlock } from "react-shimmer-effects";
+import { useSelector } from "react-redux";
 
 const ListingPage = () => {
   const [allListing, setAllListing] = useState([]);
@@ -122,7 +123,9 @@ const ListingPage = () => {
 
   const fetchListings = async () => {
     try {
-      const response = await fetch("http://localhost:8000/api/listing/get");
+      const response = await fetch(
+        "https://property-plaza.onrender.com/api/listing/get"
+      );
 
       if (!response.ok) {
         console.log("Not able to fetch the listings.");
@@ -141,7 +144,9 @@ const ListingPage = () => {
 
   const fetchAllOwners = async () => {
     try {
-      const response = await fetch("http://localhost:8000/api/user/all-users");
+      const response = await fetch(
+        "https://property-plaza.onrender.com/api/user/all-users"
+      );
 
       if (!response.ok) {
         console.log("Not able to fetch the owners.");

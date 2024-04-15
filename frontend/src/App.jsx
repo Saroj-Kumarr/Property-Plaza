@@ -20,14 +20,14 @@ import { useSelector } from "react-redux";
 
 const App = () => {
   const { currentUser } = useSelector((state) => state.user);
-   const navigate = useNavigate();
+  const navigate = useNavigate();
 
-   useEffect(() => {
-     if (!currentUser) {
-       navigate("/");
-     }
-   }, [currentUser]);
-  
+  useEffect(() => {
+    if (!currentUser) {
+      navigate("/");
+    }
+  }, [currentUser]);
+
   return (
     <>
       <Header />

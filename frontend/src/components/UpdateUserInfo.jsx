@@ -17,7 +17,8 @@ const UpdateUserInfo = () => {
   const [password, setPassword] = useState("");
   const [imageURL, setImageURL] = useState("");
   const dispatch = useDispatch();
-  const { _id } = useSelector((store) => store.user.currentUser);
+  const { currentUser } = useSelector((store) => store.user);
+  const _id = currentUser ? currentUser._id : null;
 
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -30,7 +31,7 @@ const UpdateUserInfo = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:8000/api/upload/single-image",
+        "https://property-plaza.onrender.com/api/upload/single-image",
         {
           method: "POST",
           body: formData,
@@ -53,7 +54,7 @@ const UpdateUserInfo = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:8000/api/user/user/update/" + _id,
+        "https://property-plaza.onrender.com/api/user/user/update/" + _id,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -79,7 +80,7 @@ const UpdateUserInfo = () => {
   const fetchUserDetails = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8000/api/user/user/get/" + _id
+        "https://property-plaza.onrender.com/api/user/user/get/" + _id
       );
 
       const jsonResponse = await response.json();

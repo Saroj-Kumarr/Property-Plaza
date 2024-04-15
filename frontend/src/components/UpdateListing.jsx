@@ -18,7 +18,8 @@ const UpdateListing = () => {
 
   const { id } = useParams();
 
-  const { _id } = useSelector((store) => store.user.currentUser);
+  const { currentUser } = useSelector((store) => store.user);
+  const _id = currentUser ? currentUser._id : null;
 
   const handleRadioChange = (event) => {
     setType(event.target.value);
@@ -44,7 +45,7 @@ const UpdateListing = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:8000/api/upload/multiple-image",
+        "https://property-plaza.onrender.com/api/upload/multiple-image",
         {
           method: "POST",
           body: formData,
@@ -67,7 +68,7 @@ const UpdateListing = () => {
   const handleUpdateListing = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8000/api/listing/update/" + id,
+        "https://property-plaza.onrender.com/api/listing/update/" + id,
         {
           method: "POST",
           headers: {
@@ -106,7 +107,7 @@ const UpdateListing = () => {
   const fetchListingById = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8000/api/listing/get/" + id
+        "https://property-plaza.onrender.com/api/listing/get/" + id
       );
 
       if (!response.status == 200) {

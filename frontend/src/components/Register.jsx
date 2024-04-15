@@ -5,8 +5,7 @@ import { FaUserCircle, FaLock, FaPhoneSquareAlt } from "react-icons/fa";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 import { MdLock, MdMail } from "react-icons/md";
 import { GiArchiveRegister } from "react-icons/gi";
-import toast from 'react-hot-toast';
-
+import toast from "react-hot-toast";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -26,7 +25,7 @@ const Register = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:8000/api/upload/single-image",
+        "https://property-plaza.onrender.com/api/upload/single-image",
         {
           method: "POST",
           body: formData,
@@ -48,17 +47,20 @@ const Register = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:8000/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name,
-          email,
-          phone,
-          password,
-          image: imageURL,
-        }),
-      });
+      const response = await fetch(
+        "https://property-plaza.onrender.com/api/auth/register",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name,
+            email,
+            phone,
+            password,
+            image: imageURL,
+          }),
+        }
+      );
       if (response.status == 200) {
         toast.success("You are registered!");
         navigate("/login");

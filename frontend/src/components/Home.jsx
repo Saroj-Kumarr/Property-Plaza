@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useEffect, useId } from "react";
 import homeImage from "../assets/property.png";
 import { Link } from "react-router-dom";
 import { GiArchiveRegister } from "react-icons/gi";
 import { IoLogInSharp } from "react-icons/io5";
+import { useDispatch } from "react-redux";
+import { deleteUser } from "../redux/user/userSlice";
 
 const Home = () => {
+  const dispatch = useDispatch();
+  
   return (
     <div className="h-screen flex pt-20 items-center">
       <div className="w-5/12 -mt-20 text-center">
