@@ -54,9 +54,6 @@ const Owner = () => {
 
   useEffect(() => {
     fetchUserInfo();
-  }, []);
-
-  useEffect(() => {
     fetchUserListings();
   }, []);
 

@@ -1,21 +1,18 @@
-import { FaSearch } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
 import React from "react";
-import { MdRealEstateAgent } from "react-icons/md";
 import logo from "../assets/logo.png";
-import Select from "react-select";
 import { FiSearch } from "react-icons/fi";
-import { BsFilterSquareFill } from "react-icons/bs";
 import { deleteUser } from "../redux/user/userSlice";
 import { IoLogInSharp, IoLogOutSharp } from "react-icons/io5";
 import { GiArchiveRegister } from "react-icons/gi";
+import { useLocation } from "react-router-dom";
 
 const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const handleLogout = async () => {
     try {
@@ -66,7 +63,14 @@ const Header = () => {
           <Link to="/profile">
             {currentUser ? (
               <div className="flex gap-4 items-center">
-                <Link to="/listings">
+                <Link
+                  onClick={() => {
+                    if (location.pathname === "/listings") {
+                      window.location.reload();
+                    }
+                  }}
+                  to="/listings"
+                >
                   <li className="hover:text-[#1B2A80] duration-200">Home</li>
                 </Link>
                 <Link to="/about">

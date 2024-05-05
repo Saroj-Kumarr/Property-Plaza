@@ -13,7 +13,7 @@ import ViewListing from "./components/ViewListing";
 import CreateListing from "./components/CreateListing";
 import UpdateListing from "./components/UpdateListing";
 import Contact from "./components/Contact";
-// import { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import UpdateUserInfo from "./components/UpdateUserInfo";
 import Owner from "./components/Owner";
 import { useSelector } from "react-redux";
@@ -45,7 +45,7 @@ const App = () => {
         <Route path="/update-listing/:id" element={<UpdateListing />} />
         <Route path="/view-listing/:id" element={<ViewListing />} />
       </Routes>
-      {/* <Toaster /> */}
+      <Toaster />
       <Footer />
     </>
   );

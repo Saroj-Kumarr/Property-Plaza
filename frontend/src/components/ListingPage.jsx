@@ -9,84 +9,19 @@ import Agent from "./Agent";
 import { Link } from "react-router-dom";
 import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
 import { RiSearchFill } from "react-icons/ri";
-
-import { ShimmerContentBlock } from "react-shimmer-effects";
-import { useSelector } from "react-redux";
+import { cities, options, settingsecond, settings } from "../constant/data";
+import toast from "react-hot-toast";
+import { FcHome } from "react-icons/fc";
 
 const ListingPage = () => {
   const [allListing, setAllListing] = useState([]);
   const [copyAllListing, setCopyAllListing] = useState([]);
-  const [cityValue, setCityValue] = useState("");
   const [owners, setOwners] = useState([]);
   const [page, setPage] = useState(0);
   const [isSaleRentChecked, setIsSaleRentChecked] = useState(true);
   const [isSaleChecked, setIsSaleChecked] = useState(false);
   const [isRentChecked, setIsRentChecked] = useState(false);
   const [searchItems, setSearchItems] = useState([]);
-
-  const handleNextBtn = () => {
-    if (page < allListing?.length / 10 - 1) {
-      setPage((prevPeg) => prevPeg + 1);
-    }
-  };
-
-  const handlePreviousBtn = () => {
-    if (page > 0) {
-      setPage((prevPeg) => prevPeg - 1);
-    }
-  };
-
-  const handlePaginationNum = (number) => {
-    setPage(number);
-  };
-
-  const data = [
-    {
-      city: "New Delhi",
-      url: "https://static.realestateindia.com/rei/images/topcity/ebsrpi-delhi.jpg",
-    },
-    {
-      city: "Mumbai",
-      url: "https://static.realestateindia.com/rei/images/topcity/ebsrpi-mumbai.jpg",
-    },
-    {
-      city: "Gurgaon",
-      url: "https://static.realestateindia.com/rei/images/topcity/ebsrpi-gurgaon.jpg",
-    },
-    {
-      city: "Noida",
-      url: "https://static.realestateindia.com/rei/images/topcity/ebsrpi-noida.jpg",
-    },
-    {
-      city: "Bangalore",
-      url: "https://static.realestateindia.com/rei/images/topcity/ebsrpi-bangalore.jpg",
-    },
-    {
-      city: "Chennai",
-      url: "https://static.realestateindia.com/rei/images/topcity/ebsrpi-chennai.jpg",
-    },
-    {
-      city: "Hyderabad",
-      url: "https://static.realestateindia.com/rei/images/topcity/ebsrpi-hyderabad.jpg",
-    },
-  ];
-
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 300,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-  };
-
-  const settingsecond = {
-    infinite: true,
-    speed: 300,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-  };
-
-  const options = ["Low to High", "High to Low", "Newest", "Oldest", "Reset"];
 
   const onOptionChangeHandler = (event) => {
     const value = event.target.value;
@@ -172,10 +107,38 @@ const ListingPage = () => {
     });
 
     if (filterCity.length === 0) {
-      setCityValue(searchCity);
-      setAllListing([]);
+      setAllListing(copyAllListing);
+
+      toast.success(`No listings related to this city ${searchCity}.`, {
+        duration: 3000,
+        position: "top-center",
+        style: {
+          backgroundColor: "#1B2A80",
+          color: "white",
+        },
+
+        icon: "❌",
+        iconTheme: {
+          primary: "#000",
+          secondary: "#fff",
+        },
+      });
       return;
     }
+
+    toast.success(
+      `${filterCity.length} listings related to this city ${searchCity}.`,
+      {
+        duration: 3000,
+        position: "top-center",
+        style: {
+          backgroundColor: "#1B2A80",
+          color: "white",
+        },
+
+        icon: <FcHome className="text-xl" />,
+      }
+    );
 
     setAllListing(filterCity);
   };
@@ -206,7 +169,7 @@ const ListingPage = () => {
         </h3>
         <div className="ml-5 mx-5">
           <Slider {...settings}>
-            {data.map(({ city, url }, index) => (
+            {cities.map(({ city, url }, index) => (
               <div key={index} onClick={() => handleCitySearch(city)}>
                 <CityCard city={city} url={url} />
               </div>
@@ -356,7 +319,7 @@ const ListingPage = () => {
       </div>
       <div className="w-8/12 pt-16 min-h-screen">
         <div className="flex pr-2 py-2 slider-class h-screen overflow-x-hidden overflow-y-scroll flex-col gap-5">
-          {allListing.length !== 0 ? (
+          {allListing.length !== 0 && (
             <div className="mb-3">
               {allListing
                 .slice(page * 10, page * 10 + 10)
@@ -364,28 +327,16 @@ const ListingPage = () => {
                   <ListingCard key={index} listing={listing} />
                 ))}
             </div>
-          ) : (
-            <div className="pt-6 ml-3">
-              {Array(8)
-                .fill(null)
-                .map((_, index) => {
-                  return (
-                    <ShimmerContentBlock
-                      title
-                      text
-                      cta
-                      thumbnailWidth={600}
-                      thumbnailHeight={100}
-                    />
-                  );
-                })}
-            </div>
           )}
         </div>
 
         <div className="flex mt-5 relative z-10 justify-center text-[#1B2A80] px-4 items-center">
           <FaCaretLeft
-            onClick={handlePreviousBtn}
+            onClick={() => {
+              if (page > 0) {
+                setPage((prevPeg) => prevPeg - 1);
+              }
+            }}
             className="text-xl hover:scale-110 duration-200"
           />
           <ul className="flex items-center justify-center">
@@ -396,7 +347,9 @@ const ListingPage = () => {
                 return (
                   <li
                     key={index}
-                    onClick={() => handlePaginationNum(index)}
+                    onClick={() => {
+                      setPage(number);
+                    }}
                     className={`m-2 hover:scale-110 duration-200 shadow-sm rounded-md px-2 border ${
                       isActive ? "bg-[#1B2A80] text-white" : ""
                     }`}
@@ -407,7 +360,11 @@ const ListingPage = () => {
               })}
           </ul>
           <FaCaretRight
-            onClick={handleNextBtn}
+            onClick={() => {
+              if (page < allListing?.length / 10 - 1) {
+                setPage((prevPeg) => prevPeg + 1);
+              }
+            }}
             className="text-xl hover:scale-110 duration-200"
           />
         </div>
@@ -417,3 +374,19 @@ const ListingPage = () => {
 };
 
 export default ListingPage;
+
+// {
+//   Array(8)
+//     .fill(null)
+//     .map((_, index) => {
+//       return (
+//         <ShimmerContentBlock
+//           title
+//           text
+//           cta
+//           thumbnailWidth={600}
+//           thumbnailHeight={100}
+//         />
+//       );
+//     });
+// }
