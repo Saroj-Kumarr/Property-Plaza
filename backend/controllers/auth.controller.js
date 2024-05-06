@@ -1,8 +1,9 @@
+const { response } = require("express");
 const User = require("../models/user.model");
-const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-const register = async (req, res, next) => {
+
+const register = async (req, res) => {
   const { name, email, phone, password, image } = req.body;
 
   if (!name || !email || !phone || !password || !image) {
@@ -18,14 +19,15 @@ const register = async (req, res, next) => {
       image,
     });
 
-    res.status(200).json(newUser);
+    res.status(200).json({ message: "User is created successfully." });
   } catch (error) {
-    console.log(error.message);
-    next(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
-const login = async (req, res, next) => {
+
+
+const login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -36,30 +38,28 @@ const login = async (req, res, next) => {
     }
 
     if (user.password != password) {
-      return res.status(403).json("Invalid crediatial.");
+      return res.status(403).json("Email or Password is incorrect.");
     }
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
 
-    console.log("token", token);
-
-    const rest = user._doc;
-    delete rest.password;
-    res.cookie("access_token", token, { httpOnly: true }).status(200).json({
-      token,
-      rest,
+    res.cookie("token", token, {
+      maxAge: 24 * 60 * 60 * 1000,
+      httpOnly: true,
     });
   } catch (error) {
-    next(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
 const logout = (req, res, next) => {
   try {
-    res.clearCookie("access_token");
-    res.status(200).json("User has been logged out!");
+    res.clearCookie("token");
+    res.status(200).json({
+      message: "Logged out successfully.",
+    });
   } catch (error) {
-    next(error);
+    res.status(500).json({ message: error.message });
   }
 };
 

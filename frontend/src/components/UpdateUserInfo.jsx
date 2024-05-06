@@ -1,14 +1,11 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 import { FaUserCircle, FaLock, FaPhoneSquareAlt } from "react-icons/fa";
 import { IoEye, IoEyeOff } from "react-icons/io5";
-import { MdEditSquare, MdLock, MdMail } from "react-icons/md";
-import { GiArchiveRegister } from "react-icons/gi";
-// import { ToastContainer, toast } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
-import { updateUser } from "../redux/user/userSlice";
+import { MdEditSquare, MdMail } from "react-icons/md";
+import { updateUser } from "../redux/userSlice";
 
 const UpdateUserInfo = () => {
   const [name, setName] = useState("");

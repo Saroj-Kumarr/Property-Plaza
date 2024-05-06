@@ -3,9 +3,8 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaUserCircle, FaLock, FaPhoneSquareAlt } from "react-icons/fa";
 import { IoEye, IoEyeOff } from "react-icons/io5";
-import { MdLock, MdMail } from "react-icons/md";
+import { MdMail } from "react-icons/md";
 import { GiArchiveRegister } from "react-icons/gi";
-import toast from "react-hot-toast";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -18,6 +17,10 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const [isShowPassword, setIsShowPassword] = useState(false);
   const navigate = useNavigate();
+
+  const queryClient = useQueryClient();
+
+  const query = useQuery({ queryKey: ["user"], queryFn: regi });
 
   const uploadImage = async (imageFile) => {
     const formData = new FormData();
@@ -43,32 +46,6 @@ const Register = () => {
     } catch (error) {}
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      const response = await fetch(
-        "https://property-plaza.onrender.com/api/auth/register",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name,
-            email,
-            phone,
-            password,
-            image: imageURL,
-          }),
-        }
-      );
-      if (response.status == 200) {
-        toast.success("You are registered!");
-        navigate("/login");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return (
     <div className="flex items-center justify-center h-screen">

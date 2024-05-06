@@ -1,58 +1,63 @@
 const Listing = require("../models/listing.model");
-const errorHandler = require("../utils/error");
 
-const createListing = async (req, res, next) => {
+const createListing = async (req, res) => {
   try {
-    const newListing = await Listing.create(req.body);
+    const listing = await Listing.create(req.body);
 
-    if (!newListing) {
+    if (!listing) {
       res.status(400).json("Listing is not created.");
     }
 
-    res.status(200).json(newListing);
+    res.status(200).json({ message: "Listing is created successfully." });
   } catch (error) {
-    console.log(error.massage);
+    res.status(500).json({ message: error.message });
   }
 };
 
-const deleteListing = async (req, res, next) => {
+const deleteListing = async (req, res) => {
+  const { id } = req.params;
+
   try {
-    const listing = await Listing.findByIdAndDelete(req.params.id);
+    const listing = await Listing.findByIdAndDelete(id);
 
     if (!listing) {
-      res.status(400).json("Not able to fetch the listings");
+      res.status(400).json("Listing is not deleted.");
     }
 
-    res.status(200).json(listing);
+    res.status(200).json({ message: "Listing is deleted successfully." });
   } catch (error) {
-    console.log(error.message);
+    res.status(500).json({ message: error.message });
   }
 };
 
-const updateListing = async (req, res, next) => {
+const updateListing = async (req, res) => {
+  const { id } = req.params;
+
   try {
-    const updatedListing = await Listing.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
+    const updatedListing = await Listing.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
 
     if (!updatedListing) {
-      res.status(400).json("Not able to update.");
+      res.status(400).json("Listing is not updated.");
     }
 
-    res.status(200).json(updatedListing);
+    res
+      .status(200)
+      .json({ message: "Listing is updated successfully.", updatedListing });
   } catch (error) {
-    console.log(error.message);
+    res.status(500).json({ message: error.message });
   }
 };
 
-const getListing = async (req, res, next) => {
+const getListing = async (req, res) => {
+  const { id } = req.params;
+
   try {
-    const listing = await Listing.findById(req.params.id).populate("owner");
+    const listing = await Listing.findById(id).populate("owner");
 
     if (!listing) {
-      res.status(400).json("Not able to fetch the listings");
+      res.status(400).json("Listing is not found.");
     }
 
     res.status(200).json(listing);
@@ -61,25 +66,27 @@ const getListing = async (req, res, next) => {
   }
 };
 
-const getListings = async (req, res, next) => {
+const getListings = async (req, res) => {
   try {
-    const allListings = await Listing.find({})
+    const listings = await Listing.find({})
       .populate("owner")
       .sort({ createdAt: -1 });
 
-    if (!allListings) {
-      res.status(400).json("Not able to fetch the listings");
+    if (!listings) {
+      res.status(400).json("Listings are not found.");
     }
 
-    res.status(200).json(allListings);
+    res.status(200).json(listings);
   } catch (error) {
     console.log(error.message);
   }
 };
 
-const getListingByUserId = async (req, res, next) => {
+const getListingByUserId = async (req, res) => {
+  const { id } = req.params;
+
   try {
-    const userListings = await Listing.find({ owner: req.params.id });
+    const userListings = await Listing.find({ owner: id });
 
     if (!userListings) {
       res.status(400).json("This user has no listings.");
@@ -95,7 +102,7 @@ module.exports = {
   createListing,
   deleteListing,
   updateListing,
-  getListingByUserId,
   getListing,
   getListings,
+  getListingByUserId,
 };

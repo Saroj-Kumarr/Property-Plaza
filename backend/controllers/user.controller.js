@@ -1,9 +1,8 @@
-const bcryptjs = require("bcryptjs");
+
 const User = require("../models/user.model");
-const errorHandler = require("../utils/error");
 const Listing = require("../models/listing.model");
 
-const updateUser = async (req, res, next) => {
+const updateUser = async (req, res) => {
   const { name, email, phone, password, image } = req.body;
 
   if (!name || !email || !phone || !password || !image) {
@@ -11,7 +10,7 @@ const updateUser = async (req, res, next) => {
   }
 
   try {
-    const newUser = await User.findByIdAndUpdate(
+    const updatedUser = await User.findByIdAndUpdate(
       req.params.id,
       {
         name,
@@ -25,53 +24,57 @@ const updateUser = async (req, res, next) => {
       }
     );
 
-    res.status(200).json(newUser);
+    res
+      .status(200)
+      .json({ message: "User is updated successfully.", data: updatedUser });
   } catch (error) {
-    console.log(error.message);
-    next(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
-const deleteUser = async (req, res, next) => {
+const deleteUser = async (req, res) => {
+  const { id } = req.cookies;
+
   try {
-    const deletedUser = await User.findByIdAndDelete(req.params.id);
-    const deletedListings = await Listing.deleteMany({ owner: req.params.id });
-    res.clearCookie("access_token");
+    const deletedUser = await User.findByIdAndDelete(id);
+    const deletedListings = await Listing.deleteMany({ owner: id });
+    res.clearCookie("token");
     res.status(200).json({
       deletedUser,
       deletedListings,
     });
   } catch (error) {
-    next(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
-const getUser = async (req, res, next) => {
+const getUser = async (req, res) => {
   try {
-    const userInfo = await User.findById(req.params.id).select("-password");
+    const user = await User.findById(req.params.id).select("-password");
 
-    if (!userInfo) {
-      res.status(400).json("User has not been updated.");
+    if (!user) {
+      res.status(400).json("User is not found.");
     }
 
-    res.status(200).json(userInfo);
+    res.status(200).json({ user });
   } catch (error) {
-    console.log(error.message);
+    res.status(500).json({ message: error.message });
   }
 };
 
-const getAllUsers = async (req, res, next) => {
+const getUsers = async (req, res) => {
   try {
     const users = await User.find({});
 
     if (!users) {
-      res.status(400).json("Not able to fetch the listings");
+      res.status(400).json("Users are not found.");
     }
 
-    res.status(200).json(users);
+    res.status(200).json({
+      users,
+    });
   } catch (error) {
-    console.log(error.message);
-    res.status(400).json("Error");
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -79,5 +82,6 @@ module.exports = {
   updateUser,
   deleteUser,
   getUser,
-  getAllUsers,
+  getUsers,
 };
+

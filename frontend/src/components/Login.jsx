@@ -2,12 +2,11 @@ import React from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setUser } from "../redux/user/userSlice";
+import { setUser } from "../redux/userSlice";
 import { MdMail } from "react-icons/md";
 import { FaLock } from "react-icons/fa";
 import { IoEye, IoEyeOff, IoLogInSharp } from "react-icons/io5";
-// import { ToastContainer, toast } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
+import { login } from "../services/authActions";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -15,45 +14,6 @@ const Login = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isShowPassword, setIsShowPassword] = useState(false);
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      const response = await fetch(
-        "https://property-plaza.onrender.com/api/auth/login",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email,
-            password,
-          }),
-        }
-      );
-
-      const jsonResponse = await response.json();
-
-      if (response.status == 404) {
-        // toast.error("Failed to login.", {
-        //   position: "top-right",
-        // });
-        return;
-      }
-
-      // toast.success("You're logged in.", {
-      //   position: "top-right",
-      // });
-
-      localStorage.setItem("token", JSON.stringify(jsonResponse.token));
-      dispatch(setUser(jsonResponse.rest));
-      navigate("/listings");
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return (
     <div className="flex  items-center justify-center h-screen">
@@ -62,7 +22,10 @@ const Login = () => {
           Login <span className="text-[#1B2A80]">Form</span>
         </h1>
         <form
-          onSubmit={handleSubmit}
+          onSubmit={(e) => {
+            e.preventDefault();
+            login(email, password);
+          }}
           className="flex items-center justify-center flex-col gap-3"
         >
           <div className="flex w-full items-center  relative">

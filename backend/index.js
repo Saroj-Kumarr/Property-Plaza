@@ -2,10 +2,10 @@ const express = require("express");
 const fileUpload = require("express-fileupload");
 const cors = require("cors");
 const dotenv = require("dotenv");
-const userRouter = require("./routes/user.route");
-const authRouter = require("./routes/auth.route");
-const listingRouter = require("./routes/listing.route");
-const imageUploadRouter = require("./routes/upload.route");
+const userRoutes = require("./routes/user.route");
+const authRoutes = require("./routes/auth.route");
+const listingRoutes = require("./routes/listing.route");
+const imageUploadRoutes = require("./routes/upload.route");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const connection = require("./config/database");
@@ -23,26 +23,22 @@ app.use(
 );
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(cors());
 
-app.use("/api/upload", imageUploadRouter);
-app.use("/api/user", userRouter);
-app.use("/api/auth", authRouter);
-app.use("/api/listing", listingRouter);
+const corsOptions = {
+  origin: "http://localhost:5173",
+  credentials: true, 
+  optionSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
 
-app.use(function (err, req, res, next) {
-  const statusCode = err.statusCode || 500;
-  const message = err.message || "Internal Server Error";
-  return res.status(statusCode).json({
-    success: false,
-    statusCode: statusCode,
-    message: message,
-  });
-});
 
-cloudinaryConnect();
+app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/listing", listingRoutes);
+app.use("/api/v1/upload", imageUploadRoutes);
 
-app.listen(process.env.PORT, function () {
+app.listen(process.env.PORT, async () => {
   console.log(`Server is running on ${process.env.PORT}`);
-  connection();
+  await connection();
+  await cloudinaryConnect();
 });

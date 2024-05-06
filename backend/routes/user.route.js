@@ -3,15 +3,18 @@ const {
   deleteUser,
   updateUser,
   getUser,
-  getAllUsers,
+  getUsers,
 } = require("../controllers/user.controller");
 const { verifyToken } = require("../utils/verifyUser");
 
 const router = express.Router();
 
-router.delete("/user/delete/:id", deleteUser);
-router.put("/user/update/:id", updateUser);
-router.get("/user/get/:id", getUser);
-router.get("/all-users", getAllUsers);
+router.route("/").get(getUsers);
+
+router
+  .route("/:id")
+  .get(getUser)
+  .put(verifyToken, updateUser)
+  .delete(verifyToken, deleteUser);
 
 module.exports = router;

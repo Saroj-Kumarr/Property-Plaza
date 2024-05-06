@@ -6,7 +6,7 @@ const {
 
 const router = express.Router();
 
-router.post("/single-image", singleImageUpload);
-router.post("/multiple-image", multipleImageUpload);
+router.route("/single-image").post(singleImageUpload);
+router.route("/multiple-image").post(multipleImageUpload);
 
 module.exports = router;

@@ -12,364 +12,350 @@ import { RiSearchFill } from "react-icons/ri";
 import { cities, options, settingsecond, settings } from "../constant/data";
 import toast from "react-hot-toast";
 import { FcHome } from "react-icons/fc";
+import { fetchListings } from "../services/listingActions";
 
 const ListingPage = () => {
-  const [allListing, setAllListing] = useState([]);
-  const [copyAllListing, setCopyAllListing] = useState([]);
-  const [owners, setOwners] = useState([]);
-  const [page, setPage] = useState(0);
-  const [isSaleRentChecked, setIsSaleRentChecked] = useState(true);
-  const [isSaleChecked, setIsSaleChecked] = useState(false);
-  const [isRentChecked, setIsRentChecked] = useState(false);
-  const [searchItems, setSearchItems] = useState([]);
+  // const [copyAllListing, setCopyAllListing] = useState([]);
+  // const [owners, setOwners] = useState([]);
+  // const [page, setPage] = useState(0);
+  // const [isSaleRentChecked, setIsSaleRentChecked] = useState(true);
+  // const [isSaleChecked, setIsSaleChecked] = useState(false);
+  // const [isRentChecked, setIsRentChecked] = useState(false);
+  // const [searchItems, setSearchItems] = useState([]);
 
-  const onOptionChangeHandler = (event) => {
-    const value = event.target.value;
-    let sortedProperties;
+  const queryClient = useQueryClient();
 
-    switch (value) {
-      case "Low to High":
-        sortedProperties = copyAllListing
-          .slice()
-          .sort((a, b) => a.price - b.price);
-        break;
-      case "High to Low":
-        sortedProperties = copyAllListing
-          .slice()
-          .sort((a, b) => b.price - a.price);
-        break;
-      case "Newest":
-        sortedProperties = copyAllListing
-          .slice()
-          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-        break;
-      case "Oldest":
-        sortedProperties = copyAllListing
-          .slice()
-          .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
-        break;
-      default:
-        sortedProperties = copyAllListing;
-        break;
-    }
+  const listings = useQuery({ queryKey: ["listings"], queryFn: fetchListings });
 
-    setAllListing(sortedProperties);
-  };
+  
 
-  const fetchListings = async () => {
-    try {
-      const response = await fetch(
-        "https://property-plaza.onrender.com/api/listing/get"
-      );
+  // const onOptionChangeHandler = (event) => {
+  //   const value = event.target.value;
+  //   let sortedProperties;
 
-      if (!response.ok) {
-        console.log("Not able to fetch the listings.");
-        return;
-      }
+  //   switch (value) {
+  //     case "Low to High":
+  //       sortedProperties = copyAllListing
+  //         .slice()
+  //         .sort((a, b) => a.price - b.price);
+  //       break;
+  //     case "High to Low":
+  //       sortedProperties = copyAllListing
+  //         .slice()
+  //         .sort((a, b) => b.price - a.price);
+  //       break;
+  //     case "Newest":
+  //       sortedProperties = copyAllListing
+  //         .slice()
+  //         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  //       break;
+  //     case "Oldest":
+  //       sortedProperties = copyAllListing
+  //         .slice()
+  //         .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+  //       break;
+  //     default:
+  //       sortedProperties = copyAllListing;
+  //       break;
+  //   }
 
-      const jsonResponse = await response.json();
+  //   set(sortedProperties);
+  // };
 
-      setAllListing(jsonResponse);
-      setCopyAllListing(jsonResponse);
-      console.log(jsonResponse);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+  // const fetchAllOwners = async () => {
+  //   try {
+  //     const response = await fetch(
+  //       "https://property-plaza.onrender.com/api/user/all-users"
+  //     );
 
-  const fetchAllOwners = async () => {
-    try {
-      const response = await fetch(
-        "https://property-plaza.onrender.com/api/user/all-users"
-      );
+  //     if (!response.ok) {
+  //       console.log("Not able to fetch the owners.");
+  //       return;
+  //     }
 
-      if (!response.ok) {
-        console.log("Not able to fetch the owners.");
-        return;
-      }
+  //     const jsonResponse = await response.json();
 
-      const jsonResponse = await response.json();
+  //     setOwners(jsonResponse);
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+  // };
 
-      setOwners(jsonResponse);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+  // useEffect(() => {
+  //   fetchListings();
+  //   fetchAllOwners();
+  // }, []);
 
-  useEffect(() => {
-    fetchListings();
-    fetchAllOwners();
-  }, []);
+  // const handleCitySearch = (searchCity) => {
+  //   const filterCity = copyAllListing.filter(({ location }) => {
+  //     return location.toLowerCase().includes(searchCity.toLowerCase());
+  //   });
 
-  const handleCitySearch = (searchCity) => {
-    const filterCity = copyAllListing.filter(({ location }) => {
-      return location.toLowerCase().includes(searchCity.toLowerCase());
-    });
+  //   if (filterCity.length === 0) {
+  //     set(copyAllListing);
 
-    if (filterCity.length === 0) {
-      setAllListing(copyAllListing);
+  //     toast.success(`No listings related to this city ${searchCity}.`, {
+  //       duration: 3000,
+  //       position: "top-center",
+  //       style: {
+  //         backgroundColor: "#1B2A80",
+  //         color: "white",
+  //       },
 
-      toast.success(`No listings related to this city ${searchCity}.`, {
-        duration: 3000,
-        position: "top-center",
-        style: {
-          backgroundColor: "#1B2A80",
-          color: "white",
-        },
+  //       icon: "❌",
+  //       iconTheme: {
+  //         primary: "#000",
+  //         secondary: "#fff",
+  //       },
+  //     });
+  //     return;
+  //   }
 
-        icon: "❌",
-        iconTheme: {
-          primary: "#000",
-          secondary: "#fff",
-        },
-      });
-      return;
-    }
+  //   toast.success(
+  //     `${filterCity.length} listings related to this city ${searchCity}.`,
+  //     {
+  //       duration: 3000,
+  //       position: "top-center",
+  //       style: {
+  //         backgroundColor: "#1B2A80",
+  //         color: "white",
+  //       },
 
-    toast.success(
-      `${filterCity.length} listings related to this city ${searchCity}.`,
-      {
-        duration: 3000,
-        position: "top-center",
-        style: {
-          backgroundColor: "#1B2A80",
-          color: "white",
-        },
+  //       icon: <FcHome className="text-xl" />,
+  //     }
+  //   );
 
-        icon: <FcHome className="text-xl" />,
-      }
-    );
+  //   set(filterCity);
+  // };
 
-    setAllListing(filterCity);
-  };
+  // const handleFilter = (e) => {
+  //   e.preventDefault();
 
-  const handleFilter = (e) => {
-    e.preventDefault();
+  //   const filteredItems = copyAllListing.filter((listing) => {
+  //     console.log(searchItems);
 
-    const filteredItems = copyAllListing.filter((listing) => {
-      console.log(searchItems);
+  //     return searchItems.every((item) => {
+  //       return (
+  //         listing.type === item ||
+  //         listing.parking === item ||
+  //         listing.furnished === item
+  //       );
+  //     });
+  //   });
 
-      return searchItems.every((item) => {
-        return (
-          listing.type === item ||
-          listing.parking === item ||
-          listing.furnished === item
-        );
-      });
-    });
-
-    setAllListing(filteredItems);
-  };
+  //   set(filteredItems);
+  // };
 
   return (
-    <div className="min-h-screen flex">
-      <div className="w-4/12 pt-20 custom-shadow p-5 min-h-screen">
-        <h3 className="text-center tracking-widest uppercase text-sm font-bold text-[#1B2A80] my-3">
-          Find Your Property in Your Preferred City
-        </h3>
-        <div className="ml-5 mx-5">
-          <Slider {...settings}>
-            {cities.map(({ city, url }, index) => (
-              <div key={index} onClick={() => handleCitySearch(city)}>
-                <CityCard city={city} url={url} />
-              </div>
-            ))}
-          </Slider>
-        </div>
+    <></>
+    // <div className="min-h-screen flex">
+    //   <div className="w-4/12 pt-20 custom-shadow p-5 min-h-screen">
+    //     <h3 className="text-center tracking-widest uppercase text-sm font-bold text-[#1B2A80] my-3">
+    //       Find Your Property in Your Preferred City
+    //     </h3>
+    //     <div className="ml-5 mx-5">
+    //       <Slider {...settings}>
+    //         {cities.map(({ city, url }, index) => (
+    //           <div key={index} onClick={() => handleCitySearch(city)}>
+    //             <CityCard city={city} url={url} />
+    //           </div>
+    //         ))}
+    //       </Slider>
+    //     </div>
 
-        <div className="h-52 bg-white rounded-md mt-8 custom-shadow p-2">
-          <form className="flex ml-2 mt-2 flex-col font-semibold text-[#1B2A80] gap-5">
-            <div className="flex gap-5">
-              <div
-                onClick={() => {
-                  setIsRentChecked(false);
-                  setIsSaleRentChecked(true);
-                  setIsSaleChecked(false);
-                }}
-                className="flex gap-2"
-              >
-                <input
-                  type="checkbox"
-                  id="sellAndRent"
-                  className="w-5"
-                  checked={isSaleRentChecked}
-                />
-                <span className="tracking-widest">Sell & Rent</span>
-              </div>
+    //     <div className="h-52 bg-white rounded-md mt-8 custom-shadow p-2">
+    //       <form className="flex ml-2 mt-2 flex-col font-semibold text-[#1B2A80] gap-5">
+    //         <div className="flex gap-5">
+    //           <div
+    //             onClick={() => {
+    //               setIsRentChecked(false);
+    //               setIsSaleRentChecked(true);
+    //               setIsSaleChecked(false);
+    //             }}
+    //             className="flex gap-2"
+    //           >
+    //             <input
+    //               type="checkbox"
+    //               id="sellAndRent"
+    //               className="w-5"
+    //               checked={isSaleRentChecked}
+    //             />
+    //             <span className="tracking-widest">Sell & Rent</span>
+    //           </div>
 
-              <div
-                onClick={() => {
-                  setIsRentChecked(false);
-                  setIsSaleRentChecked(false);
-                  setIsSaleChecked(true);
-                  if (searchItems.includes("rent")) {
-                    setSearchItems(
-                      searchItems.map((item) =>
-                        item === "rent" ? "sale" : item
-                      )
-                    );
-                  } else {
-                    setSearchItems([...searchItems, "sale"]);
-                  }
-                }}
-                className="flex gap-2"
-              >
-                <input
-                  checked={isSaleChecked}
-                  type="checkbox"
-                  id="parking"
-                  className="w-5"
-                />
-                <span className="tracking-widest">Sale</span>
-              </div>
+    //           <div
+    //             onClick={() => {
+    //               setIsRentChecked(false);
+    //               setIsSaleRentChecked(false);
+    //               setIsSaleChecked(true);
+    //               if (searchItems.includes("rent")) {
+    //                 setSearchItems(
+    //                   searchItems.map((item) =>
+    //                     item === "rent" ? "sale" : item
+    //                   )
+    //                 );
+    //               } else {
+    //                 setSearchItems([...searchItems, "sale"]);
+    //               }
+    //             }}
+    //             className="flex gap-2"
+    //           >
+    //             <input
+    //               checked={isSaleChecked}
+    //               type="checkbox"
+    //               id="parking"
+    //               className="w-5"
+    //             />
+    //             <span className="tracking-widest">Sale</span>
+    //           </div>
 
-              <div
-                onClick={() => {
-                  setIsRentChecked(true);
-                  setIsSaleRentChecked(false);
-                  setIsSaleChecked(false);
-                  if (searchItems.includes("sale")) {
-                    setSearchItems(
-                      searchItems.map((item) =>
-                        item === "sale" ? "rent" : item
-                      )
-                    );
-                  } else {
-                    setSearchItems([...searchItems, "rent"]);
-                  }
-                }}
-                className="flex gap-2"
-              >
-                <input
-                  checked={isRentChecked}
-                  type="checkbox"
-                  id="parking"
-                  className="w-5"
-                />
-                <span className="tracking-widest">Rent</span>
-              </div>
-            </div>
-            <div className="flex gap-5">
-              <div className="flex gap-2">
-                <span className="tracking-widest uppercase">Amenties : </span>
-              </div>
-              <div
-                onClick={() => setSearchItems([...searchItems, "parking"])}
-                className="flex gap-2"
-              >
-                <input type="checkbox" id="parking" className="w-5" />
-                <span className="tracking-widest">Parking</span>
-              </div>
-              <div
-                onClick={() => setSearchItems([...searchItems, "furnished"])}
-                className="flex gap-2"
-              >
-                <input type="checkbox" id="furnished" className="w-5" />
-                <span className="tracking-widest">Furnished</span>
-              </div>
-            </div>
+    //           <div
+    //             onClick={() => {
+    //               setIsRentChecked(true);
+    //               setIsSaleRentChecked(false);
+    //               setIsSaleChecked(false);
+    //               if (searchItems.includes("sale")) {
+    //                 setSearchItems(
+    //                   searchItems.map((item) =>
+    //                     item === "sale" ? "rent" : item
+    //                   )
+    //                 );
+    //               } else {
+    //                 setSearchItems([...searchItems, "rent"]);
+    //               }
+    //             }}
+    //             className="flex gap-2"
+    //           >
+    //             <input
+    //               checked={isRentChecked}
+    //               type="checkbox"
+    //               id="parking"
+    //               className="w-5"
+    //             />
+    //             <span className="tracking-widest">Rent</span>
+    //           </div>
+    //         </div>
+    //         <div className="flex gap-5">
+    //           <div className="flex gap-2">
+    //             <span className="tracking-widest uppercase">Amenties : </span>
+    //           </div>
+    //           <div
+    //             onClick={() => setSearchItems([...searchItems, "parking"])}
+    //             className="flex gap-2"
+    //           >
+    //             <input type="checkbox" id="parking" className="w-5" />
+    //             <span className="tracking-widest">Parking</span>
+    //           </div>
+    //           <div
+    //             onClick={() => setSearchItems([...searchItems, "furnished"])}
+    //             className="flex gap-2"
+    //           >
+    //             <input type="checkbox" id="furnished" className="w-5" />
+    //             <span className="tracking-widest">Furnished</span>
+    //           </div>
+    //         </div>
 
-            <div className="flex items-center">
-              <button
-                onClick={handleFilter}
-                className="bg-[#1B2A80] w-52 px-5 py-1 custom-shadow rounded-md text-white uppercase font-semibold "
-              >
-                Apply Filter <RiSearchFill className="inline text-xl -mt-1" />
-              </button>
-            </div>
+    //         <div className="flex items-center">
+    //           <button
+    //             onClick={handleFilter}
+    //             className="bg-[#1B2A80] w-52 px-5 py-1 custom-shadow rounded-md text-white uppercase font-semibold "
+    //           >
+    //             Apply Filter <RiSearchFill className="inline text-xl -mt-1" />
+    //           </button>
+    //         </div>
 
-            <div className="flex items-center">
-              <span className="uppercase tracking-widest">Filter By : </span>
-              <BsFilterSquareFill className="text-[#1B2A80] text-2xl relative left-8" />
-              <select
-                className="border-2 border-[#1B2A80] tracking-widest uppercase py-2 pl-9 pr-1 custom-shadow rounded-md"
-                onChange={onOptionChangeHandler}
-              >
-                <option disabled selected className="uppercase tracking-widest">
-                  Select one
-                </option>
-                {options.map((option, index) => (
-                  <option
-                    key={index}
-                    className="uppercase mt-5 p-2 tracking-widest"
-                  >
-                    {option}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </form>
-        </div>
+    //         <div className="flex items-center">
+    //           <span className="uppercase tracking-widest">Filter By : </span>
+    //           <BsFilterSquareFill className="text-[#1B2A80] text-2xl relative left-8" />
+    //           <select
+    //             className="border-2 border-[#1B2A80] tracking-widest uppercase py-2 pl-9 pr-1 custom-shadow rounded-md"
+    //             onChange={onOptionChangeHandler}
+    //           >
+    //             <option disabled selected className="uppercase tracking-widest">
+    //               Select one
+    //             </option>
+    //             {options.map((option, index) => (
+    //               <option
+    //                 key={index}
+    //                 className="uppercase mt-5 p-2 tracking-widest"
+    //               >
+    //                 {option}
+    //               </option>
+    //             ))}
+    //           </select>
+    //         </div>
+    //       </form>
+    //     </div>
 
-        <div>
-          <h3 className="mt-5 relative top-2 uppercase text-[#1B2A80] text-center font-semibold tracking-widest">
-            Owners of the listing
-          </h3>
+    //     <div>
+    //       <h3 className="mt-5 relative top-2 uppercase text-[#1B2A80] text-center font-semibold tracking-widest">
+    //         Owners of the listing
+    //       </h3>
 
-          <div className="ml-5 mt-5 mx-5">
-            <Slider {...settingsecond}>
-              {owners.map(({ _id, name, image }) => (
-                <Link key={_id} to={"/owner/" + _id}>
-                  <Agent name={name} image={image} />
-                </Link>
-              ))}
-            </Slider>
-          </div>
-        </div>
-      </div>
-      <div className="w-8/12 pt-16 min-h-screen">
-        <div className="flex pr-2 py-2 slider-class h-screen overflow-x-hidden overflow-y-scroll flex-col gap-5">
-          {allListing.length !== 0 && (
-            <div className="mb-3">
-              {allListing
-                .slice(page * 10, page * 10 + 10)
-                .map((listing, index) => (
-                  <ListingCard key={index} listing={listing} />
-                ))}
-            </div>
-          )}
-        </div>
+    //       <div className="ml-5 mt-5 mx-5">
+    //         <Slider {...settingsecond}>
+    //           {owners.map(({ _id, name, image }) => (
+    //             <Link key={_id} to={"/owner/" + _id}>
+    //               <Agent name={name} image={image} />
+    //             </Link>
+    //           ))}
+    //         </Slider>
+    //       </div>
+    //     </div>
+    //   </div>
+    //   <div className="w-8/12 pt-16 min-h-screen">
+    //     <div className="flex pr-2 py-2 slider-class h-screen overflow-x-hidden overflow-y-scroll flex-col gap-5">
+    //       {listings.length !== 0 && (
+    //         <div className="mb-3">
+    //           {listings
+    //             .slice(page * 10, page * 10 + 10)
+    //             .map((listing, index) => (
+    //               <ListingCard key={index} listing={listing} />
+    //             ))}
+    //         </div>
+    //       )}
+    //     </div>
 
-        <div className="flex mt-5 relative z-10 justify-center text-[#1B2A80] px-4 items-center">
-          <FaCaretLeft
-            onClick={() => {
-              if (page > 0) {
-                setPage((prevPeg) => prevPeg - 1);
-              }
-            }}
-            className="text-xl hover:scale-110 duration-200"
-          />
-          <ul className="flex items-center justify-center">
-            {Array(3)
-              .fill(null)
-              .map((_, index) => {
-                const isActive = index === page ? true : false;
-                return (
-                  <li
-                    key={index}
-                    onClick={() => {
-                      setPage(number);
-                    }}
-                    className={`m-2 hover:scale-110 duration-200 shadow-sm rounded-md px-2 border ${
-                      isActive ? "bg-[#1B2A80] text-white" : ""
-                    }`}
-                  >
-                    {index}
-                  </li>
-                );
-              })}
-          </ul>
-          <FaCaretRight
-            onClick={() => {
-              if (page < allListing?.length / 10 - 1) {
-                setPage((prevPeg) => prevPeg + 1);
-              }
-            }}
-            className="text-xl hover:scale-110 duration-200"
-          />
-        </div>
-      </div>
-    </div>
+    //     <div className="flex mt-5 relative z-10 justify-center text-[#1B2A80] px-4 items-center">
+    //       <FaCaretLeft
+    //         onClick={() => {
+    //           if (page > 0) {
+    //             setPage((prevPeg) => prevPeg - 1);
+    //           }
+    //         }}
+    //         className="text-xl hover:scale-110 duration-200"
+    //       />
+    //       <ul className="flex items-center justify-center">
+    //         {Array(3)
+    //           .fill(null)
+    //           .map((_, index) => {
+    //             const isActive = index === page ? true : false;
+    //             return (
+    //               <li
+    //                 key={index}
+    //                 onClick={() => {
+    //                   setPage(number);
+    //                 }}
+    //                 className={`m-2 hover:scale-110 duration-200 shadow-sm rounded-md px-2 border ${
+    //                   isActive ? "bg-[#1B2A80] text-white" : ""
+    //                 }`}
+    //               >
+    //                 {index}
+    //               </li>
+    //             );
+    //           })}
+    //       </ul>
+    //       <FaCaretRight
+    //         onClick={() => {
+    //           if (page < listings?.length / 10 - 1) {
+    //             setPage((prevPeg) => prevPeg + 1);
+    //           }
+    //         }}
+    //         className="text-xl hover:scale-110 duration-200"
+    //       />
+    //     </div>
+    //   </div>
+    // </div>
   );
 };
 
