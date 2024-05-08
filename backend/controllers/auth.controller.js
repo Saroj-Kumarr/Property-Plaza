@@ -18,9 +18,10 @@ const register = async (req, res) => {
       image,
     });
 
-    res.status(200).json({
+    res.status(201).json({
       success: true,
       message: "User is created successfully.",
+      newUser,
     });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
@@ -51,7 +52,6 @@ const login = async (req, res) => {
       .json({
         success: true,
         message: "User logged in successfully.",
-        token,
         user,
       });
   } catch (error) {

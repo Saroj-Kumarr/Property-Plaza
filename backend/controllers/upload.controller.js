@@ -14,9 +14,13 @@ const singleImageUpload = async (req, res) => {
   const { image } = req.files;
   try {
     const response = await uploadFileToCloudinary(image, "saroj");
-    res.status(200).json(response.url);
+    res.status(200).json({
+      success: true,
+      message: "Image uploaded successfully",
+      data: response.url,
+    });
   } catch (error) {
-    console.log(error.message);
+    res.status(500).json({ success: false, error: "Failed to upload image" });
   }
 };
 
@@ -34,10 +38,13 @@ const multipleImageUpload = async (req, res) => {
 
     const urls = uploadedImages.map((image) => image.url);
 
-    res.status(200).json(urls);
+    res.status(200).json({
+      success: true,
+      message: "Images uploaded successfully",
+      data: urls,
+    });
   } catch (error) {
-    console.log(error.message);
-    res.status(500).json({ error: "Failed to upload images" });
+    res.status(500).json({ success: false, error: "Failed to upload images" });
   }
 };
 

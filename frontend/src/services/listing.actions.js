@@ -15,7 +15,7 @@ const fetchListings = async () => {
 
 const fetchListing = async (id) => {
   try {
-    const response = await apiClient.get(`/listings/${id}`);
+    const response = await apiClient.get(`/listing/${id}`);
 
     if (response.status === 200) {
       return response.data;
@@ -43,7 +43,7 @@ const fetchUserListings = async (userId) => {
 
 const createListing = async (listing) => {
   try {
-    const response = await apiClient.post("/listings", listing);
+    const response = await apiClient.post("/listing", listing);
 
     if (response.status === 201) {
       return response.data;
@@ -71,7 +71,7 @@ const updateListing = async (id, listing) => {
 
 const deleteListing = async (id) => {
   try {
-    const response = await apiClient.delete(`/listings/${id}`);
+    const response = await apiClient.delete(`/listing/${id}`);
 
     if (response.status === 200) {
       return response.data;

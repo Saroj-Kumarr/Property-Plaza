@@ -55,7 +55,7 @@ const deleteUser = async (req, res) => {
       deletedListings,
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
@@ -67,9 +67,13 @@ const getUser = async (req, res) => {
       res.status(400).json("User is not found.");
     }
 
-    res.status(200).json({ user });
+    res.status(200).json({
+      success: true,
+      message: "User is found.",
+      user,
+    });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
@@ -82,10 +86,12 @@ const getUsers = async (req, res) => {
     }
 
     res.status(200).json({
+      success: true,
+      message: "Users are found.",
       users,
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 

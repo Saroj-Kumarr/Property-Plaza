@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { uploadImages } from "../services/upload.actions";
 
 const UpdateListing = () => {
   const [title, setTitle] = useState("fsdf");

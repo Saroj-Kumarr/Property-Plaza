@@ -1,12 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { FaUserCircle, FaLock, FaPhoneSquareAlt } from "react-icons/fa";
-import { IoEye, IoEyeOff } from "react-icons/io5";
+import { FaUserCircle, FaPhoneSquareAlt } from "react-icons/fa";
 import { MdEditSquare, MdMail } from "react-icons/md";
 import { updateUser } from "../services/user.actions";
-import { uploadImage } from "../utils/uploadImage";
+import { uploadImage } from "../services/upload.actions";
 import { setUser } from "../redux/userSlice";
 
 const UpdateUserInfo = () => {
@@ -96,7 +95,10 @@ const UpdateUserInfo = () => {
             id="file"
             className="border p-2 my-2 py-1 rounded-md border-dashed border-2"
             onChange={async (e) => {
-              setImageURL(await uploadImage(e.target.files[0]));
+              const response = await uploadImage(e.target.files[0]);
+              if (response.success) {
+                setImageURL(response.data);
+              }
             }}
           />
 

@@ -6,7 +6,7 @@ import { IoEye, IoEyeOff } from "react-icons/io5";
 import { MdMail } from "react-icons/md";
 import { GiArchiveRegister } from "react-icons/gi";
 import { register } from "../services/auth.actions";
-import { uploadImage } from "../utils/uploadImage";
+import { uploadImage } from "../services/upload.actions";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -113,7 +113,11 @@ const Register = () => {
             id="file"
             className="border-2 p-2 py-1 rounded-md border-dashed "
             onChange={async (e) => {
-              setImageURL(await uploadImage(e.target.files[0]));
+              const response = await uploadImage(e.target.files[0]);
+
+              if (response.success) {
+                setImageURL(response.data);
+              }
             }}
           />
 

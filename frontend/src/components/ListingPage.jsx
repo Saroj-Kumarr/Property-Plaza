@@ -125,6 +125,8 @@ const ListingPage = () => {
     setListings(filteredItems);
   };
 
+  console.log(listings);
+
   return (
     <div className="min-h-screen flex">
       <div className="w-4/12 pt-20 custom-shadow p-5 min-h-screen">
@@ -312,7 +314,7 @@ const ListingPage = () => {
                   <li
                     key={index}
                     onClick={() => {
-                      setPage(number);
+                      setPage(index);
                     }}
                     className={`m-2 hover:scale-110 duration-200 shadow-sm rounded-md px-2 border ${
                       isActive ? "bg-[#1B2A80] text-white" : ""

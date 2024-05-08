@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { createListing } from "../services/listing.actions";
+import { uploadImages } from "../services/upload.actions";
 
 const CreateListing = () => {
   const [title, setTitle] = useState("fsdf");
@@ -18,7 +20,6 @@ const CreateListing = () => {
   const navigate = useNavigate();
 
   const { currentUser } = useSelector((store) => store.user);
-  const _id = currentUser ? currentUser._id : null;
 
   const handleRadioChange = (event) => {
     setType(event.target.value);
@@ -35,84 +36,15 @@ const CreateListing = () => {
     setImages([...images, ...files]);
   };
 
-  const uploadImages = async () => {
-    const formData = new FormData();
-
-    for (let i = 0; i < images.length; i++) {
-      formData.append("images", images[i]);
-    }
-
-    try {
-      const response = await fetch(
-        "https://property-plaza.onrender.com/api/upload/multiple-image",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-
-      if (!response.ok) {
-        console.log("Failed to upload images");
-        return;
-      }
-
-      const jsonResponse = await response.json();
-
-      setImageURLS(jsonResponse);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
   useEffect(() => {
-    if (!_id) {
+    if (!currentUser) {
       navigate("/");
     }
   }, []);
 
-  const handleCreateListing = async () => {
-    try {
-      const response = await fetch(
-        "https://property-plaza.onrender.com/api/listing/create",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization:
-              "Bearer " + JSON.parse(localStorage.getItem("token")),
-          },
-          body: JSON.stringify({
-            title,
-            description,
-            type,
-            parking,
-            furnished,
-            location,
-            bedrooms,
-            bathrooms,
-            price,
-            imageURLS,
-            owner: _id,
-          }),
-        }
-      );
-
-      if (!response.ok) {
-        console.log("Failed to create listing");
-        return;
-      }
-
-      const jsonResponse = await response.json();
-
-      console.log(jsonResponse);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
   return (
-    <div className="min-h-screen pt-24 flex justify-center">
-      <div className="w-8/12 mt-10 custom-shadow rounded-md p-2">
+    <div className=" pt-24 flex justify-center">
+      <div className="w-8/12 mt-10 custom-shadow rounded-md p-5">
         <h3 className="text-center font-bold  my-4 uppercase tracking-widest">
           Enter your property details
         </h3>
@@ -251,7 +183,12 @@ const CreateListing = () => {
                 onChange={handleFileChange}
               />
               <button
-                onClick={uploadImages}
+                onClick={async () => {
+                  const response = await uploadImages(images);
+                  if (response.success) {
+                    setImageURLS(response.data);
+                  }
+                }}
                 className="bg-[#1B2A80] px-5 py-1 custom-shadow rounded-md text-white font-semibold tracking-widest uppercase "
               >
                 upload
@@ -299,7 +236,26 @@ const CreateListing = () => {
           </div>
         </div>
         <button
-          onClick={handleCreateListing}
+          onClick={async () => {
+            const response = await createListing({
+              title,
+              description,
+              type,
+              parking,
+              furnished,
+              location,
+              bedrooms,
+              bathrooms,
+              price,
+              imageURLS,
+              owner: currentUser._id,
+            });
+
+            if (response.success) {
+              alert("You have successfully created a listing.");
+              navigate("/listings");
+            }
+          }}
           className="bg-[#1B2A80] px-5 py-2 custom-shadow rounded-md text-white font-semibold tracking-widest uppercase w-full "
         >
           <Link to="/listings">create listing</Link>
@@ -310,61 +266,3 @@ const CreateListing = () => {
 };
 
 export default CreateListing;
-
-// import React, { useState } from "react";
-
-// const CreateListing = () => {
-//   const [title, setTitle] = useState("");
-//   const [description, setDescription] = useState("");
-//   const [type, setType] = useState("");
-//   const [amenities, setAmenities] = useState("");
-//   const [location, setLocation] = useState("");
-//   const [bedrooms, setBedrooms] = useState(1);
-//   const [bathrooms, setBathrooms] = useState(1);
-//   const [images, setImages] = useState([]);
-//   const [price, setPrice] = useState("");
-//   const [selectedValue, setSelectedValue] = useState("");
-
-//   const handleRadioChange = (event) => {
-//     setSelectedValue(event.target.value);
-//   };
-
-//   const uploadImages = async (req, res) => {
-//     const formData = new formData();
-//     formData.append("images", images);
-
-//     try {
-//       const response = await fetch("https://property-plaza.onrender.com/upload-images", {
-//         method: "POST",
-//         headers: { "Content-Type": "application/json" },
-//         body: FormData,
-//       });
-
-//       if (!response.status == 200) {
-//         console.log("failed to upload");
-//       }
-
-//       const jsonResponse = await response.json();
-
-//       console.log(jsonResponse);
-//     } catch (error) {
-//       console.log(error.message);
-//     }
-//   };
-
-//   return (
-//     <div className="min-h-screen pt-24 flex  justify-center">
-//       <div className="mt-60">
-//         <input
-//           type="file"
-//           multiple
-//           value={images}
-//           onChange={(e) => setImages(e.target.files)}
-//         />
-//         <button>upload images</button>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default CreateListing;

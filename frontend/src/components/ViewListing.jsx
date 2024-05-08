@@ -5,62 +5,23 @@ import SwiperCore from "swiper";
 import "swiper/css/bundle";
 import { FaBath, FaLocationDot, FaToiletPortable } from "react-icons/fa6";
 import { IoBedSharp, IoCarSportSharp } from "react-icons/io5";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import dateFormat, { masks } from "dateformat";
+import { useNavigate, useParams } from "react-router-dom";
+import dateFormat from "dateformat";
+import { deleteListing, fetchListing } from "../services/listing.actions";
+import { useSelector } from "react-redux";
 
 const ViewListing = () => {
   const { id } = useParams();
   const [listingInfo, setListingInfo] = useState({});
+  const { currentUser } = useSelector((store) => store.user);
   const navigate = useNavigate();
 
-  const fetchListingById = async () => {
-    try {
-      const response = await fetch(
-        "https://property-plaza.onrender.com/api/listing/get/" + id
-      );
-
-      if (!response.status == 200) {
-        console.log("Not able to fetch the listings.");
-      }
-
-      const jsonResponse = await response.json();
-
-      setListingInfo(jsonResponse);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
-  const deleteListing = async () => {
-    try {
-      const response = await fetch(
-        "https://property-plaza.onrender.com/api/listing/delete/" + id,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization:
-              "Bearer " + JSON.parse(localStorage.getItem("token")),
-          },
-        }
-      );
-
-      if (!response.status == 200) {
-        console.log("Not able to fetch the listings.");
-      }
-
-      const jsonResponse = await response.json();
-
-      setListingInfo(jsonResponse);
-
-      navigate("/listings");
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
   useEffect(() => {
-    fetchListingById();
+    const fetchData = async () => {
+      const data = await fetchListing(id);
+      setListingInfo(data);
+    };
+    fetchData();
   }, [id]);
 
   if (!listingInfo) return <div>Loading...</div>;
@@ -82,6 +43,8 @@ const ViewListing = () => {
   } = listingInfo;
 
   SwiperCore.use([Navigation]);
+
+  if (!owner) return <div>Loading...</div>;
 
   return (
     <div className="min-h-screen pt-[81px]">
@@ -144,15 +107,42 @@ const ViewListing = () => {
               <span>{furnished && furnished}</span>
               <FaToiletPortable className="inline ml-1" />
             </div>
-            <button
-              onClick={deleteListing}
-              className="bg-red-600 px-5 py-[1px] rounded-md text-white uppercase  font-semibold custom-shadow"
-            >
-              delete
-            </button>
-            <button className="bg-[#1B2A80] px-5 py-[1px] rounded-md text-white uppercase  font-semibold custom-shadow">
-              <Link to={"/update-listing/" + id}>update</Link>
-            </button>
+
+            <div className="flex gap-5 items-center">
+              <button
+                onClick={async () => {
+                  if (currentUser._id !== owner._id) {
+                    return alert("You are not the owner of this listing.");
+                  }
+
+                  const response = await deleteListing(id);
+                  if (response.success) {
+                    navigate("/listings");
+                  }
+                }}
+                className="bg-red-600 px-5 py-[1px] rounded-md text-white uppercase  font-semibold custom-shadow"
+              >
+                delete
+              </button>
+              <button
+                onClick={async () => {
+                  if (currentUser._id !== owner._id) {
+                    return alert(
+                      "You can not update because your are not the owner of the listing."
+                    );
+                  }
+                  const response = await deleteListing(id);
+                  if (response.success) {
+                    navigate("/listings");
+                  }
+
+                  navigate("/update-listing/" + id);
+                }}
+                className="bg-[#1B2A80] px-5 py-[1px] rounded-md text-white uppercase  font-semibold custom-shadow"
+              >
+                update
+              </button>
+            </div>
           </div>
           <div className="flex text-xs gap-3">
             <div className="flex">
