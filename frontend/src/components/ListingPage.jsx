@@ -72,8 +72,8 @@ const ListingPage = () => {
       return location.toLowerCase().includes(searchCity.toLowerCase());
     });
 
-    if (filterCity.length === 0) {
-      set(copyListings);
+    if (filterCity.length == 0) {
+      setListings(copyListings);
 
       toast.success(`No listings related to this city ${searchCity}.`, {
         duration: 3000,
@@ -91,7 +91,9 @@ const ListingPage = () => {
       });
       return;
     }
+
     setListings(filterCity);
+
     toast.success(
       `${filterCity.length} listings related to this city ${searchCity}.`,
       {
@@ -105,8 +107,6 @@ const ListingPage = () => {
         icon: <FcHome className="text-xl" />,
       }
     );
-
-    set(filterCity);
   };
 
   const handleFilter = (e) => {

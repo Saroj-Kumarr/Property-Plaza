@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { fetchUserListings } from "../services/listing.actions";
-import { fetchUser } from "../services/user.actions";
+import { deleteUser } from "../services/user.actions";
+import { removeUser } from "../redux/userSlice";
 
 const Profile = () => {
   const { currentUser } = useSelector((store) => store.user);
   const [userListings, setUserListings] = useState([]);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   if (!currentUser) {
     return;
@@ -39,7 +42,7 @@ const Profile = () => {
               onClick={async () => {
                 const response = await deleteUser(currentUser._id);
                 if (response.success) {
-                  dispatch(deleteUser());
+                  dispatch(removeUser());
                   navigate("/register");
                 }
               }}

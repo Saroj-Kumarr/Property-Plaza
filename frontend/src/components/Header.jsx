@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 import logo from "../assets/logo.png";
 import { FiSearch } from "react-icons/fi";
-import { deleteUser } from "../redux/userSlice";
+import { removeUser } from "../redux/userSlice";
 import { IoLogInSharp, IoLogOutSharp } from "react-icons/io5";
 import { GiArchiveRegister } from "react-icons/gi";
 import { useLocation } from "react-router-dom";
@@ -71,7 +71,7 @@ const Header = () => {
                 onClick={async () => {
                   const response = await logout();
                   if (response.success) {
-                    dispatch(deleteUser());
+                    dispatch(removeUser());
                     navigate("/login");
                   }
                 }}

@@ -1,101 +1,22 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FaUserCircle, FaLock, FaPhoneSquareAlt } from "react-icons/fa";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 import { MdEditSquare, MdMail } from "react-icons/md";
-import { updateUser } from "../redux/userSlice";
+import { updateUser } from "../services/user.actions";
+import { uploadImage } from "../utils/uploadImage";
+import { setUser } from "../redux/userSlice";
 
 const UpdateUserInfo = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState("");
-  const [imageURL, setImageURL] = useState("");
-  const dispatch = useDispatch();
   const { currentUser } = useSelector((store) => store.user);
-  const _id = currentUser ? currentUser._id : null;
-
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [isShowPassword, setIsShowPassword] = useState(false);
+  const [name, setName] = useState(currentUser.name);
+  const [email, setEmail] = useState(currentUser.email);
+  const [phone, setPhone] = useState(currentUser.phone);
+  const [imageURL, setImageURL] = useState(currentUser.image);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const uploadImage = async (imageFile) => {
-    const formData = new FormData();
-    formData.append("image", imageFile);
-
-    try {
-      const response = await fetch(
-        "https://property-plaza.onrender.com/api/upload/single-image",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-
-      if (!response.ok) {
-        console.log("Failed to upload images");
-        return;
-      }
-
-      const jsonResponse = await response.json();
-
-      setImageURL(jsonResponse);
-    } catch (error) {}
-  };
-
-  const handleUpdateUserDetail = async (e) => {
-    e.preventDefault();
-
-    try {
-      const response = await fetch(
-        "https://property-plaza.onrender.com/api/user/user/update/" + _id,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name,
-            email,
-            phone,
-            password,
-            image: imageURL,
-          }),
-        }
-      );
-
-      const jsonResponse = await response.json();
-
-      dispatch(updateUser(jsonResponse));
-      navigate("/listings");
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const fetchUserDetails = async () => {
-    try {
-      const response = await fetch(
-        "https://property-plaza.onrender.com/api/user/user/get/" + _id
-      );
-
-      const jsonResponse = await response.json();
-      setName(jsonResponse.name);
-      setEmail(jsonResponse.email);
-      setPhone(jsonResponse.phone);
-      setPassword(jsonResponse.password);
-      setImageURL(jsonResponse.image);
-
-      console.log(jsonResponse);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    fetchUserDetails();
-  }, []);
 
   return (
     <div className="flex items-center justify-center h-screen">
@@ -104,22 +25,38 @@ const UpdateUserInfo = () => {
           Update user <span className="text-[#1B2A80]">Form</span>
         </h1>
         <form
-          onSubmit={handleUpdateUserDetail}
+          onSubmit={async (e) => {
+            e.preventDefault();
+
+            const response = await updateUser(
+              currentUser._id,
+              name,
+              email,
+              phone,
+              imageURL
+            );
+
+            if (response.success) {
+              dispatch(
+                setUser({
+                  _id: response.user._id,
+                  name: response.user.name,
+                  email: response.user.email,
+                  phone: response.user.phone,
+                  image: response.user.image,
+                })
+              );
+              navigate("/profile");
+            }
+          }}
           className="flex items-center justify-center flex-col gap-3"
         >
-          {imageURL ? (
-            <img
-              className="h-24 w-24 object-cover  rounded-full custom-shadow"
-              src={imageURL}
-              alt="user"
-            />
-          ) : (
-            <img
-              className="h-24 w-24 object-cover  rounded-full custom-shadow"
-              src="https://st3.depositphotos.com/6672868/13701/v/450/depositphotos_137014128-stock-illustration-user-profile-icon.jpg"
-              alt="user"
-            />
-          )}
+          <img
+            className="h-24 w-24 object-cover  rounded-full custom-shadow"
+            src={imageURL}
+            alt="user"
+          />
+
           <div className="flex w-full items-center  relative">
             <FaUserCircle className="absolute text-xl text-[#1B2A80] left-16" />
             <input
@@ -153,51 +90,21 @@ const UpdateUserInfo = () => {
               onChange={(e) => setPhone(e.target.value)}
             />
           </div>
-          <div className="flex w-full items-center  relative">
-            <FaLock className="absolute text-lg text-[#1B2A80] left-16" />
-            <input
-              type={isShowPassword ? "text" : "password"}
-              placeholder="Enter your password"
-              className="border-b tracking-widest border-[#1B2A80] text-center w-full py-2 pl-5 focus:outline-none "
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-
-            {isShowPassword ? (
-              <IoEye
-                onClick={() => setIsShowPassword(false)}
-                className="absolute text-[#1B2A80] text-xl right-3 cursor-pointer"
-              />
-            ) : (
-              <IoEyeOff
-                onClick={() => setIsShowPassword(true)}
-                className="absolute text-[#1B2A80] text-xl right-3 cursor-pointer"
-              />
-            )}
-          </div>
 
           <input
             type="file"
             id="file"
-            className="border p-2 py-1 rounded-md border-dashed border-2"
-            onChange={(e) => {
-              uploadImage(e.target.files[0]);
+            className="border p-2 my-2 py-1 rounded-md border-dashed border-2"
+            onChange={async (e) => {
+              setImageURL(await uploadImage(e.target.files[0]));
             }}
           />
 
-          <button
-            disabled={loading}
-            className="tracking-widest w-full bg-[#1B2A80] text-white font-bold py-2 rounded-md custom-shadow tracking-widest uppercase"
-          >
-            {loading ? "Loading..." : "update details"}{" "}
+          <button className="tracking-widest w-full bg-[#1B2A80] text-white font-bold py-2 rounded-md custom-shadow tracking-widest uppercase">
+            Update Details
             <MdEditSquare className="inline text-lg -mt-[2px]" />
           </button>
         </form>
-
-        {error && (
-          <p className="text-red-500 mt-3 text-sm text-center">{error}</p>
-        )}
       </div>
     </div>
   );

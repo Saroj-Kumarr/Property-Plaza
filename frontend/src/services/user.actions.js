@@ -13,9 +13,14 @@ export const fetchUser = async (id) => {
   }
 };
 
-export const updateUser = async (id, user) => {
+export const updateUser = async (id, name, email, phone, imageURL) => {
   try {
-    const response = await apiClient.put(`/user/${id}`, user);
+    const response = await apiClient.put(`/user/${id}`, {
+      name,
+      email,
+      phone,
+      image: imageURL,
+    });
 
     if (response.status === 200) {
       return response.data;
@@ -27,9 +32,9 @@ export const updateUser = async (id, user) => {
   }
 };
 
-export const deleteUser = async () => {
+export const deleteUser = async (id) => {
   try {
-    const response = await apiClient.delete("/user");
+    const response = await apiClient.delete("/user/" + id);
     if (response.status === 200) {
       return response.data;
     } else {

@@ -1,11 +1,10 @@
-
 const User = require("../models/user.model");
 const Listing = require("../models/listing.model");
 
 const updateUser = async (req, res) => {
-  const { name, email, phone, password, image } = req.body;
+  const { name, email, phone, image } = req.body;
 
-  if (!name || !email || !phone || !password || !image) {
+  if (!name || !email || !phone || !image) {
     return res.status(400).json("All Fields are required.");
   }
 
@@ -16,7 +15,6 @@ const updateUser = async (req, res) => {
         name,
         email,
         phone,
-        password,
         image,
       },
       {
@@ -24,22 +22,35 @@ const updateUser = async (req, res) => {
       }
     );
 
-    res
-      .status(200)
-      .json({ message: "User is updated successfully.", data: updatedUser });
+    res.status(200).json({
+      success: true,
+      message: "User is updated successfully.",
+      user: {
+        _id: updatedUser._id,
+        email: updatedUser.email,
+        name: updatedUser.name,
+        phone: updatedUser.phone,
+        image: updatedUser.image,
+      },
+    });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
 
 const deleteUser = async (req, res) => {
-  const { id } = req.cookies;
+  const { id } = req.params;
 
   try {
     const deletedUser = await User.findByIdAndDelete(id);
     const deletedListings = await Listing.deleteMany({ owner: id });
     res.clearCookie("token");
     res.status(200).json({
+      success: true,
+      message: "User is deleted successfully.",
       deletedUser,
       deletedListings,
     });
@@ -84,4 +95,3 @@ module.exports = {
   getUser,
   getUsers,
 };
-
