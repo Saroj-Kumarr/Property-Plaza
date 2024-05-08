@@ -2,60 +2,27 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { fetchUser } from "../services/user.actions";
+import { fetchUserListings } from "../services/listing.actions";
 
 const Owner = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [image, setImage] = useState("");
-
-  const [userListings, setUserListings] = useState([]);
-
+  const [owner, setOwner] = useState({});
+  const [ownerListings, setOwnerListings] = useState([]);
   const { id } = useParams();
 
-  const fetchUserListings = async () => {
-    try {
-      const response = await fetch(
-        "https://property-plaza.onrender.com/api/listing/get/user-listings/" +
-          id
-      );
-
-      if (!response.status == 200) {
-        alert("Not fetched user listings");
-      }
-
-      const jsonResponse = await response.json();
-
-      setUserListings(jsonResponse);
-
-      console.log(jsonResponse);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
-  const fetchUserInfo = async () => {
-    try {
-      const response = await fetch(
-        "https://property-plaza.onrender.com/api/user/user/get/" + id
-      );
-
-      const jsonResponse = await response.json();
-
-      console.log(jsonResponse);
-      setName(jsonResponse.name);
-      setEmail(jsonResponse.email);
-      setPhone(jsonResponse.phone);
-      setImage(jsonResponse.image);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
   useEffect(() => {
-    fetchUserInfo();
-    fetchUserListings();
-  }, []);
+    const fetchData = async () => {
+      const data = await fetchUser(id);
+      setOwner(data);
+      const listings = await fetchUserListings(id);
+      setOwnerListings(listings);
+    };
+    fetchData();
+  }, [id]);
+
+  const { name, email, phone, image } = owner;
+
+  console.log(ownerListings);
 
   return (
     <div className="min-h-screen flex flex-col items-center pt-24">
@@ -76,8 +43,8 @@ const Owner = () => {
           <p className="h-[2px] bg-[#1B2A80] w-60"></p>
         </div>
         <div className="flex gap-10 my-5 flex-wrap justify-center">
-          {userListings &&
-            userListings.map(({ _id, imageURLS, title }) => {
+          {/* {ownerListings &&
+            ownerListings.map(({ _id, imageURLS, title }) => {
               return (
                 <Link to={"/view-listing/" + _id}>
                   <div className="bg-gradient-to-t custom-shadow rounded-md  h-60 w-80 from-slate-400 to-transparent">
@@ -92,7 +59,7 @@ const Owner = () => {
                   </div>
                 </Link>
               );
-            })}
+            })} */}
         </div>
       </div>
     </div>

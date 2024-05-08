@@ -5,6 +5,8 @@ import { FaUserCircle, FaLock, FaPhoneSquareAlt } from "react-icons/fa";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 import { MdMail } from "react-icons/md";
 import { GiArchiveRegister } from "react-icons/gi";
+import { register } from "../services/auth.actions";
+import { uploadImage } from "../utils/uploadImage";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -12,40 +14,11 @@ const Register = () => {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [imageURL, setImageURL] = useState("");
-
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isShowPassword, setIsShowPassword] = useState(false);
+
   const navigate = useNavigate();
-
-  const queryClient = useQueryClient();
-
-  const query = useQuery({ queryKey: ["user"], queryFn: regi });
-
-  const uploadImage = async (imageFile) => {
-    const formData = new FormData();
-    formData.append("image", imageFile);
-
-    try {
-      const response = await fetch(
-        "https://property-plaza.onrender.com/api/upload/single-image",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-
-      if (!response.ok) {
-        console.log("Failed to upload images");
-        return;
-      }
-
-      const jsonResponse = await response.json();
-
-      setImageURL(jsonResponse);
-    } catch (error) {}
-  };
-
 
   return (
     <div className="flex items-center justify-center h-screen">
@@ -54,7 +27,19 @@ const Register = () => {
           Register <span className="text-[#1B2A80]">Form</span>
         </h1>
         <form
-          onSubmit={handleSubmit}
+          onSubmit={async (e) => {
+            e.preventDefault();
+            const response = await register(
+              name,
+              email,
+              phone,
+              password,
+              imageURL
+            );
+            if (response.success) {
+              navigate("/login");
+            }
+          }}
           className="flex items-center justify-center flex-col gap-3"
         >
           {imageURL ? (
@@ -127,8 +112,8 @@ const Register = () => {
             type="file"
             id="file"
             className="border-2 p-2 py-1 rounded-md border-dashed "
-            onChange={(e) => {
-              uploadImage(e.target.files[0]);
+            onChange={async (e) => {
+              setImageURL(await uploadImage(e.target.files[0]));
             }}
           />
 

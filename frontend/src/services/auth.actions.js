@@ -1,12 +1,13 @@
 import apiClient from "./apiConnectior";
 
-export const register = async ({ name, email, phone, password }) => {
+export const register = async (name, email, phone, password, imageURL) => {
   try {
     const response = await apiClient.post("/auth/register", {
       name,
       email,
       phone,
       password,
+      image: imageURL,
     });
     if (response.status === 200) {
       return response.data;
@@ -18,7 +19,7 @@ export const register = async ({ name, email, phone, password }) => {
   }
 };
 
-export const login = async ({ email, password }) => {
+export const login = async (email, password) => {
   try {
     const response = await apiClient.post("/auth/login", {
       email,
@@ -37,7 +38,7 @@ export const login = async ({ email, password }) => {
 
 export const logout = async () => {
   try {
-    const response = await apiClient.post("/auth/logout");
+    const response = await apiClient.get("/auth/logout");
 
     if (response.status === 200) {
       return response.data;

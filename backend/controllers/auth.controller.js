@@ -2,7 +2,6 @@ const { response } = require("express");
 const User = require("../models/user.model");
 const jwt = require("jsonwebtoken");
 
-
 const register = async (req, res) => {
   const { name, email, phone, password, image } = req.body;
 
@@ -19,13 +18,14 @@ const register = async (req, res) => {
       image,
     });
 
-    res.status(200).json({ message: "User is created successfully." });
+    res.status(200).json({
+      success: true,
+      message: "User is created successfully.",
+    });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
-
-
 
 const login = async (req, res) => {
   const { email, password } = req.body;
@@ -43,23 +43,31 @@ const login = async (req, res) => {
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
 
-    res.cookie("token", token, {
-      maxAge: 24 * 60 * 60 * 1000,
-      httpOnly: true,
-    });
+    res
+      .cookie("token", token, {
+        maxAge: 24 * 60 * 60 * 1000,
+        httpOnly: true,
+      })
+      .json({
+        success: true,
+        message: "User logged in successfully.",
+        token,
+        user,
+      });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
-const logout = (req, res, next) => {
+const logout = (req, res) => {
   try {
     res.clearCookie("token");
     res.status(200).json({
+      success: true,
       message: "Logged out successfully.",
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 

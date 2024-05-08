@@ -6,7 +6,7 @@ import { setUser } from "../redux/userSlice";
 import { MdMail } from "react-icons/md";
 import { FaLock } from "react-icons/fa";
 import { IoEye, IoEyeOff, IoLogInSharp } from "react-icons/io5";
-import { login } from "../services/authActions";
+import { login } from "../services/auth.actions";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -14,6 +14,8 @@ const Login = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isShowPassword, setIsShowPassword] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   return (
     <div className="flex  items-center justify-center h-screen">
@@ -22,9 +24,23 @@ const Login = () => {
           Login <span className="text-[#1B2A80]">Form</span>
         </h1>
         <form
-          onSubmit={(e) => {
+          onSubmit={async (e) => {
             e.preventDefault();
-            login(email, password);
+            const response = await login(email, password);
+            if (response.success) {
+              const { _id, email, name, phone, image } = response.user;
+
+              dispatch(
+                setUser({
+                  _id,
+                  email,
+                  name,
+                  phone,
+                  image,
+                })
+              );
+              navigate("/listings");
+            }
           }}
           className="flex items-center justify-center flex-col gap-3"
         >

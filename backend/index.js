@@ -26,11 +26,9 @@ app.use(bodyParser.json());
 
 const corsOptions = {
   origin: "http://localhost:5173",
-  credentials: true, 
-  optionSuccessStatus: 200,
+  credentials: true,
 };
 app.use(cors(corsOptions));
-
 
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/auth", authRoutes);

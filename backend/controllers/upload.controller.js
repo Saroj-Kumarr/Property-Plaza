@@ -20,6 +20,7 @@ const singleImageUpload = async (req, res) => {
   }
 };
 
+
 const multipleImageUpload = async (req, res) => {
   const { images } = req.files;
 

@@ -20,6 +20,6 @@ router
   .put(verifyToken, updateListing)
   .get(getListing);
 
-router.route("/user-listings/:id").get(getListingByUserId);
+router.route("/user/:id").get(getListingByUserId);
 
 module.exports = router;

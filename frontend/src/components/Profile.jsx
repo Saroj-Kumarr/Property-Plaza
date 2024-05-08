@@ -1,58 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { fetchUserListings } from "../services/listing.actions";
+import { fetchUser } from "../services/user.actions";
 
 const Profile = () => {
   const { currentUser } = useSelector((store) => store.user);
+  const [userListings, setUserListings] = useState([]);
 
   if (!currentUser) {
     return;
   }
 
-  const [userListings, setUserListings] = useState([]);
-
-  const fetchUserListings = async () => {
-    try {
-      const response = await fetch(
-        "https://property-plaza.onrender.com/api/listing/get/user-listings/" +
-          currentUser._id
-      );
-
-      if (!response.status == 200) {
-        alert("Not fetched user listings");
-      }
-
-      const jsonResponse = await response.json();
-
-      setUserListings(jsonResponse);
-
-      console.log(jsonResponse);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
-  const handleDeleteUser = async () => {
-    try {
-      const response = await fetch(
-        "https://property-plaza.onrender.com/api/user/user/delete/" +
-          currentUser._id,
-        {
-          method: "DELETE",
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-
-      const jsonResponse = await response.json();
-
-      console.log(jsonResponse);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
   useEffect(() => {
-    fetchUserListings();
+    const fetchData = async () => {
+      const listings = await fetchUserListings(currentUser._id);
+      setUserListings(listings);
+    };
+    fetchData();
   }, []);
 
   return (
@@ -71,7 +36,13 @@ const Profile = () => {
           <p className="text-sm font-semibold">{currentUser.phone}</p>
           <div className="flex gap-2 mt-2">
             <button
-              onClick={handleDeleteUser}
+              onClick={async () => {
+                const response = await deleteUser(currentUser._id);
+                if (response.success) {
+                  dispatch(deleteUser());
+                  navigate("/register");
+                }
+              }}
               className="bg-red-600 text-xs px-3 py-1 rounded-md text-white uppercase tracking-widest font-semibold custom-shadow"
             >
               delete

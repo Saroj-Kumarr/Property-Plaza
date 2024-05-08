@@ -4,7 +4,9 @@ import { BsFilterSquareFill } from "react-icons/bs";
 const SearchListing = () => {
   const options = ["Low to High", "High to Low", "Newest", "Oldest", "Reset"];
 
-  const onOptionChangeHandler = (event) => {};
+  const onOptionChangeHandler = (event) => {
+    
+  };
 
   return (
     <div className="h-40 bg-white  rounded-md mt-8 custom-shadow p-2">

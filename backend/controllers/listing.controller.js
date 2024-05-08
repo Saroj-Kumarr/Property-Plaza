@@ -83,6 +83,7 @@ const getListings = async (req, res) => {
 };
 
 const getListingByUserId = async (req, res) => {
+  
   const { id } = req.params;
 
   try {

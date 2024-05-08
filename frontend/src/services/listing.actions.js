@@ -1,9 +1,8 @@
 import apiClient from "./apiConnectior";
 
-
 const fetchListings = async () => {
   try {
-    const response = await apiClient.get("/listings");
+    const response = await apiClient.get("/listing");
     if (response.status === 200) {
       return response.data;
     } else {
@@ -13,7 +12,6 @@ const fetchListings = async () => {
     console.error("Error while fetching listings:", error.message);
   }
 };
-
 
 const fetchListing = async (id) => {
   try {
@@ -29,10 +27,9 @@ const fetchListing = async (id) => {
   }
 };
 
-
 const fetchUserListings = async (userId) => {
   try {
-    const response = await apiClient.get(`/listings/user/${userId}`);
+    const response = await apiClient.get(`/listing/user/${userId}`);
 
     if (response.status === 200) {
       return response.data;
@@ -43,7 +40,6 @@ const fetchUserListings = async (userId) => {
     console.error("Error while fetching user listings:", error.message);
   }
 };
-
 
 const createListing = async (listing) => {
   try {
@@ -59,7 +55,6 @@ const createListing = async (listing) => {
   }
 };
 
-
 const updateListing = async (id, listing) => {
   try {
     const response = await apiClient.put(`/listings/${id}`, listing);
@@ -74,7 +69,6 @@ const updateListing = async (id, listing) => {
   }
 };
 
-
 const deleteListing = async (id) => {
   try {
     const response = await apiClient.delete(`/listings/${id}`);
@@ -88,7 +82,6 @@ const deleteListing = async (id) => {
     console.error(`Error deleting listing with ID ${id}:`, error.message);
   }
 };
-
 
 export {
   fetchListings,

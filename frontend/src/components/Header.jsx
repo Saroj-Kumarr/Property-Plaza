@@ -1,15 +1,19 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../assets/logo.png";
 import { FiSearch } from "react-icons/fi";
 import { deleteUser } from "../redux/userSlice";
 import { IoLogInSharp, IoLogOutSharp } from "react-icons/io5";
 import { GiArchiveRegister } from "react-icons/gi";
 import { useLocation } from "react-router-dom";
+import { logout } from "../services/auth.actions";
+import { fetchUser } from "../services/user.actions";
 
 const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
+  const [user, setUser] = useState({});
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -19,7 +23,6 @@ const Header = () => {
         <Link to="/">
           <div className="font-bold uppercase items-center text-sm sm:text-xl flex flex-wrap">
             <img className="h-20" src={logo} alt="logo" />
-            {/* <MdRealEstateAgent className="text-5xl  text-[#1B2A80]" /> */}
             <h1 className="-ml-3">
               {" "}
               <span className="text-slate-600">Property </span>
@@ -43,13 +46,8 @@ const Header = () => {
           </div>
         </form>
         <ul className="flex gap-5 uppercase tracking-widest font-semibold items-center ">
-          {currentUser && <> </>}
-          {/* <Link to="/profile"> */}
           {currentUser ? (
-            <div
-              onClick={() => navigate("/profile")}
-              className="flex gap-4 items-center"
-            >
+            <div className="flex gap-4 items-center">
               <Link
                 onClick={() => {
                   if (location.pathname === "/listings") {
@@ -68,25 +66,33 @@ const Header = () => {
                   create listing
                 </li>
               </Link>
-              <Link to="/login">
-                <li
-                  // onClick={handleLogout}
-                  className="border border-[#1B2A80] px-3 py-1 rounded-md text-[#1B2A80]  font-semibold custom-shadow"
-                >
-                  {" "}
-                  Logout <IoLogOutSharp className="inline text-lg -mt-[2px]" />
-                </li>
+
+              <li
+                onClick={async () => {
+                  const response = await logout();
+                  if (response.success) {
+                    dispatch(deleteUser());
+                    navigate("/login");
+                  }
+                }}
+                className="border border-[#1B2A80] px-3 py-1 rounded-md text-[#1B2A80]  font-semibold custom-shadow"
+              >
+                {" "}
+                Logout <IoLogOutSharp className="inline text-lg -mt-[2px]" />
+              </li>
+
+              <Link to="/profile">
+                <div className="relative w-24 flex justify-center items-center">
+                  <img
+                    className="rounded-full border-2 border-[#1B2A80]  h-12 w-12 object-cover custom-shadow"
+                    src={currentUser.image}
+                    alt="profile"
+                  />
+                  <span className="text-[10px] text-[#1B2A80] -bottom-4 absolute font-bold uppercase tracking-widest">
+                    {currentUser.name}
+                  </span>
+                </div>
               </Link>
-              <div className="relative w-24 flex justify-center items-center">
-                <img
-                  className="rounded-full border-2 border-[#1B2A80]  h-12 w-12 object-cover custom-shadow"
-                  src={currentUser.image}
-                  alt="profile"
-                />
-                <span className="text-[10px] text-[#1B2A80] -bottom-4 absolute font-bold uppercase tracking-widest">
-                  {currentUser.name}
-                </span>
-              </div>
             </div>
           ) : (
             <div className="flex gap-4  items-center">

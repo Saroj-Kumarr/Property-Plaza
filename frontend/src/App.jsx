@@ -19,6 +19,7 @@ import Owner from "./components/Owner";
 import { useSelector } from "react-redux";
 
 const App = () => {
+  
   const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
 
