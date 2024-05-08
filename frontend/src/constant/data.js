@@ -15,15 +15,15 @@ export const settingsecond = {
 
 export const cities = [
   {
-    city: "New Delhi",
+    city: "Phagwara",
     url: "https://static.realestateindia.com/rei/images/topcity/ebsrpi-delhi.jpg",
   },
   {
-    city: "Mumbai",
+    city: "Ludhiana",
     url: "https://static.realestateindia.com/rei/images/topcity/ebsrpi-mumbai.jpg",
   },
   {
-    city: "Gurgaon",
+    city: "Jalandhar",
     url: "https://static.realestateindia.com/rei/images/topcity/ebsrpi-gurgaon.jpg",
   },
   {

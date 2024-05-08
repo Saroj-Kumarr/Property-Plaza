@@ -9,7 +9,7 @@ const imageUploadRoutes = require("./routes/upload.route");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const connection = require("./config/database");
-const { cloudinaryConnect } = require("./utils/cloudinaryConnect");
+const { cloudinaryConnect } = require("./config/cloudinaryConnect");
 const app = express();
 dotenv.config();
 

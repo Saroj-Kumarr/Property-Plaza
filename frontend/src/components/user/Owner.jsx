@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { fetchUser } from "../services/user.actions";
-import { fetchUserListings } from "../services/listing.actions";
+import { fetchUser } from "../../services/user.actions";
+import { fetchUserListings } from "../../services/listing.actions";
 
 const Owner = () => {
   const [owner, setOwner] = useState({});
@@ -15,14 +15,12 @@ const Owner = () => {
       const data = await fetchUser(id);
       setOwner(data);
       const listings = await fetchUserListings(id);
-      setOwnerListings(listings);
+      setOwnerListings(listings.userListings);
     };
     fetchData();
   }, [id]);
 
   const { name, email, phone, image } = owner;
-
-  console.log(ownerListings);
 
   return (
     <div className="min-h-screen flex flex-col items-center pt-24">
@@ -43,11 +41,11 @@ const Owner = () => {
           <p className="h-[2px] bg-[#1B2A80] w-60"></p>
         </div>
         <div className="flex gap-10 my-5 flex-wrap justify-center">
-          {/* {ownerListings &&
+          {ownerListings &&
             ownerListings.map(({ _id, imageURLS, title }) => {
               return (
                 <Link to={"/view-listing/" + _id}>
-                  <div className="bg-gradient-to-t custom-shadow rounded-md  h-60 w-80 from-slate-400 to-transparent">
+                  <div className="bg-gradient-to-t custom-shadow rounded-md  h-60 w-[350px] from-slate-400 to-transparent">
                     <img
                       className="h-full w-full rounded-md"
                       src={imageURLS[0]}
@@ -59,7 +57,7 @@ const Owner = () => {
                   </div>
                 </Link>
               );
-            })} */}
+            })}
         </div>
       </div>
     </div>

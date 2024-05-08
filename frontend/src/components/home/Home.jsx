@@ -1,5 +1,5 @@
 import React from "react";
-import homeImage from "../assets/property.png";
+import homeImage from "../../assets/property.png";
 import { Link } from "react-router-dom";
 import { GiArchiveRegister } from "react-icons/gi";
 import { IoLogInSharp } from "react-icons/io5";

@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { uploadImages } from "../services/upload.actions";
+import { useNavigate, useParams } from "react-router-dom";
+import { uploadImages } from "../../services/upload.actions";
+import { fetchListing, updateListing } from "../../services/listing.actions";
 
 const UpdateListing = () => {
-  const [title, setTitle] = useState("fsdf");
-  const [description, setDescription] = useState("fdsafs");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [type, setType] = useState("");
   const [parking, setParking] = useState("");
   const [furnished, setFurnished] = useState("");
-  const [location, setLocation] = useState("fsafsd");
+  const [location, setLocation] = useState("");
   const [bedrooms, setBedrooms] = useState(1);
   const [bathrooms, setBathrooms] = useState(1);
   const [price, setPrice] = useState("1000");
@@ -20,7 +21,6 @@ const UpdateListing = () => {
   const { id } = useParams();
 
   const { currentUser } = useSelector((store) => store.user);
-  const _id = currentUser ? currentUser._id : null;
 
   const handleRadioChange = (event) => {
     setType(event.target.value);
@@ -37,103 +37,22 @@ const UpdateListing = () => {
     setImages([...images, ...files]);
   };
 
-  const uploadImages = async () => {
-    const formData = new FormData();
-
-    for (let i = 0; i < images.length; i++) {
-      formData.append("images", images[i]);
-    }
-
-    try {
-      const response = await fetch(
-        "https://property-plaza.onrender.com/api/upload/multiple-image",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-
-      if (!response.ok) {
-        console.log("Failed to upload images");
-        return;
-      }
-
-      const jsonResponse = await response.json();
-
-      setImageURLS(jsonResponse);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
-  const handleUpdateListing = async () => {
-    try {
-      const response = await fetch(
-        "https://property-plaza.onrender.com/api/listing/update/" + id,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization:
-              "Bearer " + JSON.parse(localStorage.getItem("token")),
-          },
-          body: JSON.stringify({
-            title,
-            description,
-            type,
-            parking,
-            furnished,
-            location,
-            bedrooms,
-            bathrooms,
-            price,
-            imageURLS,
-            owner: _id,
-          }),
-        }
-      );
-
-      if (!response.ok) {
-        console.log("Failed to create listing");
-        return;
-      }
-
-      const jsonResponse = await response.json();
-      navigate("/listings");
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
-  const fetchListingById = async () => {
-    try {
-      const response = await fetch(
-        "https://property-plaza.onrender.com/api/listing/get/" + id
-      );
-
-      if (!response.status == 200) {
-        console.log("Not able to fetch the listings.");
-      }
-
-      const jsonResponse = await response.json();
-
-      setTitle(jsonResponse.title);
-      setDescription(jsonResponse.description);
-      setType(jsonResponse.type);
-      setParking(jsonResponse.parking);
-      setFurnished(jsonResponse.furnished);
-      setLocation(jsonResponse.location);
-      setBedrooms(jsonResponse.bedrooms);
-      setBathrooms(jsonResponse.bathrooms);
-      setPrice(jsonResponse.price);
-      setImageURLS(jsonResponse.imageURLS);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
   useEffect(() => {
-    fetchListingById();
+    const fetchData = async () => {
+      const data = await fetchListing(id);
+      console.log(data);
+      setTitle(data.listing.title);
+      setDescription(data.listing.description);
+      setType(data.listing.type);
+      setParking(data.listing.parking);
+      setFurnished(data.listing.furnished);
+      setLocation(data.listing.location);
+      setBedrooms(data.listing.bedrooms);
+      setBathrooms(data.listing.bathrooms);
+      setPrice(data.listing.price);
+      setImageURLS(data.listing.imageURLS);
+    };
+    fetchData();
   }, [id]);
 
   return (
@@ -308,7 +227,25 @@ const UpdateListing = () => {
           </div>
         </div>
         <button
-          onClick={handleUpdateListing}
+          onClick={async () => {
+            const response = await updateListing(id, {
+              title,
+              description,
+              type,
+              parking,
+              furnished,
+              location,
+              bedrooms,
+              bathrooms,
+              price,
+              imageURLS,
+            });
+
+            if (response.success) {
+              toast.success("Listing created successfully.");
+              navigate("/listings");
+            }
+          }}
           className="bg-[#1B2A80] px-5 py-2 custom-shadow rounded-md text-white font-semibold tracking-widest uppercase w-full "
         >
           update listing

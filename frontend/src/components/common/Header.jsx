@@ -1,18 +1,16 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import React, { useEffect, useState } from "react";
-import logo from "../assets/logo.png";
+import React from "react";
+import logo from "../../assets/logo.png";
 import { FiSearch } from "react-icons/fi";
-import { removeUser } from "../redux/userSlice";
+import { removeUser } from "../../redux/userSlice";
 import { IoLogInSharp, IoLogOutSharp } from "react-icons/io5";
 import { GiArchiveRegister } from "react-icons/gi";
 import { useLocation } from "react-router-dom";
-import { logout } from "../services/auth.actions";
-import { fetchUser } from "../services/user.actions";
+import { logout } from "../../services/auth.actions";
 
 const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
-  const [user, setUser] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -30,21 +28,7 @@ const Header = () => {
             </h1>
           </div>
         </Link>
-        <form
-          // onSubmit={handleSubmit}
-          className="p-3  rounded-lg flex gap-3 items-center"
-        >
-          <div className="custom-shadow ml-10">
-            <input
-              type="text"
-              placeholder="search your choice here..."
-              className="border-2 placeholder:tracking-widest border-[#1B2A80] w-72 py-2 px-5 rounded-l-md focus:outline-none"
-            />
-            <button className="bg-[#1B2A80] tracking-widest border border-[#1B2A80]  px-3 py-[7px] custom-shadow rounded-r-md text-white text-lg font-semibold">
-              <FiSearch className="inline -mt-1 text-2xl" /> search
-            </button>
-          </div>
-        </form>
+        
         <ul className="flex gap-5 uppercase tracking-widest font-semibold items-center ">
           {currentUser ? (
             <div className="flex gap-4 items-center">

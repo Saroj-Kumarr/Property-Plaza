@@ -5,15 +5,17 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { BsFilterSquareFill } from "react-icons/bs";
-import Agent from "./Agent";
+import Agent from "../user/Agent";
 import { Link } from "react-router-dom";
 import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
 import { RiSearchFill } from "react-icons/ri";
-import { cities, options, settingsecond, settings } from "../constant/data";
+import { cities, options, settingsecond, settings } from "../../constant/data";
 import toast from "react-hot-toast";
 import { FcHome } from "react-icons/fc";
-import { fetchListings } from "../services/listing.actions";
-import useFetchOwners from "../hooks/useFetchOwners";
+import { fetchListings } from "../../services/listing.actions";
+import useFetchOwners from "../../hooks/useFetchOwners";
+import { ShimmerContentBlock } from "react-shimmer-effects";
+import { FiSearch } from "react-icons/fi";
 
 const ListingPage = () => {
   const [page, setPage] = useState(0);
@@ -28,11 +30,20 @@ const ListingPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       const data = await fetchListings();
-      setListings(data);
-      setCopyListings(data);
+      setListings(data.listings);
+      setCopyListings(data.listings);
     };
     fetchData();
   }, []);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const searchValue = e.target.value;
+    const filteredListings = copyListings.filter((listing) => {
+      return listing.title.toLowerCase().includes(searchValue.toLowerCase());
+    });
+    setListings(filteredListings);
+  };
 
   const onOptionChangeHandler = (event) => {
     const value = event.target.value;
@@ -82,7 +93,6 @@ const ListingPage = () => {
           backgroundColor: "#1B2A80",
           color: "white",
         },
-
         icon: "❌",
         iconTheme: {
           primary: "#000",
@@ -124,8 +134,6 @@ const ListingPage = () => {
 
     setListings(filteredItems);
   };
-
-  console.log(listings);
 
   return (
     <div className="min-h-screen flex">
@@ -285,13 +293,29 @@ const ListingPage = () => {
       </div>
       <div className="w-8/12 pt-16 min-h-screen">
         <div className="flex pr-2 py-2 slider-class h-screen overflow-x-hidden overflow-y-scroll flex-col gap-5">
-          {listings.length !== 0 && (
+          {listings.length !== 0 ? (
             <div className="mb-3">
               {listings
                 .slice(page * 10, page * 10 + 10)
                 .map((listing, index) => (
                   <ListingCard key={index} listing={listing} />
                 ))}
+            </div>
+          ) : (
+            <div>
+              {Array(8)
+                .fill(null)
+                .map((_, index) => {
+                  return (
+                    <ShimmerContentBlock
+                      title
+                      text
+                      cta
+                      thumbnailWidth={600}
+                      thumbnailHeight={100}
+                    />
+                  );
+                })}
             </div>
           )}
         </div>
@@ -335,24 +359,23 @@ const ListingPage = () => {
           />
         </div>
       </div>
+      <div className="absolute left-96 top-2 z-10 flex justify-center ">
+        <form className="p-3   rounded-lg flex gap-3 items-center">
+          <div className="custom-shadow ml-10">
+            <input
+              type="text"
+              onChange={handleSearch}
+              placeholder="search your choice here..."
+              className="border-2 placeholder:tracking-widest border-[#1B2A80] w-72 py-2 px-5 rounded-l-md focus:outline-none"
+            />
+            <button className="bg-[#1B2A80] tracking-widest border border-[#1B2A80]  px-3 py-[7px] custom-shadow rounded-r-md text-white text-lg font-semibold">
+              <FiSearch className="inline -mt-1 text-2xl" /> search
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
 
 export default ListingPage;
-
-// {
-//   Array(8)
-//     .fill(null)
-//     .map((_, index) => {
-//       return (
-//         <ShimmerContentBlock
-//           title
-//           text
-//           cta
-//           thumbnailWidth={600}
-//           thumbnailHeight={100}
-//         />
-//       );
-//     });
-// }

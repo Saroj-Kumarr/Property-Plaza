@@ -1,11 +1,8 @@
 import React from "react";
-import { BiHeart } from "react-icons/bi";
 import { FaFacebook, FaGithub, FaLinkedin } from "react-icons/fa";
 import { FaSquareInstagram } from "react-icons/fa6";
-import { HiUserGroup } from "react-icons/hi2";
 import { IoHeartSharp } from "react-icons/io5";
-import { MdRealEstateAgent } from "react-icons/md";
-import logo from "../assets/logo.png";
+import logo from "../../assets/logo.png";
 
 const Footer = () => {
   return (

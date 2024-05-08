@@ -5,10 +5,11 @@ import SwiperCore from "swiper";
 import "swiper/css/bundle";
 import { FaBath, FaLocationDot, FaToiletPortable } from "react-icons/fa6";
 import { IoBedSharp, IoCarSportSharp } from "react-icons/io5";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import dateFormat from "dateformat";
-import { deleteListing, fetchListing } from "../services/listing.actions";
+import { deleteListing, fetchListing } from "../../services/listing.actions";
 import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
 
 const ViewListing = () => {
   const { id } = useParams();
@@ -19,7 +20,7 @@ const ViewListing = () => {
   useEffect(() => {
     const fetchData = async () => {
       const data = await fetchListing(id);
-      setListingInfo(data);
+      setListingInfo(data.listing);
     };
     fetchData();
   }, [id]);
@@ -78,9 +79,11 @@ const ViewListing = () => {
             <button className="bg-[#1B2A80] px-5 py-[1px] custom-shadow rounded-md text-white uppercase font-semibold ">
               For {type}
             </button>
-            <button className="border border-[#1B2A80] px-5 py-[1px] rounded-md text-[#1B2A80] uppercase  font-semibold custom-shadow">
-              contact
-            </button>
+            <Link to={"/contact/" + owner._id}>
+              <button className="border border-[#1B2A80] px-5 py-[1px] rounded-md text-[#1B2A80] uppercase  font-semibold custom-shadow">
+                contact
+              </button>
+            </Link>
           </div>
           <div className="text-center">
             <span className="text-sm font-bold text-[#1B2A80]">
@@ -112,7 +115,8 @@ const ViewListing = () => {
               <button
                 onClick={async () => {
                   if (currentUser._id !== owner._id) {
-                    return alert("You are not the owner of this listing.");
+                    toast.error("You are not the owner of this listing.");
+                    return;
                   }
 
                   const response = await deleteListing(id);
@@ -127,9 +131,8 @@ const ViewListing = () => {
               <button
                 onClick={async () => {
                   if (currentUser._id !== owner._id) {
-                    return alert(
-                      "You can not update because your are not the owner of the listing."
-                    );
+                    toast.error("You are not the owner of this listing.");
+                    return;
                   }
                   const response = await deleteListing(id);
                   if (response.success) {

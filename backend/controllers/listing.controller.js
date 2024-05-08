@@ -43,7 +43,7 @@ const updateListing = async (req, res) => {
     });
 
     if (!updatedListing) {
-      res.status(400).json("Listing is not updated.");
+      return res.status(400).json("Listing is not updated.");
     }
 
     res.status(200).json({
@@ -95,7 +95,6 @@ const getListings = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
-
 
 const getListingByUserId = async (req, res) => {
   const { id } = req.params;

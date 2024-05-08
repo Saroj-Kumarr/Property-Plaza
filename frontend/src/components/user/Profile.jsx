@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { fetchUserListings } from "../services/listing.actions";
-import { deleteUser } from "../services/user.actions";
-import { removeUser } from "../redux/userSlice";
+import { fetchUserListings } from "../../services/listing.actions";
+import { deleteUser } from "../../services/user.actions";
+import { removeUser } from "../../redux/userSlice";
 
 const Profile = () => {
   const { currentUser } = useSelector((store) => store.user);
@@ -17,8 +17,8 @@ const Profile = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const listings = await fetchUserListings(currentUser._id);
-      setUserListings(listings);
+      const response = await fetchUserListings(currentUser._id);
+      setUserListings(response.userListings);
     };
     fetchData();
   }, []);
@@ -27,7 +27,7 @@ const Profile = () => {
     <div className="min-h-screen flex flex-col items-center pt-24">
       <div className="w-4/12 h-60 gap-2 rounded-md custom-shadow flex items-center">
         <img
-          className="h-full w-[60%] object-cover"
+          className="h-[238px] w-[260px] object-cover"
           src={currentUser.image}
           alt="user"
         />
@@ -67,7 +67,7 @@ const Profile = () => {
             userListings.map(({ _id, imageURLS, title }) => {
               return (
                 <Link to={"/view-listing/" + _id}>
-                  <div className="bg-gradient-to-t custom-shadow rounded-md  h-60 w-80 from-slate-400 to-transparent">
+                  <div className="bg-gradient-to-t custom-shadow rounded-md  h-60 w-[350px] from-slate-400 to-transparent">
                     <img
                       className="h-full w-full rounded-md"
                       src={imageURLS[0]}

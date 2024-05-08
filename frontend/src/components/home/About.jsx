@@ -69,14 +69,12 @@ const About = () => {
         <div className="flex  justify-center items-center mt-10 flex-wrap gap-5">
           {reviews.map(({ name, imageURL, review }) => {
             return (
-            
-                <Customer
-                  key={name}
-                  name={name}
-                  imageURL={imageURL}
-                  review={review}
-                />
-            
+              <Customer
+                key={name}
+                name={name}
+                imageURL={imageURL}
+                review={review}
+              />
             );
           })}
         </div>

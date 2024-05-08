@@ -1,25 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
-import Login from "./components/Login";
-import Register from "./components/Register";
-import About from "./components/About";
-import Profile from "./components/Profile";
-import Header from "./components/Header";
-import Home from "./components/Home";
-import Footer from "./components/Footer";
-import ListingCard from "./components/ListingCard";
-import ListingPage from "./components/ListingPage";
-import ViewListing from "./components/ViewListing";
-import CreateListing from "./components/CreateListing";
-import UpdateListing from "./components/UpdateListing";
-import Contact from "./components/Contact";
-import { Toaster } from "react-hot-toast";
-import UpdateUserInfo from "./components/UpdateUserInfo";
-import Owner from "./components/Owner";
+import { Routes, Route, useNavigate } from "react-router-dom";
+import Home from "./components/home/Home";
+import Login from "./components/auth/Login";
+import Register from "./components/auth/Register";
+import Header from "./components/common/Header";
+import Footer from "./components/common/Footer";
+import About from "./components/home/About";
+import Contact from "./components/home/Contact";
+import ListingPage from "./components/listing/ListingPage";
+import Profile from "./components/user/Profile";
+import Owner from "./components/user/Owner";
+import CreateListing from "./components/listing/CreateListing";
+import UpdateListing from "./components/listing/UpdateListing";
+import ViewListing from "./components/listing/ViewListing";
+import UpdateUser from "./components/user/UpdateUser";
 import { useSelector } from "react-redux";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
-  
   const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
 
@@ -36,8 +34,8 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/update-user" element={<UpdateUserInfo />} />
-        <Route path="/contact" element={<Contact />} />
+        <Route path="/update-user" element={<UpdateUser />} />
+        <Route path="/contact/:id" element={<Contact />} />
         <Route path="/about" element={<About />} />
         <Route path="/listings" element={<ListingPage />} />
         <Route path="/profile" element={<Profile />} />

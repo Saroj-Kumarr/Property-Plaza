@@ -2,17 +2,16 @@ import React from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setUser } from "../redux/userSlice";
+import { setUser } from "../../redux/userSlice";
 import { MdMail } from "react-icons/md";
 import { FaLock } from "react-icons/fa";
 import { IoEye, IoEyeOff, IoLogInSharp } from "react-icons/io5";
-import { login } from "../services/auth.actions";
+import { login } from "../../services/auth.actions";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
   const [isShowPassword, setIsShowPassword] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -39,6 +38,10 @@ const Login = () => {
                   image,
                 })
               );
+              toast.success("you are logged in successfully.", {
+                duration: 3000,
+                position: "top-center",
+              });
               navigate("/listings");
             }
           }}
@@ -76,11 +79,8 @@ const Login = () => {
             )}
           </div>
 
-          <button
-            disabled={loading}
-            className="tracking-widest w-full bg-[#1B2A80] text-white font-bold py-2 rounded-md custom-shadow uppercase tracking-widest"
-          >
-            {loading ? "Loading..." : "Login"}{" "}
+          <button className="tracking-widest w-full bg-[#1B2A80] text-white font-bold py-2 rounded-md custom-shadow uppercase tracking-widest">
+            Login
             <IoLogInSharp className="inline text-lg -mt-[2px]" />
           </button>
         </form>
@@ -90,7 +90,6 @@ const Login = () => {
             <span className="font-bold text-[#1B2A80]">Register</span>
           </Link>
         </p>
-        {error && <p className="text-red-500 mt-5">{error}</p>}
       </div>
     </div>
   );

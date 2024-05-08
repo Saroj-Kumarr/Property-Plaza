@@ -8,7 +8,7 @@ const {
   getListingByUserId,
 } = require("../controllers/listing.controller");
 
-const { verifyToken } = require("../utils/verifyUser");
+const { verifyToken } = require("../middlewares/verifyUser");
 
 const router = express.Router();
 

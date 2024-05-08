@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { FaUserCircle, FaPhoneSquareAlt } from "react-icons/fa";
 import { MdEditSquare, MdMail } from "react-icons/md";
-import { updateUser } from "../services/user.actions";
-import { uploadImage } from "../services/upload.actions";
-import { setUser } from "../redux/userSlice";
+import { updateUser } from "../../services/user.actions";
+import { uploadImage } from "../../services/upload.actions";
+import { setUser } from "../../redux/userSlice";
 
 const UpdateUserInfo = () => {
   const { currentUser } = useSelector((store) => store.user);

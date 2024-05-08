@@ -27,9 +27,9 @@ const ListingCard = ({ listing }) => {
   return (
     
     <Link to={"/view-listing/" + _id}>
-      <div className="w-full  mt-4 ml-2  relative flex  custom-shadow   border-[#1B2A80] rounded-md">
+      <div className="w-full h-80  mt-4 ml-2  relative flex  custom-shadow   border-[#1B2A80] rounded-md">
         <img
-          className="w-7/12 h-[250px] object-cover rounded-l-md "
+          className="w-7/12 h-full object-cover rounded-l-md "
           src={imageURLS[0]}
           alt="image"
         />

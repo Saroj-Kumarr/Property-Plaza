@@ -5,8 +5,9 @@ import { FaUserCircle, FaLock, FaPhoneSquareAlt } from "react-icons/fa";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 import { MdMail } from "react-icons/md";
 import { GiArchiveRegister } from "react-icons/gi";
-import { register } from "../services/auth.actions";
-import { uploadImage } from "../services/upload.actions";
+import { register } from "../../services/auth.actions";
+import { uploadImage } from "../../services/upload.actions";
+import { toast } from "react-hot-toast";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -14,8 +15,6 @@ const Register = () => {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [imageURL, setImageURL] = useState("");
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
   const [isShowPassword, setIsShowPassword] = useState(false);
 
   const navigate = useNavigate();
@@ -37,6 +36,10 @@ const Register = () => {
               imageURL
             );
             if (response.success) {
+              toast.success(`Hii👋 ${name} you are registered.`, {
+                duration: 3000,
+                position: "top-center",
+              });
               navigate("/login");
             }
           }}
@@ -116,16 +119,14 @@ const Register = () => {
               const response = await uploadImage(e.target.files[0]);
 
               if (response.success) {
+                toast.success("Image uploaded successfully.");
                 setImageURL(response.data);
               }
             }}
           />
 
-          <button
-            disabled={loading}
-            className="tracking-widest w-full bg-[#1B2A80] text-white font-bold py-2 rounded-md custom-shadow tracking-widest uppercase"
-          >
-            {loading ? "Loading..." : "Register"}{" "}
+          <button className="tracking-widest w-full bg-[#1B2A80] text-white font-bold py-2 rounded-md custom-shadow tracking-widest uppercase">
+            Register
             <GiArchiveRegister
               className="inline text-lg
                     -mt-[2px]"
@@ -139,10 +140,6 @@ const Register = () => {
             <span className="font-bold text-[#1B2A80]">Login</span>
           </Link>
         </p>
-
-        {error && (
-          <p className="text-red-500 mt-3 text-sm text-center">{error}</p>
-        )}
       </div>
     </div>
   );

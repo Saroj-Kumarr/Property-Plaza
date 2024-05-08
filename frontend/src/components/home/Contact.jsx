@@ -1,18 +1,36 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RiSendPlaneFill } from "react-icons/ri";
-import { IoMdSend } from "react-icons/io";
 import { FaUserCircle } from "react-icons/fa";
 import { MdMail } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { fetchUser } from "../../services/user.actions";
 
 const Contact = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [ownerEmail, setOwnerEmail] = useState("");
+
+  const { id } = useParams();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await fetchUser(id);
+      setOwnerEmail(data.email);
+    };
+    fetchData();
+  }, [id]);
+
+  const handleSendMessage = (e) => {
+   
+  };
 
   return (
-    <div className="flex h-screen items-center justify-center">
-      <form className="w-3/12 custom-shadow flex flex-col gap-5 p-3 rounded-md">
+    <div className="flex h-screen items-center p-5 justify-center">
+      <form
+        onSubmit={handleSendMessage}
+        className="w-3/12 custom-shadow flex flex-col gap-5 p-3 rounded-md"
+      >
         <h3 className=" font-bold text-center tracking-widest  text-lg uppercase">
           Contact <span className="text-[#1B2A80]">Saroj Kumar</span>
         </h3>

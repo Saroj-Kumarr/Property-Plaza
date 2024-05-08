@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { createListing } from "../services/listing.actions";
-import { uploadImages } from "../services/upload.actions";
+import { createListing } from "../../services/listing.actions";
+import { uploadImages } from "../../services/upload.actions";
+import toast from "react-hot-toast";
 
 const CreateListing = () => {
-  const [title, setTitle] = useState("fsdf");
-  const [description, setDescription] = useState("fdsafs");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [type, setType] = useState("");
   const [parking, setParking] = useState("");
   const [furnished, setFurnished] = useState("");
-  const [location, setLocation] = useState("fsafsd");
+  const [location, setLocation] = useState("");
   const [bedrooms, setBedrooms] = useState(1);
   const [bathrooms, setBathrooms] = useState(1);
   const [price, setPrice] = useState("1000");
@@ -186,6 +187,7 @@ const CreateListing = () => {
                 onClick={async () => {
                   const response = await uploadImages(images);
                   if (response.success) {
+                    toast.success("Images uploaded successfully.");
                     setImageURLS(response.data);
                   }
                 }}
@@ -252,13 +254,13 @@ const CreateListing = () => {
             });
 
             if (response.success) {
-              alert("You have successfully created a listing.");
+             toast.success("Listing created successfully.");
               navigate("/listings");
             }
           }}
           className="bg-[#1B2A80] px-5 py-2 custom-shadow rounded-md text-white font-semibold tracking-widest uppercase w-full "
         >
-          <Link to="/listings">create listing</Link>
+          Create Listing
         </button>
       </div>
     </div>
