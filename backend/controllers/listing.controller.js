@@ -34,8 +34,10 @@ const deleteListing = async (req, res) => {
   }
 };
 
-const updateListing = async (req, res) => {
+const editListing = async (req, res) => {
   const { id } = req.params;
+
+  console.log(req.body);
 
   try {
     const updatedListing = await Listing.findByIdAndUpdate(id, req.body, {
@@ -63,7 +65,7 @@ const getListing = async (req, res) => {
     const listing = await Listing.findById(id).populate("owner");
 
     if (!listing) {
-      res.status(400).json("Listing is not found.");
+      return res.status(400).json("Listing is not found.");
     }
 
     res.status(200).json({
@@ -119,7 +121,7 @@ const getListingByUserId = async (req, res) => {
 module.exports = {
   createListing,
   deleteListing,
-  updateListing,
+  editListing,
   getListing,
   getListings,
   getListingByUserId,

@@ -129,16 +129,14 @@ const ViewListing = () => {
                 delete
               </button>
               <button
+               
                 onClick={async () => {
+
                   if (currentUser._id !== owner._id) {
                     toast.error("You are not the owner of this listing.");
                     return;
                   }
-                  const response = await deleteListing(id);
-                  if (response.success) {
-                    navigate("/listings");
-                  }
-
+                  
                   navigate("/update-listing/" + id);
                 }}
                 className="bg-[#1B2A80] px-5 py-[1px] rounded-md text-white uppercase  font-semibold custom-shadow"

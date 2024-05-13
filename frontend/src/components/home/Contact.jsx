@@ -2,15 +2,19 @@ import React, { useEffect, useState } from "react";
 import { RiSendPlaneFill } from "react-icons/ri";
 import { FaUserCircle } from "react-icons/fa";
 import { MdMail } from "react-icons/md";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { fetchUser } from "../../services/user.actions";
+import apiClient from "../../services/apiConnectior";
+import { useSelector } from "react-redux";
+import { toast } from "react-hot-toast";
 
 const Contact = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const { currentUser } = useSelector((state) => state.user);
+  const [name, setName] = useState(currentUser.name);
+  const [email, setEmail] = useState(currentUser.email);
   const [message, setMessage] = useState("");
   const [ownerEmail, setOwnerEmail] = useState("");
-
+  const navigate = useNavigate();
   const { id } = useParams();
 
   useEffect(() => {
@@ -21,14 +25,26 @@ const Contact = () => {
     fetchData();
   }, [id]);
 
-  const handleSendMessage = (e) => {
-   
+  const handleSendEmailMessage = async (e) => {
+    e.preventDefault();
+    try {
+      await apiClient.post("/user/send-email", {
+        name,
+        fromUser: email,
+        toUser: ownerEmail,
+        message,
+      });
+      toast.success("Email is sent successfully.");
+      navigate("/listings");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <div className="flex h-screen items-center p-5 justify-center">
       <form
-        onSubmit={handleSendMessage}
+        onSubmit={handleSendEmailMessage}
         className="w-3/12 custom-shadow flex flex-col gap-5 p-3 rounded-md"
       >
         <h3 className=" font-bold text-center tracking-widest  text-lg uppercase">
@@ -41,6 +57,7 @@ const Contact = () => {
             placeholder="Enter your name"
             className=" text-center w-full py-2 focus:outline-none rounded-md  tracking-widest"
             id="name"
+            value={currentUser.name}
             onChange={(e) => setName(e.target.value)}
           />
         </div>
@@ -51,6 +68,7 @@ const Contact = () => {
             placeholder="Enter your email"
             className="rounded-md text-center w-full py-2 focus:outline-none tracking-widest "
             id="email"
+            value={currentUser.email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
@@ -63,10 +81,9 @@ const Contact = () => {
           onChange={(e) => setMessage(e.target.value)}
         />
         <button className="bg-[#1B2A80] px-5 py-2 custom-shadow rounded-md text-white font-semibold tracking-widest uppercase w-full ">
-          <Link to="/listingss">
-            send message{" "}
-            <RiSendPlaneFill className="inline text-lg -mt-[2px]" />
-          </Link>
+          {/* <Link to="/listingss"> */}
+          send message <RiSendPlaneFill className="inline text-lg -mt-[2px]" />
+          {/* </Link> */}
         </button>
       </form>
     </div>

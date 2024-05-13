@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { uploadImages } from "../../services/upload.actions";
 import { fetchListing, updateListing } from "../../services/listing.actions";
+import { toast } from "react-hot-toast";
 
 const UpdateListing = () => {
   const [title, setTitle] = useState("");
@@ -40,7 +41,6 @@ const UpdateListing = () => {
   useEffect(() => {
     const fetchData = async () => {
       const data = await fetchListing(id);
-      console.log(data);
       setTitle(data.listing.title);
       setDescription(data.listing.description);
       setType(data.listing.type);
@@ -53,7 +53,7 @@ const UpdateListing = () => {
       setImageURLS(data.listing.imageURLS);
     };
     fetchData();
-  }, [id]);
+  }, []);
 
   return (
     <div className="min-h-screen pt-24 flex justify-center">
@@ -196,7 +196,13 @@ const UpdateListing = () => {
                 onChange={handleFileChange}
               />
               <button
-                onClick={uploadImages}
+                onClick={async () => {
+                  const response = await uploadImages(images);
+                  if (response.success) {
+                    toast.success("Images uploaded successfully.");
+                    setImageURLS(response.data);
+                  }
+                }}
                 className="bg-[#1B2A80] px-5 py-1 custom-shadow rounded-md text-white font-semibold tracking-widest uppercase "
               >
                 upload
@@ -242,7 +248,7 @@ const UpdateListing = () => {
             });
 
             if (response.success) {
-              toast.success("Listing created successfully.");
+              toast.success("Listing updated successfully.");
               navigate("/listings");
             }
           }}

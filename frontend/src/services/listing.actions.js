@@ -57,7 +57,7 @@ const createListing = async (listing) => {
 
 const updateListing = async (id, listing) => {
   try {
-    const response = await apiClient.put(`/listings/${id}`, listing);
+    const response = await apiClient.put(`/listing/${id}`, listing);
 
     if (response.status === 200) {
       return response.data;

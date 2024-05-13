@@ -39,7 +39,7 @@ const ListingCard = ({ listing }) => {
             <FaLocationDot className="text-xl text-[#1B2A80]" />
             <p className="text-sm">{location}</p>
           </div>
-          <p className="text-xs ">{description}</p>
+          <p className="text-xs w-96 ">{description}</p>
 
           <p className="font-bold">&#8377; {price}</p>
           <div className="flex gap-7 items-center">

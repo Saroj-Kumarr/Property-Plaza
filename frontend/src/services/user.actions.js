@@ -44,3 +44,21 @@ export const deleteUser = async (id) => {
     console.error("Error while deleting user:", error.message);
   }
 };
+
+export const sendEmailMessage = async (name, fromUser, toUser, message) => {
+  try {
+    const response = await apiClient.post("/user/send-email", {
+      name,
+      fromUser,
+      toUser,
+      message,
+    });
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      console.log("Email is not sent.");
+    }
+  } catch (error) {
+    console.error("Error while sending email:", error.message);
+  }
+};

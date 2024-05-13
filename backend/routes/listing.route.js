@@ -2,7 +2,7 @@ const express = require("express");
 const {
   createListing,
   deleteListing,
-  updateListing,
+  editListing,
   getListing,
   getListings,
   getListingByUserId,
@@ -17,7 +17,7 @@ router.route("/").get(getListings).post(verifyToken, createListing);
 router
   .route("/:id")
   .delete(verifyToken, deleteListing)
-  .put(verifyToken, updateListing)
+  .put(verifyToken, editListing)
   .get(getListing);
 
 router.route("/user/:id").get(getListingByUserId);

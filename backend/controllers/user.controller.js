@@ -1,5 +1,6 @@
 const User = require("../models/user.model");
 const Listing = require("../models/listing.model");
+const sendEmail = require("../utils/sendEmail");
 
 const updateUser = async (req, res) => {
   const { name, email, phone, image } = req.body;
@@ -95,9 +96,29 @@ const getUsers = async (req, res) => {
   }
 };
 
+const sendEmailMessage = async (req, res) => {
+  const { name, fromUser, toUser, message } = req.body;
+
+  if (!name || !fromUser || !toUser || !message) {
+    return res.status(400).json("All Fields are required");
+  }
+
+  try {
+    const response = await sendEmail(name, fromUser, toUser, message);
+    console.log(response);
+    res.status(200).json({
+      success: true,
+      message: "Email is sent successfully.",
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 module.exports = {
   updateUser,
   deleteUser,
   getUser,
   getUsers,
+  sendEmailMessage,
 };
