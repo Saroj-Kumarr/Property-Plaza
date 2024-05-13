@@ -21,7 +21,7 @@ const UpdateUserInfo = () => {
     <div className="flex items-center justify-center h-screen">
       <div className="w-3/12 custom-shadow p-5 mt-5  rounded-md">
         <h1 className="font-bold uppercase  tracking-widest text-2xl mb-4 text-center text-slate-600 ">
-          Update user <span className="text-[#1B2A80]">Form</span>
+          Update user <span className="text-[#C5AB7B]">Form</span>
         </h1>
         <form
           onSubmit={async (e) => {
@@ -57,33 +57,33 @@ const UpdateUserInfo = () => {
           />
 
           <div className="flex w-full items-center  relative">
-            <FaUserCircle className="absolute text-xl text-[#1B2A80] left-16" />
+            <FaUserCircle className="absolute text-xl text-[#C5AB7B] left-16" />
             <input
               type="text"
               placeholder="Enter your name"
-              className="border-b border-[#1B2A80] text-center w-full py-2 focus:outline-none tracking-widest"
+              className="border-b border-[#C5AB7B] text-center w-full py-2 focus:outline-none tracking-widest"
               id="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
           </div>
           <div className="flex w-full items-center  relative">
-            <MdMail className="absolute text-xl text-[#1B2A80] left-16" />
+            <MdMail className="absolute text-xl text-[#C5AB7B] left-16" />
             <input
               type="email"
               placeholder="Enter your email"
-              className="border-b border-[#1B2A80] text-center w-full py-2 focus:outline-none tracking-widest "
+              className="border-b border-[#C5AB7B] text-center w-full py-2 focus:outline-none tracking-widest "
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="flex w-full items-center  relative">
-            <FaPhoneSquareAlt className="absolute text-xl text-[#1B2A80] left-16" />
+            <FaPhoneSquareAlt className="absolute text-xl text-[#C5AB7B] left-16" />
             <input
               type="text"
               placeholder="Enter your phone"
-              className="border-b tracking-widest border-[#1B2A80] text-center w-full py-2  focus:outline-none "
+              className="border-b tracking-widest border-[#C5AB7B] text-center w-full py-2  focus:outline-none "
               id="phone"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
@@ -102,7 +102,7 @@ const UpdateUserInfo = () => {
             }}
           />
 
-          <button className="tracking-widest w-full bg-[#1B2A80] text-white font-bold py-2 rounded-md custom-shadow tracking-widest uppercase">
+          <button className="tracking-widest w-full bg-[#C5AB7B] text-white font-bold py-2 rounded-md custom-shadow tracking-widest uppercase">
             Update Details
             <MdEditSquare className="inline text-lg -mt-[2px]" />
           </button>

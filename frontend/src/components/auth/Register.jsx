@@ -21,9 +21,9 @@ const Register = () => {
 
   return (
     <div className="flex items-center justify-center h-screen">
-      <div className="w-3/12 custom-shadow p-5 mt-5  rounded-md">
-        <h1 className="font-bold uppercase  tracking-widest text-2xl mb-4 text-center text-slate-600 ">
-          Register <span className="text-[#1B2A80]">Form</span>
+      <div className="w-[27rem] px-10 py-5 mt-10 custom-shadow   rounded-md">
+        <h1 className="font-bold uppercase  tracking-widest text-2xl mb-4 text-center text-[#C5AB7B] ">
+          Register form
         </h1>
         <form
           onSubmit={async (e) => {
@@ -43,7 +43,7 @@ const Register = () => {
               navigate("/login");
             }
           }}
-          className="flex items-center justify-center flex-col gap-3"
+          className="flex items-center justify-center flex-col gap-5"
         >
           {imageURL ? (
             <img
@@ -59,41 +59,41 @@ const Register = () => {
             />
           )}
           <div className="flex w-full items-center  relative">
-            <FaUserCircle className="absolute text-xl text-[#1B2A80] left-16" />
+            <FaUserCircle className="absolute text-xl text-[#C5AB7B] left-16" />
             <input
               type="text"
               placeholder="Enter your name"
-              className="border-b border-[#1B2A80] text-center w-full py-2 focus:outline-none tracking-widest"
+              className="border-b border-[#C5AB7B] text-center w-full py-2 focus:outline-none tracking-widest rounded-md"
               id="name"
               onChange={(e) => setName(e.target.value)}
             />
           </div>
           <div className="flex w-full items-center  relative">
-            <MdMail className="absolute text-xl text-[#1B2A80] left-16" />
+            <MdMail className="absolute text-xl text-[#C5AB7B] left-16" />
             <input
               type="email"
               placeholder="Enter your email"
-              className="border-b border-[#1B2A80] text-center w-full py-2 focus:outline-none tracking-widest "
+              className="border-b border-[#C5AB7B] text-center w-full py-2 focus:outline-none tracking-widest rounded-md"
               id="email"
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="flex w-full items-center  relative">
-            <FaPhoneSquareAlt className="absolute text-xl text-[#1B2A80] left-16" />
+            <FaPhoneSquareAlt className="absolute text-xl text-[#C5AB7B] left-16" />
             <input
               type="text"
               placeholder="Enter your phone"
-              className="border-b tracking-widest border-[#1B2A80] text-center w-full py-2  focus:outline-none "
+              className="border-b tracking-widest border-[#C5AB7B] text-center w-full py-2  focus:outline-none rounded-md"
               id="phone"
               onChange={(e) => setPhone(e.target.value)}
             />
           </div>
           <div className="flex w-full items-center  relative">
-            <FaLock className="absolute text-lg text-[#1B2A80] left-16" />
+            <FaLock className="absolute text-lg text-[#C5AB7B] left-16" />
             <input
               type={isShowPassword ? "text" : "password"}
               placeholder="Enter your password"
-              className="border-b tracking-widest border-[#1B2A80] text-center w-full py-2 pl-5 focus:outline-none "
+              className="border-b tracking-widest border-[#C5AB7B] text-center w-full py-2 pl-5 focus:outline-none rounded-md "
               id="password"
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -101,12 +101,12 @@ const Register = () => {
             {isShowPassword ? (
               <IoEye
                 onClick={() => setIsShowPassword(false)}
-                className="absolute text-[#1B2A80] text-xl right-3 cursor-pointer"
+                className="absolute text-[#C5AB7B] text-xl right-3 cursor-pointer"
               />
             ) : (
               <IoEyeOff
                 onClick={() => setIsShowPassword(true)}
-                className="absolute text-[#1B2A80] text-xl right-3 cursor-pointer"
+                className="absolute text-[#C5AB7B] text-xl right-3 cursor-pointer"
               />
             )}
           </div>
@@ -114,7 +114,7 @@ const Register = () => {
           <input
             type="file"
             id="file"
-            className="border-2 p-2 py-1 rounded-md border-dashed "
+            className="py-2 rounded-md border-dashed border border-[#C5AB7B] px-5"
             onChange={async (e) => {
               const response = await uploadImage(e.target.files[0]);
 
@@ -125,19 +125,16 @@ const Register = () => {
             }}
           />
 
-          <button className="tracking-widest w-full bg-[#1B2A80] text-white font-bold py-2 rounded-md custom-shadow tracking-widest uppercase">
-            Register
-            <GiArchiveRegister
-              className="inline text-lg
-                    -mt-[2px]"
-            />
-          </button>
+          <div className="flex gap-2 bg-[#C5AB7B] w-full rounded-md py-2 text-black items-center justify-center custom-shadow font-bold">
+            <button className="uppercase tracking-wider">Register</button>
+            <GiArchiveRegister />
+          </div>
         </form>
 
         <p className="text-sm text-center mt-2">
           Already have an account?{" "}
           <Link to="/login">
-            <span className="font-bold text-[#1B2A80]">Login</span>
+            <span className="font-bold text-[#C5AB7B]">Login</span>
           </Link>
         </p>
       </div>

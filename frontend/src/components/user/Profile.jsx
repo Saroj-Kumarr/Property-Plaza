@@ -32,7 +32,7 @@ const Profile = () => {
           alt="user"
         />
         <div className="flex flex-col gap-1 text-center">
-          <p className="text-xl border-b border-[#1B2A80] uppercase tracking-widest font-semibold">
+          <p className="text-xl border-b border-[#C5AB7B] uppercase tracking-widest font-semibold">
             {currentUser.name}
           </p>
           <p>{currentUser.email}</p>
@@ -50,7 +50,7 @@ const Profile = () => {
             >
               delete
             </button>
-            <button className="bg-[#1B2A80] tracking-widest text-xs px-3 py-[1px] rounded-md text-white uppercase  font-semibold custom-shadow">
+            <button className="bg-[#C5AB7B] tracking-widest text-xs px-3 py-[1px] rounded-md text-white uppercase  font-semibold custom-shadow">
               <Link to="/update-user">update</Link>
             </button>
           </div>
@@ -58,9 +58,9 @@ const Profile = () => {
       </div>
       <div className="">
         <div className="flex gap-2 justify-center items-center mt-5">
-          <p className="h-[2px] bg-[#1B2A80] w-60"></p>
+          <p className="h-[2px] bg-[#C5AB7B] w-60"></p>
           <h3 className="font-bold tracking-widest uppercase">Your Listings</h3>
-          <p className="h-[2px] bg-[#1B2A80] w-60"></p>
+          <p className="h-[2px] bg-[#C5AB7B] w-60"></p>
         </div>
         <div className="flex gap-10 my-5 flex-wrap justify-center">
           {userListings &&

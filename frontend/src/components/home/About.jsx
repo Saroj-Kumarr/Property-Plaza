@@ -34,7 +34,7 @@ const About = () => {
       <div className="py-20 flex items-center justify-center">
         <div className="w-4/12 flex flex-col gap-3 ml-20">
           <h3 className="text-2xl font-bold uppercase tracking-widest ">
-            About <span className="text-[#1B2A80]">Us</span>
+            About <span className="text-[#C5AB7B]">Us</span>
           </h3>
           <p className="text-sm">
             Welcome to our real estate site, where your dream home is just a
@@ -46,7 +46,7 @@ const About = () => {
             finding your perfect match as we assist you every step of the way.
             Your dream home is within reach – let's make it a reality together.
           </p>
-          <button className="tracking-widest px-5 w-48 bg-[#1B2A80] text-white font-bold py-1 rounded-md custom-shadow uppercase tracking-widest">
+          <button className="tracking-widest px-5 w-48 bg-[#C5AB7B] text-white font-bold py-1 rounded-md custom-shadow uppercase tracking-widest">
             Learn more
             <CgMore className="inline text-lg -mt-[2px] ml-2" />
           </button>

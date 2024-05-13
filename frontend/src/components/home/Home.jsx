@@ -6,14 +6,14 @@ import { IoLogInSharp } from "react-icons/io5";
 
 const Home = () => {
   return (
-    <div className="h-screen flex pt-20 items-center">
-      <div className="w-5/12 -mt-20 text-center">
+    <div className="h-screen flex items-center">
+      <div className="w-6/12 text-center">
         <div className="flex flex-col gap-3 ml-5">
           <h3 className="text-4xl">
             Welcome to <span className="font-bold">Property</span>{" "}
-            <span className="text-[#1B2A80] font-bold">Plaza</span>
+            <span className="text-[#C5AB7B] font-bold">Plaza</span>
           </h3>
-          <p className="leading-5 text-sm  ">
+          <p className="text-sm tracking-wide ">
             Welcome to our real estate site, where your dream home is just a
             click away. From cozy cottages to modern apartments, we've got
             options for every taste. Explore our listings and let us help you
@@ -24,7 +24,7 @@ const Home = () => {
 
           <ul className="flex gap-4 items-center justify-center items-center">
             <Link to="/register">
-              <li className="border border-[#1B2A80] px-3 py-1 rounded-md text-[#1B2A80]  font-semibold  tracking-widest custom-shadow">
+              <li className="border border-[#C5AB7B] px-3 py-1 rounded-md text-[#C5AB7B]  font-semibold  tracking-widest custom-shadow">
                 {" "}
                 Register{" "}
                 <GiArchiveRegister
@@ -34,7 +34,7 @@ const Home = () => {
               </li>
             </Link>
             <Link to="/login">
-              <li className="bg-[#1B2A80] px-3 py-1 custom-shadow rounded-md text-white font-semibold tracking-widest">
+              <li className="bg-[#C5AB7B] px-3 py-1 custom-shadow rounded-md text-white font-semibold tracking-widest">
                 {" "}
                 Login <IoLogInSharp className="inline text-lg -mt-[2px]" />
               </li>
@@ -42,7 +42,7 @@ const Home = () => {
           </ul>
         </div>
       </div>
-      <img className="w-7/12" src={homeImage} alt="image" />
+      <img className="w-6/12" src={homeImage} alt="image" />
     </div>
   );
 };

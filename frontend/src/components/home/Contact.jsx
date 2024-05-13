@@ -48,10 +48,10 @@ const Contact = () => {
         className="w-3/12 custom-shadow flex flex-col gap-5 p-3 rounded-md"
       >
         <h3 className=" font-bold text-center tracking-widest  text-lg uppercase">
-          Contact <span className="text-[#1B2A80]">Saroj Kumar</span>
+          Contact <span className="text-[#C5AB7B]">Saroj Kumar</span>
         </h3>
-        <div className="flex  items-center  relative border border-[#1B2A80]  rounded-md">
-          <FaUserCircle className="absolute text-xl text-[#1B2A80] left-16" />
+        <div className="flex  items-center  relative border border-[#C5AB7B]  rounded-md">
+          <FaUserCircle className="absolute text-xl text-[#C5AB7B] left-16" />
           <input
             type="text"
             placeholder="Enter your name"
@@ -61,8 +61,8 @@ const Contact = () => {
             onChange={(e) => setName(e.target.value)}
           />
         </div>
-        <div className="flex w-full border border-[#1B2A80]  rounded-md items-center  relative">
-          <MdMail className="absolute text-xl text-[#1B2A80] left-16" />
+        <div className="flex w-full border border-[#C5AB7B]  rounded-md items-center  relative">
+          <MdMail className="absolute text-xl text-[#C5AB7B] left-16" />
           <input
             type="email"
             placeholder="Enter your email"
@@ -73,14 +73,14 @@ const Contact = () => {
           />
         </div>
         <textarea
-          className="border tracking-widest border-[#1B2A80] px-2 py-1 rounded-md focus:outline-none w-full"
+          className="border tracking-widest border-[#C5AB7B] px-2 py-1 rounded-md focus:outline-none w-full"
           placeholder="Type message here..."
           rows="3"
           type="text"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
         />
-        <button className="bg-[#1B2A80] px-5 py-2 custom-shadow rounded-md text-white font-semibold tracking-widest uppercase w-full ">
+        <button className="bg-[#C5AB7B] px-5 py-2 custom-shadow rounded-md text-white font-semibold tracking-widest uppercase w-full ">
           {/* <Link to="/listingss"> */}
           send message <RiSendPlaneFill className="inline text-lg -mt-[2px]" />
           {/* </Link> */}

@@ -8,3 +8,4 @@ const errorHandler = function (statusCode, message) {
 module.exports = {
   errorHandler,
 };
+

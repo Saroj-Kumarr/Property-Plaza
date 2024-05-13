@@ -21,14 +21,14 @@ const App = () => {
   const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!currentUser) {
-      navigate("/");
-    }
-  }, [currentUser]);
+  // useEffect(() => {
+  //   if (!currentUser) {
+  //     navigate("/");
+  //   }
+  // }, [currentUser]);
 
   return (
-    <>
+    <div>
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -46,7 +46,7 @@ const App = () => {
       </Routes>
       <Toaster />
       <Footer />
-    </>
+    </div>
   );
 };
 

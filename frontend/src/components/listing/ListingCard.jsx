@@ -25,9 +25,8 @@ const ListingCard = ({ listing }) => {
   } = listing;
 
   return (
-    
     <Link to={"/view-listing/" + _id}>
-      <div className="w-full h-80  mt-4 ml-2  relative flex  custom-shadow   border-[#1B2A80] rounded-md">
+      <div className="w-full h-80  mt-4 ml-2  relative flex  custom-shadow   border-[#C5AB7B] rounded-md">
         <img
           className="w-7/12 h-full object-cover rounded-l-md "
           src={imageURLS[0]}
@@ -36,7 +35,7 @@ const ListingCard = ({ listing }) => {
         <div className="flex flex-col gap-3 mt-1 p-3">
           <h3 className="text-xl font-bold tracking-widest">{title}</h3>
           <div className="flex gap-1">
-            <FaLocationDot className="text-xl text-[#1B2A80]" />
+            <FaLocationDot className="text-xl text-[#C5AB7B]" />
             <p className="text-sm">{location}</p>
           </div>
           <p className="text-xs w-96 ">{description}</p>
@@ -55,10 +54,10 @@ const ListingCard = ({ listing }) => {
             </div>
           </div>
           <div className="flex gap-5">
-            <button className="bg-[#1B2A80] px-5 py-[1px] custom-shadow rounded-md text-white uppercase font-semibold ">
+            <button className="bg-[#C5AB7B] px-5 py-[1px] custom-shadow rounded-md text-white uppercase font-semibold ">
               buy <FaRegMoneyBillAlt className="inline -mt-[3px]" />
             </button>
-            <button className="border border-[#1B2A80] px-5 py-[1px] rounded-md text-[#1B2A80] uppercase  font-semibold custom-shadow">
+            <button className="border border-[#C5AB7B] px-5 py-[1px] rounded-md text-[#C5AB7B] uppercase  font-semibold custom-shadow">
               <Link to="/contact">
                 contact{" "}
                 <MdPermContactCalendar

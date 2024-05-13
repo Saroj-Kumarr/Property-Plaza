@@ -18,9 +18,9 @@ const Login = () => {
 
   return (
     <div className="flex  items-center justify-center h-screen">
-      <div className="w-3/12  -mt-20 custom-shadow p-5">
-        <h1 className="font-bold uppercase  tracking-widest text-2xl mb-4 text-center text-slate-600 ">
-          Login <span className="text-[#1B2A80]">Form</span>
+      <div className="w-[26rem] rounded-md  -mt-20 custom-shadow p-5">
+        <h1 className="font-bold uppercase  tracking-widest text-2xl mb-4 text-center">
+          Login form
         </h1>
         <form
           onSubmit={async (e) => {
@@ -45,41 +45,41 @@ const Login = () => {
               navigate("/listings");
             }
           }}
-          className="flex items-center justify-center flex-col gap-3"
+          className="flex items-center justify-center flex-col gap-5"
         >
           <div className="flex w-full items-center  relative">
-            <MdMail className="absolute text-lg text-[#1B2A80] left-16" />
+            <MdMail className="absolute text-lg text-[#C5AB7B] left-16" />
             <input
               type="email"
               placeholder="Enter your email"
-              className="border-b border-[#1B2A80] text-center w-full py-2 focus:outline-none tracking-widest "
+              className="border-b border-[#C5AB7B] text-center w-full py-2 focus:outline-none tracking-widest "
               id="email"
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="flex w-full items-center  relative">
-            <FaLock className="absolute text-lg text-[#1B2A80] left-16" />
+            <FaLock className="absolute text-lg text-[#C5AB7B] left-16" />
             <input
               type={isShowPassword ? "text" : "password"}
               placeholder="Enter your password"
-              className="border-b tracking-widest border-[#1B2A80] text-center w-full py-2 pl-5 focus:outline-none "
+              className="border-b tracking-widest border-[#C5AB7B] text-center w-full py-2 pl-5 focus:outline-none "
               id="password"
               onChange={(e) => setPassword(e.target.value)}
             />
             {isShowPassword ? (
               <IoEye
                 onClick={() => setIsShowPassword(false)}
-                className="absolute text-[#1B2A80] text-xl right-3 cursor-pointer"
+                className="absolute text-[#C5AB7B] text-xl right-3 cursor-pointer"
               />
             ) : (
               <IoEyeOff
                 onClick={() => setIsShowPassword(true)}
-                className="absolute text-[#1B2A80] text-xl right-3 cursor-pointer"
+                className="absolute text-[#C5AB7B] text-xl right-3 cursor-pointer"
               />
             )}
           </div>
 
-          <button className="tracking-widest w-full bg-[#1B2A80] text-white font-bold py-2 rounded-md custom-shadow uppercase tracking-widest">
+          <button className="tracking-widest w-full bg-[#C5AB7B] text-white font-bold py-2 rounded-md custom-shadow uppercase tracking-widest">
             Login
             <IoLogInSharp className="inline text-lg -mt-[2px]" />
           </button>
@@ -87,7 +87,7 @@ const Login = () => {
         <p className="text-sm text-center mt-2">
           Don't have an account?{" "}
           <Link to="/register">
-            <span className="font-bold text-[#1B2A80]">Register</span>
+            <span className="font-bold text-[#C5AB7B]">Register</span>
           </Link>
         </p>
       </div>

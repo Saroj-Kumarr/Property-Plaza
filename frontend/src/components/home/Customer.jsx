@@ -10,9 +10,7 @@ const Customer = ({ name, imageURL, review }) => {
           alt="user"
         />
       </div>
-      <h3 className="mt-16 font-semibold text-[#1B2A80] ">
-        {name}
-      </h3>
+      <h3 className="mt-16 font-semibold text-[#C5AB7B] ">{name}</h3>
       <p className="text-xs text-center">{review}</p>
     </div>
   );

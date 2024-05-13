@@ -56,7 +56,7 @@ const CreateListing = () => {
               className="flex flex-col gap-5"
             >
               <input
-                className="border tracking-widest border-[#1B2A80] px-2 py-[6px] rounded-md focus:outline-none w-full"
+                className="border tracking-widest border-[#C5AB7B] px-2 py-[6px] rounded-md focus:outline-none w-full"
                 placeholder="Enter title"
                 type="text"
                 value={title}
@@ -64,7 +64,7 @@ const CreateListing = () => {
               />
               <textarea
                 type="text"
-                className="border tracking-widest border-[#1B2A80] px-2 py-[6px] rounded-md focus:outline-none w-full"
+                className="border tracking-widest border-[#C5AB7B] px-2 py-[6px] rounded-md focus:outline-none w-full"
                 placeholder="Enter description"
                 value={description}
                 rows="2"
@@ -72,7 +72,7 @@ const CreateListing = () => {
               />
               <input
                 type="text"
-                className="border tracking-widest border-[#1B2A80] px-2 py-[6px] rounded-md focus:outline-none w-full"
+                className="border tracking-widest border-[#C5AB7B] px-2 py-[6px] rounded-md focus:outline-none w-full"
                 placeholder="Enter location"
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
@@ -135,7 +135,7 @@ const CreateListing = () => {
                     Bedrooms :
                   </span>
                   <input
-                    className="border text-center py-1 rounded-md border-[#1B2A80] focus:outline-none "
+                    className="border text-center py-1 rounded-md border-[#C5AB7B] focus:outline-none "
                     value={bedrooms}
                     onChange={(e) => setBedrooms(e.target.value)}
                     type="number"
@@ -148,7 +148,7 @@ const CreateListing = () => {
                     Bathrooms :
                   </span>
                   <input
-                    className="border text-center py-1 rounded-md border-[#1B2A80] focus:outline-none "
+                    className="border text-center py-1 rounded-md border-[#C5AB7B] focus:outline-none "
                     value={bathrooms}
                     onChange={(e) => setBathrooms(e.target.value)}
                     type="number"
@@ -162,7 +162,7 @@ const CreateListing = () => {
                   price :{" "}
                 </span>
                 <input
-                  className="border tracking-widest border-[#1B2A80] px-2 py-1 rounded-md focus:outline-none w-40"
+                  className="border tracking-widest border-[#C5AB7B] px-2 py-1 rounded-md focus:outline-none w-40"
                   placeholder="Enter price"
                   type="text"
                   value={price}
@@ -191,7 +191,7 @@ const CreateListing = () => {
                     setImageURLS(response.data);
                   }
                 }}
-                className="bg-[#1B2A80] px-5 py-1 custom-shadow rounded-md text-white font-semibold tracking-widest uppercase "
+                className="bg-[#C5AB7B] px-5 py-1 custom-shadow rounded-md text-white font-semibold tracking-widest uppercase "
               >
                 upload
               </button>
@@ -254,11 +254,11 @@ const CreateListing = () => {
             });
 
             if (response.success) {
-             toast.success("Listing created successfully.");
+              toast.success("Listing created successfully.");
               navigate("/listings");
             }
           }}
-          className="bg-[#1B2A80] px-5 py-2 custom-shadow rounded-md text-white font-semibold tracking-widest uppercase w-full "
+          className="bg-[#C5AB7B] px-5 py-2 custom-shadow rounded-md text-white font-semibold tracking-widest uppercase w-full "
         >
           Create Listing
         </button>

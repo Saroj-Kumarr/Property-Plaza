@@ -90,7 +90,7 @@ const ListingPage = () => {
         duration: 3000,
         position: "top-center",
         style: {
-          backgroundColor: "#1B2A80",
+          backgroundColor: "#C5AB7B",
           color: "white",
         },
         icon: "❌",
@@ -110,7 +110,7 @@ const ListingPage = () => {
         duration: 3000,
         position: "top-center",
         style: {
-          backgroundColor: "#1B2A80",
+          backgroundColor: "#C5AB7B",
           color: "white",
         },
 
@@ -138,7 +138,7 @@ const ListingPage = () => {
   return (
     <div className="min-h-screen flex">
       <div className="w-4/12 pt-20 custom-shadow p-5 min-h-screen">
-        <h3 className="text-center tracking-widest uppercase text-sm font-bold text-[#1B2A80] my-3">
+        <h3 className="text-center tracking-widest uppercase text-sm font-bold text-[#C5AB7B] my-3">
           Find Your Property in Your Preferred City
         </h3>
         <div className="ml-5 mx-5">
@@ -152,7 +152,7 @@ const ListingPage = () => {
         </div>
 
         <div className="h-52 bg-white rounded-md mt-8 custom-shadow p-2">
-          <form className="flex ml-2 mt-2 flex-col font-semibold text-[#1B2A80] gap-5">
+          <form className="flex ml-2 mt-2 flex-col font-semibold text-[#C5AB7B] gap-5">
             <div className="flex gap-5">
               <div
                 onClick={() => {
@@ -246,7 +246,7 @@ const ListingPage = () => {
             <div className="flex items-center">
               <button
                 onClick={handleFilter}
-                className="bg-[#1B2A80] w-52 px-5 py-1 custom-shadow rounded-md text-white uppercase font-semibold "
+                className="bg-[#C5AB7B] w-52 px-5 py-1 custom-shadow rounded-md text-white uppercase font-semibold "
               >
                 Apply Filter <RiSearchFill className="inline text-xl -mt-1" />
               </button>
@@ -254,9 +254,9 @@ const ListingPage = () => {
 
             <div className="flex items-center">
               <span className="uppercase tracking-widest">Filter By : </span>
-              <BsFilterSquareFill className="text-[#1B2A80] text-2xl relative left-8" />
+              <BsFilterSquareFill className="text-[#C5AB7B] text-2xl relative left-8" />
               <select
-                className="border-2 border-[#1B2A80] tracking-widest uppercase py-2 pl-9 pr-1 custom-shadow rounded-md"
+                className="border-2 border-[#C5AB7B] tracking-widest uppercase py-2 pl-9 pr-1 custom-shadow rounded-md"
                 onChange={onOptionChangeHandler}
               >
                 <option disabled selected className="uppercase tracking-widest">
@@ -276,7 +276,7 @@ const ListingPage = () => {
         </div>
 
         <div>
-          <h3 className="mt-5 relative top-2 uppercase text-[#1B2A80] text-center font-semibold tracking-widest">
+          <h3 className="mt-5 relative top-2 uppercase text-[#C5AB7B] text-center font-semibold tracking-widest">
             Owners of the listing
           </h3>
 
@@ -293,6 +293,21 @@ const ListingPage = () => {
       </div>
       <div className="w-8/12 pt-16 min-h-screen">
         <div className="flex pr-2 py-2 slider-class h-screen overflow-x-hidden overflow-y-scroll flex-col gap-5">
+          <div className="flex justify-center ">
+            <form className="p-3   rounded-lg flex gap-3 items-center">
+              <div className="custom-shadow ml-10">
+                <input
+                  type="text"
+                  onChange={handleSearch}
+                  placeholder="search your choice here..."
+                  className="border-2 placeholder:tracking-widest border-[#C5AB7B] w-72 py-2 px-5 rounded-l-md focus:outline-none"
+                />
+                <button className="bg-[#C5AB7B] tracking-widest border border-[#C5AB7B]  px-3 py-[7px] custom-shadow rounded-r-md text-white text-lg font-semibold">
+                  <FiSearch className="inline -mt-1 text-2xl" /> search
+                </button>
+              </div>
+            </form>
+          </div>
           {listings.length !== 0 ? (
             <div className="mb-3">
               {listings
@@ -320,7 +335,7 @@ const ListingPage = () => {
           )}
         </div>
 
-        <div className="flex mt-5 relative z-10 justify-center text-[#1B2A80] px-4 items-center">
+        <div className="flex mt-5 relative z-10 justify-center text-[#C5AB7B] px-4 items-center">
           <FaCaretLeft
             onClick={() => {
               if (page > 0) {
@@ -341,7 +356,7 @@ const ListingPage = () => {
                       setPage(index);
                     }}
                     className={`m-2 hover:scale-110 duration-200 shadow-sm rounded-md px-2 border ${
-                      isActive ? "bg-[#1B2A80] text-white" : ""
+                      isActive ? "bg-[#C5AB7B] text-white" : ""
                     }`}
                   >
                     {index}
@@ -358,21 +373,6 @@ const ListingPage = () => {
             className="text-xl hover:scale-110 duration-200"
           />
         </div>
-      </div>
-      <div className="absolute left-96 top-2 z-10 flex justify-center ">
-        <form className="p-3   rounded-lg flex gap-3 items-center">
-          <div className="custom-shadow ml-10">
-            <input
-              type="text"
-              onChange={handleSearch}
-              placeholder="search your choice here..."
-              className="border-2 placeholder:tracking-widest border-[#1B2A80] w-72 py-2 px-5 rounded-l-md focus:outline-none"
-            />
-            <button className="bg-[#1B2A80] tracking-widest border border-[#1B2A80]  px-3 py-[7px] custom-shadow rounded-r-md text-white text-lg font-semibold">
-              <FiSearch className="inline -mt-1 text-2xl" /> search
-            </button>
-          </div>
-        </form>
       </div>
     </div>
   );

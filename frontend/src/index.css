@@ -3,11 +3,12 @@
 @tailwind utilities;
 
 body {
-  color: #334155;
+  background-color: #1e2124;
+  color: #c5ab7b;
 }
 
 .custom-shadow {
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  box-shadow: 0 0 10px 0 rgba(0,0,0,0.45) inset;
 }
 
 body::-webkit-scrollbar {
@@ -19,11 +20,11 @@ body::-webkit-scrollbar-track {
 }
 
 body::-webkit-scrollbar-thumb {
-  /* background: #1B2A80; */
+  /* background: #C5AB7B; */
 }
 
 .slick-arrow {
-  background-color: #1b2a80;
+  background-color: #c5ab7b;
   color: white;
   border-radius: 50%;
   display: flex;
@@ -34,7 +35,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .slick-arrow:hover {
-  background-color: #1b2a80;
+  background-color: #c5ab7b;
   color: white;
   border-radius: 50%;
   display: flex;
@@ -55,7 +56,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .slider-class::-webkit-scrollbar-thumb {
-  background: #1b2a80;
+  background: #c5ab7b;
   border-radius: 10px;
 }
 
@@ -75,7 +76,6 @@ input[type="checkbox"] {
 }
 
 .image-container::-webkit-scrollbar-thumb {
-  background: #1b2a80;
+  background: #c5ab7b;
   border-radius: 10px;
 }
-

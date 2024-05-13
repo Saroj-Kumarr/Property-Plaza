@@ -27,7 +27,7 @@ const Owner = () => {
       <div className="w-4/12 h-60 gap-2 rounded-md custom-shadow flex items-center">
         <img className="h-full w-[60%] object-cover" src={image} alt="user" />
         <div className="flex flex-col gap-1 text-center">
-          <p className="text-xl border-b border-[#1B2A80] uppercase tracking-widest font-semibold">
+          <p className="text-xl border-b border-[#C5AB7B] uppercase tracking-widest font-semibold">
             {name}
           </p>
           <p>{email}</p>
@@ -36,9 +36,9 @@ const Owner = () => {
       </div>
       <div className="">
         <div className="flex gap-2 justify-center items-center mt-5">
-          <p className="h-[2px] bg-[#1B2A80] w-60"></p>
+          <p className="h-[2px] bg-[#C5AB7B] w-60"></p>
           <h3 className="font-bold tracking-widest uppercase">Your Listings</h3>
-          <p className="h-[2px] bg-[#1B2A80] w-60"></p>
+          <p className="h-[2px] bg-[#C5AB7B] w-60"></p>
         </div>
         <div className="flex gap-10 my-5 flex-wrap justify-center">
           {ownerListings &&

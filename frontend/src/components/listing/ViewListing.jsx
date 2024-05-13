@@ -72,21 +72,21 @@ const ViewListing = () => {
             <p>&#8377; {price}</p>
           </div>
           <div className="flex gap-1">
-            <FaLocationDot className="text-xl text-[#1B2A80]" />
+            <FaLocationDot className="text-xl text-[#C5AB7B]" />
             <p className="text-sm ">{location}</p>
           </div>
           <div className="flex gap-5">
-            <button className="bg-[#1B2A80] px-5 py-[1px] custom-shadow rounded-md text-white uppercase font-semibold ">
+            <button className="bg-[#C5AB7B] px-5 py-[1px] custom-shadow rounded-md text-white uppercase font-semibold ">
               For {type}
             </button>
             <Link to={"/contact/" + owner._id}>
-              <button className="border border-[#1B2A80] px-5 py-[1px] rounded-md text-[#1B2A80] uppercase  font-semibold custom-shadow">
+              <button className="border border-[#C5AB7B] px-5 py-[1px] rounded-md text-[#C5AB7B] uppercase  font-semibold custom-shadow">
                 contact
               </button>
             </Link>
           </div>
           <div className="text-center">
-            <span className="text-sm font-bold text-[#1B2A80]">
+            <span className="text-sm font-bold text-[#C5AB7B]">
               Discription -{" "}
             </span>
             <span className="text-xs font-semibold">{description}</span>
@@ -129,17 +129,15 @@ const ViewListing = () => {
                 delete
               </button>
               <button
-               
                 onClick={async () => {
-
                   if (currentUser._id !== owner._id) {
                     toast.error("You are not the owner of this listing.");
                     return;
                   }
-                  
+
                   navigate("/update-listing/" + id);
                 }}
-                className="bg-[#1B2A80] px-5 py-[1px] rounded-md text-white uppercase  font-semibold custom-shadow"
+                className="bg-[#C5AB7B] px-5 py-[1px] rounded-md text-white uppercase  font-semibold custom-shadow"
               >
                 update
               </button>
