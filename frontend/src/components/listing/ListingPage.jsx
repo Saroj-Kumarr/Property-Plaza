@@ -151,7 +151,7 @@ const ListingPage = () => {
           </Slider>
         </div>
 
-        <div className="h-52 bg-white rounded-md mt-8 custom-shadow p-2">
+        <div className="h-52 rounded-md mt-8 custom-shadow p-2">
           <form className="flex ml-2 mt-2 flex-col font-semibold text-[#C5AB7B] gap-5">
             <div className="flex gap-5">
               <div
@@ -246,7 +246,7 @@ const ListingPage = () => {
             <div className="flex items-center">
               <button
                 onClick={handleFilter}
-                className="bg-[#C5AB7B] w-52 px-5 py-1 custom-shadow rounded-md text-white uppercase font-semibold "
+                className="bg-[#C5AB7B] w-52 px-5 py-1 custom-shadow rounded-md text-black uppercase font-semibold "
               >
                 Apply Filter <RiSearchFill className="inline text-xl -mt-1" />
               </button>
@@ -294,7 +294,7 @@ const ListingPage = () => {
       <div className="w-8/12 pt-16 min-h-screen">
         <div className="flex pr-2 py-2 slider-class h-screen overflow-x-hidden overflow-y-scroll flex-col gap-5">
           <div className="flex justify-center ">
-            <form className="p-3   rounded-lg flex gap-3 items-center">
+            {/* <form className="p-3   rounded-lg flex gap-3 items-center">
               <div className="custom-shadow ml-10">
                 <input
                   type="text"
@@ -306,7 +306,7 @@ const ListingPage = () => {
                   <FiSearch className="inline -mt-1 text-2xl" /> search
                 </button>
               </div>
-            </form>
+            </form> */}
           </div>
           {listings.length !== 0 ? (
             <div className="mb-3">

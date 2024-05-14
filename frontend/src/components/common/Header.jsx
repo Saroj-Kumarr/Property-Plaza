@@ -9,6 +9,8 @@ import { GiArchiveRegister } from "react-icons/gi";
 import { useLocation } from "react-router-dom";
 import { logout } from "../../services/auth.actions";
 import { GiHouse } from "react-icons/gi";
+import { GiHamburgerMenu } from "react-icons/gi";
+
 
 const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -17,7 +19,7 @@ const Header = () => {
   const location = useLocation();
 
   return (
-    <header className="fixed w-full z-10 bg-[#1E2124] border-b-2 border-[#C5AB7B] px-10 py-2">
+    <header className="fixed w-full z-10 bg-[#1E2124] border-b-2 border-[#C5AB7B] px-10 py-3">
       <div className="flex justify-between items-center">
         <Link to="/">
           <div className="font-bold uppercase items-center flex flex-wrap text-2xl gap-3">
@@ -30,7 +32,7 @@ const Header = () => {
           </div>
         </Link>
 
-        <ul className="flex gap-5 uppercase tracking-widest font-semibold items-center ">
+        <ul className="flex gap-5 uppercase tracking-widest font-semibold items-center">
           {currentUser ? (
             <div className="flex gap-4 items-center">
               <Link

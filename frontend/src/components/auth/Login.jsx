@@ -52,7 +52,7 @@ const Login = () => {
             <input
               type="email"
               placeholder="Enter your email"
-              className="border-b border-[#C5AB7B] text-center w-full py-2 focus:outline-none tracking-widest "
+              className="border-b border-[#C5AB7B] rounded-md text-center w-full py-2 focus:outline-none tracking-widest "
               id="email"
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -62,7 +62,7 @@ const Login = () => {
             <input
               type={isShowPassword ? "text" : "password"}
               placeholder="Enter your password"
-              className="border-b tracking-widest border-[#C5AB7B] text-center w-full py-2 pl-5 focus:outline-none "
+              className="border-b tracking-widest rounded-md border-[#C5AB7B] text-center w-full py-2 pl-5 focus:outline-none "
               id="password"
               onChange={(e) => setPassword(e.target.value)}
             />
